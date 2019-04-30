@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-docs
+Utility functions for running MCMC simulations
 """
 
 import vplot as vpl
@@ -17,10 +17,7 @@ from . import utils
 from . import proxima
 
 
-__all__ = ["FunctionWrapper", "LnLike", "GetEvol", "RunMCMC",
-           "waterPriorRaymond2007Sample", "waterPriorUniformSample",
-           "waterPriorDeltaSample", "waterPriorLogUniformSample",
-           "waterPriorDeltaBarnes2016Sample"]
+__all__ = ["FunctionWrapper", "LnLike", "GetEvol", "RunMCMC"]
 
 ### Utility functions ###
 
@@ -120,155 +117,6 @@ def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True
 # end function
 
 
-### Globally accessible priors ###
-
-def waterPriorUniformSample(size=1, low=0.0, high=100.0, **kwargs):
-    """
-    Sample initial water inventory in TO from uniform distribution from [low,high)
-
-    Parameters
-    ----------
-    size : int (optional)
-        number of samples. Defaults to 1
-    low : float (optional)
-        Low range limit.  Defaults to 0
-    high : float (optional)
-        High range limit. Defaults to 100
-    **kwargs
-
-    Returns
-    -------
-    samples : float, array-like
-        initial water inventory in TO of length size
-    """
-
-    ret = np.random.uniform(low=low, high=high, size=size)
-
-    if size > 1:
-        return ret
-    else:
-        return ret[0]
-# end function
-
-
-def waterPriorLogUniformSample(size=1, low=-5, high=-1.30, **kwargs):
-    """
-    Sample initial water inventory in TO from log-uniform distribution of water
-    mass fractions based on results from Mulders+2015 and Ciesla+2015. Sample
-    over [low,high) where the default values are [-1.0e-5,5.0e-2), or [-5,-1.3]
-
-    Parameters
-    ----------
-    size : int (optional)
-        number of samples. Defaults to 1
-    low : float (optional)
-        Low range limit.  Defaults to -5, or 1.0e-5
-    high : float (optional)
-        High range limit. Defaults to 5.0e-2, or -1.3
-    **kwargs
-
-    Returns
-    -------
-    samples : float, array-like
-        initial water inventory in TO of length size
-    """
-
-    ret = 10**np.random.uniform(low=low, high=high, size=size) * utils.MEarth / utils.MTO
-
-    if size > 1:
-        return ret
-    else:
-        return ret[0]
-# end function
-
-
-def waterPriorRaymond2007Sample(size=1, **kwargs):
-    """
-    Sample initial water inventory in TO from Gaussian fit to Raymond+2007
-    water delivery simulations.
-
-    Parameters
-    ----------
-    size : int (optional)
-        number of samples. Defaults to 1
-    **kwargs
-
-    Returns
-    -------
-    samples : float, array-like
-        initial water inventory in TO of length size
-    """
-
-    # Fit mean, std to Raymond+2007 log10 water mass fractions. See waterPrior.py
-    raymu, raysig = -2.17, 0.32
-
-    # Return in terrestrial Earth ocean masses (TO)
-    ret = 10**norm.rvs(raymu, raysig, size=size) * utils.MEarth / utils.MTO
-
-    if size > 1:
-        return ret
-    else:
-        return ret[0]
-# end function
-
-
-def waterPriorDeltaBarnes2016Sample(size=1, **kwargs):
-    """
-
-    Parameters
-    ----------
-    size : int (optional)
-        number of samples. Defaults to 1
-    loc : float (optional)
-        Number of oceans to return.  Defaults to 5 following Barnes+2016's
-        fiducial case.
-    **kwargs
-
-    Returns
-    -------
-    samples : float, array-like
-        initial water inventory in TO of length size
-    """
-
-    ret = []
-    for _ in range(size):
-        ret.append(5.0)
-
-    if size > 1:
-        return ret
-    else:
-        return ret[0]
-# end function
-
-
-def waterPriorDeltaSample(size=1, loc=20.0, **kwargs):
-    """
-
-    Parameters
-    ----------
-    size : int (optional)
-        number of samples. Defaults to 1
-    loc : float (optional)
-        Number of oceans to return.  Defaults to 20.
-    **kwargs
-
-    Returns
-    -------
-    samples : float, array-like
-        initial water inventory in TO of length size
-    """
-
-    ret = []
-    for _ in range(size):
-        ret.append(loc)
-
-    if size > 1:
-        return ret
-    else:
-        return ret[0]
-# end function
-
-
 ### Loglikelihood and MCMC functions ###
 
 def LnLike(x, **kwargs):
@@ -285,16 +133,15 @@ def LnLike(x, **kwargs):
     # Get the prior probability
     lnprior = kwargs["LnPrior"](x, **kwargs)
     if np.isinf(lnprior):
-        blobs = np.array([np.nan, np.nan] + 7*[np.nan for _ in kwargs["PLANETLIST"]])
+        blobs = np.array([np.nan, np.nan])
         return -np.inf, blobs
 
     # Get strings containing VPLanet input files (they must be provided!)
     try:
-        planet_ins = kwargs.get("PLANETIN")
         star_in = kwargs.get("STARIN")
         vpl_in = kwargs.get("VPLIN")
     except KeyError as err:
-        print("ERROR: Must supply PLANETIN, STARIN, VPLIN.")
+        print("ERROR: Must supply STARIN and VPLIN.")
         raise
 
     # Get PATH
@@ -306,38 +153,11 @@ def LnLike(x, **kwargs):
 
     # Randomize file names
     sysName = 'vpl%012x' % random.randrange(16**12)
-    planetNames = ['pl%012x' % random.randrange(16**12) for _ in kwargs["PLANETLIST"]]
     starName = 'st%012x' % random.randrange(16**12)
     sysFile = sysName + '.in'
-    planetFiles = [pname + '.in' for pname in planetNames]
     starFile = starName + '.in'
     logfile = sysName + '.log'
-    planetFwFiles = ['%s.%s.forward' % (sysName, name) for name in kwargs["PLANETLIST"]]
     starFwFile = '%s.star.forward' % sysName
-
-    # Get masses, initial eccentricities, Porbs in order from inner -> outer
-    planetMasses = [kwargs["PlanetMassSample"](name) for name in kwargs["PLANETLIST"]]
-    planetRadii = [kwargs["PlanetRadiusSample"](name) for name in kwargs["PLANETLIST"]]
-    planetEccs = [kwargs["PlanetEccSample"](name) for name in kwargs["PLANETLIST"]]
-    planetPorbs = [kwargs["PlanetPorbSample"](name) for name in kwargs["PLANETLIST"]]
-
-    # Get water prior for each planet
-    initWater = [kwargs["WaterPrior"]() for _ in kwargs["PLANETLIST"]]
-
-    # Subtract water mass from dMass so total mass is conserved
-    for ii in range(len(planetMasses)):
-        planetMasses[ii] = planetMasses[ii] - (initWater[ii] * utils.MTO / utils.MEarth)
-
-    # Populate the planet input files for each planet.  Note that Porbs negative
-    # to make units days in VPLanet, and same for mass/rad but for Earth units
-    for ii, planet_in in enumerate(planet_ins):
-        planet_in = re.sub("%s(.*?)#" % "dMass", "%s %.6e #" % ("dMass", -planetMasses[ii]), planet_in)
-        planet_in = re.sub("%s(.*?)#" % "dRadius", "%s %.6e #" % ("dRadius", -planetRadii[ii]), planet_in)
-        planet_in = re.sub("%s(.*?)#" % "dEcc", "%s %.6e #" % ("dEcc", planetEccs[ii]), planet_in)
-        planet_in = re.sub("%s(.*?)#" % "dOrbPeriod", "%s %.6e #" % ("dOrbPeriod", -planetPorbs[ii]), planet_in)
-        planet_in = re.sub("%s(.*?)#" % "dSurfWaterMass", "%s %.6e #" % ("dSurfWaterMass", -initWater[ii]), planet_in)
-        with open(os.path.join(PATH, "output", planetFiles[ii]), 'w') as f:
-            print(planet_in, file = f)
 
     # Populate the star input file
     star_in = re.sub("%s(.*?)#" % "dMass", "%s %.6e #" % ("dMass", dMass), star_in)
@@ -350,9 +170,7 @@ def LnLike(x, **kwargs):
     # Populate the system input file
 
     # Populate list of planets
-    saBodyFiles = str(starFile) + " "
-    for pFile in planetFiles:
-        saBodyFiles += str(pFile) + " "
+    saBodyFiles = str(starFile) + " #"
     saBodyFiles = saBodyFiles.strip()
 
     vpl_in = re.sub('%s(.*?)#' % "dStopTime", '%s %.6e #' % ("dStopTime", dStopTime), vpl_in)
@@ -367,48 +185,26 @@ def LnLike(x, **kwargs):
     output = vpl.GetOutput(os.path.join(PATH, "output"), logfile = logfile)
 
     try:
-        for pFile in planetFiles:
-            os.remove(os.path.join(PATH, "output", pFile))
         os.remove(os.path.join(PATH, "output", starFile))
         os.remove(os.path.join(PATH, "output", sysFile))
-        for pFile in planetFwFiles:
-            os.remove(os.path.join(PATH, "output", pFile))
         os.remove(os.path.join(PATH, "output", starFwFile))
         os.remove(os.path.join(PATH, "output", logfile))
     except FileNotFoundError:
         # Run failed!
-        blobs = np.array([np.nan, np.nan] + 7*[np.nan for _ in kwargs["PLANETLIST"]])
+        blobs = np.array([np.nan, np.nan])
         return -np.inf, blobs
 
     # Ensure we ran for as long as we set out to
     if not output.log.final.system.Age / utils.YEARSEC >= dStopTime:
-        blobs = np.array([np.nan, np.nan] + 7*[np.nan for _ in kwargs["PLANETLIST"]])
+        blobs = np.array([np.nan, np.nan])
         return -np.inf, blobs
-
-    # Get planet output parameters. Porb and masses are determined by priors
-    dEnvMasses = []
-    dWaterMasses = []
-    dInitWaterMasses = []
-    dOxygenMasses = []
-    dPorbs = []
-    dPlanetMasses = []
-    dRGTimes = []
-    for ii, pName in enumerate(kwargs["PLANETLIST"]):
-        name = str(pName).lower()
-        dPlanetMasses.append(planetMasses[ii]) # Prior
-        dPorbs.append(planetPorbs[ii]) # Prior
-        dInitWaterMasses.append(initWater[ii]) # Prior
-        dEnvMasses.append(float(output.log.final.__dict__[name].EnvelopeMass))
-        dWaterMasses.append(float(output.log.final.__dict__[name].SurfWaterMass))
-        dOxygenMasses.append(float(output.log.final.__dict__[name].OxygenMass) + float(output.log.final.__dict__[name].OxygenMantleMass))
-        dRGTimes.append(float(output.log.final.__dict__[name].RGDuration))
 
     # Get stellar properties
     dLum = float(output.log.final.star.Luminosity)
     dLogLumXUV = np.log10(float(output.log.final.star.LXUVStellar)) # Logged!
 
     # Extract constraints
-    # Must have luminosity, err for star
+    # Must at least have luminosity, err for star
     lum = kwargs.get("LUM")
     lumSig = kwargs.get("LUMSIG")
     try:
@@ -426,7 +222,7 @@ def LnLike(x, **kwargs):
     lnlike = -0.5 * lnlike + lnprior
 
     # Return likelihood and blobs
-    blobs = np.array([dLum, dLogLumXUV] + dPorbs + dPlanetMasses + dRGTimes + dEnvMasses + dWaterMasses + dInitWaterMasses + dOxygenMasses)
+    blobs = np.array([dLum, dLogLumXUV])
     return lnlike, blobs
 
 # end function
@@ -449,11 +245,10 @@ def GetEvol(x, **kwargs):
 
     # Get strings containing VPLanet input files (they must be provided!)
     try:
-        planet_ins = kwargs.get("PLANETIN")
         star_in = kwargs.get("STARIN")
         vpl_in = kwargs.get("VPLIN")
     except KeyError as err:
-        print("ERROR: Must supply PLANETIN, STARIN, VPLIN.")
+        print("ERROR: Must supply STARIN and VPLIN.")
         raise
 
     # Get PATH
@@ -465,39 +260,11 @@ def GetEvol(x, **kwargs):
 
     # Randomize file names
     sysName = 'vpl%012x' % random.randrange(16**12)
-    planetNames = ['pl%012x' % random.randrange(16**12) for _ in kwargs["PLANETLIST"]]
     starName = 'st%012x' % random.randrange(16**12)
     sysFile = sysName + '.in'
-    planetFiles = [pname + '.in' for pname in planetNames]
     starFile = starName + '.in'
     logfile = sysName + '.log'
-    planetFwFiles = ['%s.%s.forward' % (sysName, name) for name in kwargs["PLANETLIST"]]
     starFwFile = '%s.star.forward' % sysName
-
-    # Get masses, initial eccentricities, Porbs in order from inner -> outer
-    planetMasses = [kwargs["PlanetMassSample"](name) for name in kwargs["PLANETLIST"]]
-    planetRadii = [kwargs["PlanetRadiusSample"](name) for name in kwargs["PLANETLIST"]]
-    planetEccs = [kwargs["PlanetEccSample"](name) for name in kwargs["PLANETLIST"]]
-    planetPorbs = [kwargs["PlanetPorbSample"](name) for name in kwargs["PLANETLIST"]]
-
-    # Get water prior for each planet
-    initWater = [kwargs["WaterPrior"]() for _ in kwargs["PLANETLIST"]]
-
-    # Subtract water mass from dMass so total mass is conserved
-    for ii in range(len(planetMasses)):
-        planetMasses[ii] = planetMasses[ii] - (initWater[ii] * utils.MTO / utils.MEarth)
-
-    # Populate the planet input files for each planet.  Note that Porbs negative
-    # to make units days in VPLanet, and same for mass/rad but for Earth units
-    for ii, planet_in in enumerate(planet_ins):
-        planet_in = re.sub("%s(.*?)#" % "dMass", "%s %.6e #" % ("dMass", -planetMasses[ii]), planet_in)
-        planet_in = re.sub("%s(.*?)#" % "dRadius", "%s %.6e #" % ("dRadius", -planetRadii[ii]), planet_in)
-        planet_in = re.sub("%s(.*?)#" % "dEcc", "%s %.6e #" % ("dEcc", planetEccs[ii]), planet_in)
-        planet_in = re.sub("%s(.*?)#" % "dOrbPeriod", "%s %.6e #" % ("dOrbPeriod", -planetPorbs[ii]), planet_in)
-        planet_in = re.sub("%s(.*?)#" % "dSurfWaterMass", "%s %.6e #" % ("dSurfWaterMass", -initWater[ii]), planet_in)
-
-        with open(os.path.join(PATH, "output", planetFiles[ii]), 'w') as f:
-            print(planet_in, file = f)
 
     # Populate the star input file
     star_in = re.sub("%s(.*?)#" % "dMass", "%s %.6e #" % ("dMass", dMass), star_in)
@@ -510,9 +277,7 @@ def GetEvol(x, **kwargs):
     # Populate the system input file
 
     # Populate list of planets
-    saBodyFiles = str(starFile) + " "
-    for pFile in planetFiles:
-        saBodyFiles += str(pFile) + " "
+    saBodyFiles = str(starFile) + " #"
     saBodyFiles = saBodyFiles.strip()
 
     vpl_in = re.sub('%s(.*?)#' % "dStopTime", '%s %.6e #' % ("dStopTime", dStopTime), vpl_in)
@@ -526,12 +291,8 @@ def GetEvol(x, **kwargs):
     output = vpl.GetOutput(os.path.join(PATH, "output"), logfile = logfile)
 
     try:
-        for pFile in planetFiles:
-            os.remove(os.path.join(PATH, "output", pFile))
         os.remove(os.path.join(PATH, "output", starFile))
         os.remove(os.path.join(PATH, "output", sysFile))
-        for pFile in planetFwFiles:
-            os.remove(os.path.join(PATH, "output", pFile))
         os.remove(os.path.join(PATH, "output", starFwFile))
         os.remove(os.path.join(PATH, "output", logfile))
     except FileNotFoundError:
@@ -547,7 +308,7 @@ def GetEvol(x, **kwargs):
 
 
 def RunMCMC(x0=None, ndim=5, nwalk=100, nsteps=5000, pool=None, backend=None,
-            restart=False, planetList=["planet.in"], npzCache=None, **kwargs):
+            restart=False, **kwargs):
     """
     """
 
@@ -569,11 +330,6 @@ def RunMCMC(x0=None, ndim=5, nwalk=100, nsteps=5000, pool=None, backend=None,
     print("Running MCMC...")
 
     # Get the input files, save them as strings
-    planet_ins = []
-    for planet in planetList:
-        with open(os.path.join(PATH, planet), 'r') as f:
-            planet_ins.append(f.read())
-        kwargs["PLANETIN"] = planet_ins
     with open(os.path.join(PATH, "star.in"), 'r') as f:
         star_in = f.read()
         kwargs["STARIN"] = star_in
@@ -611,21 +367,6 @@ def RunMCMC(x0=None, ndim=5, nwalk=100, nsteps=5000, pool=None, backend=None,
     else:
         for ii, result in enumerate(sampler.sample(x0, iterations=nsteps)):
             print("MCMC: %d/%d..." % (ii + 1, nsteps))
-
-    # Cache results into a npz?
-    if npzCache is not None:
-        # Estimate burnin, thin timescales
-        tau = sampler.get_autocorr_time()
-        burnin = int(2*np.max(tau))
-        thin = int(0.5*np.min(tau))
-
-        # Access samples, blobs
-        chain = sampler.get_chain(discard=burnin, flat=True, thin=thin)
-        blobs = sampler.get_blobs(discard=burnin, flat=True, thin=thin)
-
-        # Now save it all!
-        np.savez(npzCache, tau=tau, burnin=burnin, thin=thin, chain=chain,
-                 blobs=blobs)
 
     print("Done!")
 # end function

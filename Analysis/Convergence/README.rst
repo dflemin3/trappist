@@ -11,7 +11,7 @@ timestepping parameter, dEta.
 **Date**              04/30/19
 **Author**            David P. Fleming
 **Modules**           STELLAR
-**Approx. runtime**   10 minutes
+**Approx. runtime**   1 second
 ===================   ============
 
 This example examines convergence of stellar evolution quantities as a function
