@@ -1,6 +1,6 @@
 TRAPPIST-1
 ==========
 
-David P. Fleming, Rory Barnes, James R. A. Davenport, and Rodrigo Luger
+David P. Fleming
 
 More to come!

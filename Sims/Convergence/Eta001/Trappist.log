@@ -1,0 +1,116 @@
+-------- Log file Trappist.log -------
+
+Executable: vplanet
+Version: 0.9.1-425-g751f791c4374be11e6dd27bf5339de2e89821fb2
+System Name: Trappist
+Primary Input File: vpl.in
+Body File #1: star.in
+Allow files to be overwitten: Yes
+Mass Units: Kilograms
+Length Units: Meters
+Time Units: Seconds
+Angle Units: Radians
+
+------- FORMATTING -----
+Verbosity Level: 5
+Crossover Decade for Scientific Notation: 4
+Number of Digits After Decimal: 6
+Integration Method: Runge-Kutta4
+Direction: Forward
+Time Step: 3.155760e+07
+Stop Time: 2.524608e+17
+Output Interval: 3.155760e+13
+Use Variable Timestep: Yes
+dEta: 0.010000
+Minimum Value of ecc and obl: 1.000000e-10
+
+
+---- INITIAL SYSTEM PROPERTIES ----
+(Age) System Age [sec]: 3.155760e+13 
+(Time) Simulation Time [sec]: 0.000000 
+(TotAngMom) Total Angular Momentum [kg*m^2/sec]: 8.644203e+41 
+(TotEnergy) Total System Energy [kg*m^2/sec^2]: -1.631937e+39 
+(PotEnergy) Body's non-orbital Potential Energy [kg*m^2/sec^2]: -1.663368e+39 
+(KinEnergy) Body's non-orbital Kinetic Energy [kg*m^2/sec^2]: 3.143121e+37 
+(DeltaTime) Average Timestep Over Last Output Interval [sec]: inf 
+(Density) Average Density [kg/m^3]: 2910.573663 
+(LongP) Body's Longitude of pericenter [rad]: 3.926991 
+(LXUVTot) Total XUV Luminosity [kg*m^2/sec^2/(m^2*sec)]: 1.885864e+22 
+
+----- BODY: star ----
+Active Modules: STELLAR
+Module Bit Sum: 65
+Color: 000000
+(Mass) Mass [kg]: 1.594710e+29 
+(Radius) Radius [Solar]: 0.880052 
+(RadGyra) Radius of Gyration []: 0.445921 
+(RotAngMom) Rotational Angular Momentum [kg*m^2/sec]: 8.644203e+41 
+(RotVel) Rotational Velocity [m/sec]: 4.452426e+04 
+(BodyType) Type of Body (0 == planet) []: 0.000000 
+(RotRate) Rotational Frequency [/sec]: 7.272205e-05 
+(RotPer) Rotational Period [days]: 1.000000 
+(HZLimitDryRunaway) Semi-major axis of Dry Runaway HZ Limit [m]: -1.000000 
+(Instellation) Orbit-averaged INcident STELLar radiATION [kg*m^2/sec^2/(m^2*sec)]: -1.000000 
+(CriticalSemiMajorAxis) Holman & Wiegert (1999) P-type Critical Semi-major Axis [m]: -1.000000 
+(LostEnergy) Body's Total Lost Energy [kg*m^2/sec^2]: 5.562685e-309 
+(LostAngMom) Lost Angular Momentum due to Magnetic Braking [kg*m^2/sec]: 5.562685e-309 
+----- STELLAR PARAMETERS (star)------
+(Luminosity) Luminosity [LSUN]: 0.049034 
+(LXUVStellar) Base X-ray/XUV Luminosity [LSUN]: 4.903443e-05 
+(Temperature) Effective Temperature [K]: 2897.531763 
+(LXUVFrac) X-ray/XUV Luminosity Fraction []: 0.001000 
+(RossbyNumber) Rossby Number []: 0.014035 
+(DRotPerDtStellar) Time Rate of Change of Rotation Period in STELLAR []: 2.040280e-09 
+(HZLimRecVenus) Recent Venus Habitable Zone Limit [m]: 2.708745e+10 
+(HZLimRunaway) Runaway Greenhouse Habitable Zone Limit [m]: 3.563418e+10 
+(HZLimMoistGreenhouse) Moist Greenhouse Habitable Zone Limit [m]: 3.584120e+10 
+(HZLimMaxGreenhouse) Maximum Greenhouse Habitable Zone Limit [m]: 6.892613e+10 
+(HZLimEarlyMars) Early Mars Habitable Zone Limit [m]: 7.517117e+10 
+Output Order: Time[year] Luminosity[LSUN] LXUVStellar[LSUN] Radius[Solar] Temperature[K] RotPer[days] HZLimRunaway[AU]
+Grid Output Order:
+
+
+
+---- FINAL SYSTEM PROPERTIES ----
+(Age) System Age [sec]: 2.524924e+17 
+(Time) Simulation Time [sec]: 2.524608e+17 
+(TotAngMom) Total Angular Momentum [kg*m^2/sec]: 8.626034e+41 
+(TotEnergy) Total System Energy [kg*m^2/sec^2]: -1.630329e+39 
+(PotEnergy) Body's non-orbital Potential Energy [kg*m^2/sec^2]: -1.475315e+40 
+(KinEnergy) Body's non-orbital Kinetic Energy [kg*m^2/sec^2]: 6.427917e+32 
+(DeltaTime) Average Timestep Over Last Output Interval [sec]: 7.153728e+07 
+(Density) Average Density [kg/m^3]: 2.030802e+06 
+(LongP) Body's Longitude of pericenter [rad]: 3.926991 
+(LXUVTot) Total XUV Luminosity [kg*m^2/sec^2/(m^2*sec)]: 4.726411e+17 
+
+----- BODY: star ----
+Active Modules: STELLAR
+Module Bit Sum: 65
+Color: 000000
+(Mass) Mass [kg]: 1.594710e+29 
+(Radius) Radius [Solar]: 0.099223 
+(RadGyra) Radius of Gyration []: 0.465296 
+(RotAngMom) Rotational Angular Momentum [kg*m^2/sec]: 4.598905e+38 
+(RotVel) Rotational Velocity [m/sec]: 192.965669 
+(BodyType) Type of Body (0 == planet) []: 0.000000 
+(RotRate) Rotational Frequency [/sec]: 2.795412e-06 
+(RotPer) Rotational Period [days]: 26.014787 
+(HZLimitDryRunaway) Semi-major axis of Dry Runaway HZ Limit [m]: -1.000000 
+(Instellation) Orbit-averaged INcident STELLar radiATION [kg*m^2/sec^2/(m^2*sec)]: -1.000000 
+(CriticalSemiMajorAxis) Holman & Wiegert (1999) P-type Critical Semi-major Axis [m]: -1.000000 
+(LostEnergy) Body's Total Lost Energy [kg*m^2/sec^2]: 1.312282e+40 
+(LostAngMom) Lost Angular Momentum due to Magnetic Braking [kg*m^2/sec]: 8.621435e+41 
+----- STELLAR PARAMETERS (star)------
+(Luminosity) Luminosity [LSUN]: 0.000269 
+(LXUVStellar) Base X-ray/XUV Luminosity [LSUN]: 1.228916e-09 
+(Temperature) Effective Temperature [K]: 2350.152814 
+(LXUVFrac) X-ray/XUV Luminosity Fraction []: 4.561761e-06 
+(RossbyNumber) Rossby Number []: 0.275863 
+(DRotPerDtStellar) Time Rate of Change of Rotation Period in STELLAR []: 3.688101e-11 
+(HZLimRecVenus) Recent Venus Habitable Zone Limit [m]: 2.024634e+09 
+(HZLimRunaway) Runaway Greenhouse Habitable Zone Limit [m]: 2.660595e+09 
+(HZLimMoistGreenhouse) Moist Greenhouse Habitable Zone Limit [m]: 2.678935e+09 
+(HZLimMaxGreenhouse) Maximum Greenhouse Habitable Zone Limit [m]: 5.265215e+09 
+(HZLimEarlyMars) Early Mars Habitable Zone Limit [m]: 5.742853e+09 
+Output Order: Time[year] Luminosity[LSUN] LXUVStellar[LSUN] Radius[Solar] Temperature[K] RotPer[days] HZLimRunaway[AU]
+Grid Output Order:

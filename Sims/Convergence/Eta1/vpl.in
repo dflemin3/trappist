@@ -8,14 +8,7 @@ bOverwrite	1			# Allow file overwrites?
 # s=string. An "a" indicates an array and multiple arguments are allowed/expected.
 
 # List of "body files" that contain body-specific parameters
-saBodyFiles	star.in $	# The host star
-		b.in $
-                c.in $
-                d.in $
-                e.in $
-                f.in $
-                g.in $
-                h.in
+saBodyFiles	star.in 
 
 # Array options can continue to the next line with a terminating "$". The $ can be
 # at the end of the string or not. Comments are allowed afterwards.
