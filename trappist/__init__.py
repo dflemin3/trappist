@@ -2,15 +2,15 @@
 """
 @author: David P. Fleming, University of Washington, Seattle
 
-ehi package init file.
+trappist package init file.
 
 """
 
 __version__ = "0.1"
 __author__ = "David Fleming (dflemin3@uw.edu)"
-__copyright__ = "Copyright 2018 David P. Fleming"
+__copyright__ = "Copyright 2019 David P. Fleming"
 
 from .mcmcUtils import *
 from .pool import *
-from .proxima import *
+from .trappist1 import *
 from .utils import *
