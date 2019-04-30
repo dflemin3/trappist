@@ -35,5 +35,6 @@ Expected output
    :align: center
 
    Evolution of the luminosity, radius, and XUV luminosity, of TRAPPIST-1 using
-   the fiducial parameters according to the Baraffe (2015) stellar evolution
-   tracks as a function of timestepping parameter, dEta.
+   the fiducial parameters according to the Baraffe et al. (2015) stellar
+   evolution tracks as a function of timestepping parameter, dEta. For simulations
+   with relative errors <= 1.0e-2, use dEta <= 1.0e-1.
