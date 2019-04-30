@@ -69,7 +69,7 @@ axes[1].set_yscale("log")
 axes[2].set_xlabel("Time [yr]")
 axes[2].set_xlim(data[1,0], data[-1,0])
 axes[2].set_xscale("log")
-axes[2].set_ylabel("LXUV Error")
+axes[2].set_ylabel("LXUV Relative Error")
 axes[2].set_yscale("log")
 
 # Save!
