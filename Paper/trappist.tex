@@ -1,0 +1,128 @@
+\pdfoutput=1
+\documentclass[twocolumn]{aastex62}
+%%\documentclass[]{emulateapj}
+
+%Accepted/received/... %%
+
+\received{xxx}
+\revised{yyy}
+\accepted{zzz}
+
+%% Command to document which AAS Journal the manuscript was submitted to.
+\submitjournal{AAS Journals}
+
+%% Short title/authors
+
+\shorttitle{LXUV History of TRAPPIST-1}
+\shortauthors{Fleming et al.}
+
+%% Begin document, title, packages %%
+\usepackage{hyperref}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[caption=false]{subfig}
+
+%% Custom commands
+\def\mearth{{\rm\,M_\oplus}}
+\def\rearth{{\rm\,R_\oplus}}
+\def\msun{{\rm\,M_\odot}}
+\def\rsun{{\rm\,R_\odot}}
+\def\lsun{{\rm\,L_\odot}}
+\def\gsim{~\rlap{$>$}{\lower 1.0ex\hbox{$\sim$}}}
+\def\lsim{~\rlap{$<$}{\lower 1.0ex\hbox{$\sim$}}}
+
+\newcommand{\xxx}[1]{{\textbf{#1}}}
+\newcommand{\vplanet}[0]{\texttt{VPLanet}\xspace}
+\newcommand{\approxposterior}[0]{\texttt{approxposterior}\xspace}
+\newcommand{\eqtide}[0]{\texttt{EQTIDE}\xspace}
+\newcommand{\stellar}[0]{\texttt{STELLAR}\xspace}
+\newcommand{\kepler}[0]{\textit{Kepler}\xspace}
+
+%% Begin doc %%
+\begin{document}
+
+\title{On The XUV Luminosity Evolution of TRAPPIST-1}
+
+%% AUTHORS %%
+
+%%\correspondingauthor{David P. Fleming}
+%%\email{dflemin3@uw.edu}
+
+%%\author[0000-0001-9293-4043]{David P. Fleming}
+\author{David P. Fleming}
+\affil{Astronomy Department, University of Washington \\
+Box 951580, Seattle, WA 98195}
+\affil{NASA Astrobiology Institute - Virtual Planetary Laboratory Lead Team, USA}
+
+\author{Rory Barnes}
+\affiliation{Astronomy Department, University of Washington \\
+Box 951580, Seattle, WA 98195}
+\affil{NASA Astrobiology Institute - Virtual Planetary Laboratory Lead Team, USA}
+
+\author{Rodrigo Luger}
+\affil{NASA Astrobiology Institute - Virtual Planetary Laboratory Lead Team, USA}
+\affiliation{Center for Computational Astrophysics, Flatiron Institute \\
+New York, NY 10010}
+
+%% ABSTRACT %%
+
+\begin{abstract}
+
+Abstract.
+
+- we constrain the stellar evolution and mass of TRAPPIST-1 using best priors and constraints currently available. we make our posterior distributions available for use with water loss simulations as the FXUV is a core input to such models, be it energy limited or recombination limited, maybe non-thermal escape models as well (look into that). our model and machine learning approach is all open source and documented on github, including a repo for the project itself
+- TRAPPIST-1 conference stellar evolution stuff is 1st day, so email invited talks presenters and send them draft and thank them for their work which I use and cite in my own work - adam burgasser and jeff linsky
+
+- mention Brett's TRAPPIST-1 work for how the rotation period might not be 3 d
+- 5 plots/tables: table of priors; corner plot; L, LXUV, R sampled from posteriors; \approxposterior comparison plot with distributions on top of each other 
+
+\end{abstract}
+
+%% Keywords %%
+
+\keywords{}
+
+%% Intro %%
+
+\section{Introduction} \label{sec:intro}
+
+Introduction.
+
+%% Methods %%
+
+\section{Methods} \label{sec:methods}
+
+Methods.
+
+%% Results %%
+
+\section{Results} \label{sec:results}
+
+Results.
+
+%% approxposterior %%
+
+\section{\approxposterior} \label{sec:approx}
+
+Results.
+
+%% Discussion %%
+
+\section{Discussion} \label{sec:discussion}
+
+Discuss!
+
+%% ACKNOWLEDGEMENTS %%
+\acknowledgments
+This work was facilitated though the use of advanced computational, storage, and networking infrastructure provided by the Hyak supercomputer system and funded by the Student Technology Fund at the University of Washington. DPF was supported by NASA Headquarters under the NASA Earth and Space Science Fellowship Program - Grant 80NSSC17K0482.  RB acknowledges support from the NASA Astrobiology Institute's Virtual Planetary Laboratory under Cooperative Agreement number NNA13AA93A.
+
+%% SOFTWARE %%
+\software{matplotlib: \citet{Hunter2007}, numpy: \citet{vanderWalt2011}, \vplanet: \citet{Barnes2016,vplanet2018}}
+
+%% BIBLIOGRAPHY %%
+
+\bibliography{trappist}
+
+% End of file
+\end{document}

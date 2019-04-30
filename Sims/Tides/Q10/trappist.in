@@ -1,0 +1,24 @@
+# Host star parameters
+sName		trappist              # Body name
+saModules    	eqtide stellar        # Active modules
+
+# Physical properties
+dMass        	0.0802                # Mass in Msun
+dRotPeriod      -1.0                  # Rotation period, negative -> days
+dAge            1.0e9                 # Initial age [yr]
+
+# EQTIDE Parameters
+dTidalQ         1.0e5                 # Tidal phase lag
+dK2             0.5                   # Love number of degree 2
+dMaxLockDiff    0.01                  # Fractional diff between Porb Peq before tidal locking
+sTideModel      p2                    # Tidal model, p2=CPL, t8=CTL
+saTidePerts     b c d e f g h          # Body name(s) of tidal perturbers
+
+# STELLAR parameters
+sStellarModel	  baraffe             # Stellar evolution model
+sMagBrakingModel  reiners             # Magnetic braking model
+dSatXUVFrac       1.0e-3              # XUV Saturation fraction
+dSatXUVTime       -0.1                # XUV Saturation timescale, negative-> in Gyr
+dXUVBeta          1.23                # XUV decay power law exponent
+
+saOutputOrder 	Time -Luminosity -LXUVStellar -Radius Temperature -RotPer HZLimRunaway  # Output options

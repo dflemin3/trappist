@@ -1,0 +1,32 @@
+# Trappist h
+sName		h	        # Body's name
+saModules 	atmesc eqtide   # Active modules
+
+# Physical Parameters
+dMass		-0.331	        # Guess, Mass, negative -> Earth masses
+dRadius         -0.773          # Radius, negative
+dRadGyra	0.5	        # Radius of gyration; ang. mom. coeff.
+
+# Orbital Parameters
+dEcc            0.00567	        # Eccentricity
+dOrbPeriod      -18.767         # Orbital period [d]
+
+# EQTIDE Parameters
+dTidalQ                 10       # Tidal phase lag
+dK2                     0.5      # Love number of degree 2
+dMaxLockDiff            0.01     # Fractional diff between Prot and Peq before tidal locking
+saTidePerts             trappist # Body name(s) of tidal perturbers
+
+# ATMESC Parameters
+dXFrac                  1.0     # X-Ray/XUV absorption radius in planet radii
+#dAtmXAbsEffH2O          0.1     # Water X-ray/XUV absorption efficiency (epsilon) 
+sAtmXAbsEffH2OModel     bolmont # Water X-ray/XUV absorption efficiency model
+dSurfWaterMass   	-20.0  	# Initial water mass, negative ->Earth oceans
+dEnvelopeMass           0.0     # Initial H envelope mass, negative -> Earth Mass
+bInstantO2Sink          0       # Is Oxygen instantly absorbed by the surface?
+bHaltSurfaceDesiccated  0 	# Halt when dry?
+bHaltEnvelopeGone       0	# Halt when H enevlope evaporated?
+dMinSurfWaterMass      	-1.e-5  # Planet is desiccated when water content drops below this (Earth oceans)
+
+saOutputOrder 	Time -OxygenMass -SurfWaterMass -DsemiDtEqtide # Output options
+		
