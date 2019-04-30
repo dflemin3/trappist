@@ -18,7 +18,7 @@ nsamples = 0
 restart = False
 backend = "trappist1.h5"
 
-# Open a pool, and let it rip!
+# Open a pool, and let it rip! Use MultiPool for multiprocessing
 with pool.Pool(pool='SerialPool') as pool:
 
     # Options
