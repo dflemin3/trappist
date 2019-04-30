@@ -1,0 +1,15 @@
+*__pycache__/
+*htmlcov
+*.coverage
+build/*
+dist/*
+*.ipynb_checkpoints
+*.egg_info
+*.egg-info
+*.DS_Store
+*.png
+*.pdf
+*.cache
+*.h5
+vplot*
+References/
