@@ -10,6 +10,7 @@ timestepping parameter, dEta.
 
 import numpy as np
 import os
+import sys
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
@@ -21,14 +22,14 @@ mpl.rcParams['font.size'] = 18.0
 mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
-path = "../Sims/Convergence/"
+path = "../../Sims/Convergence/"
 dirs = ["Eta1", "Eta01", "Eta001", "Eta0001"]
 labels = [r"$\eta = 1$", r"$\eta = 10^{-1}$", r"$\eta = 10^{-2}$",
           r"$\eta = 10^{-3}$"]
 colors = ["C%d" % ii for ii in range(len(dirs))]
 
 # Plot stellar convergence of luminosity, LXUV, radis
-fig, axes = plt.subplots(ncols=3, figsize=(15, 6))
+fig, axes = plt.subplots(ncols=3, figsize=(18, 6))
 
 # Load in "truth"
 true = np.genfromtxt(os.path.join(path, "Eta00001", "Trappist.star.forward"), delimiter=" ")
@@ -73,4 +74,9 @@ axes[2].set_yscale("log")
 
 # Save!
 fig.tight_layout()
-fig.savefig("../Plots/trappist1Convergence.png", dpi=200, bbox_inches="tight")
+if (sys.argv[1] == 'pdf'):
+    fig.savefig("trappist1Convergence.pdf", bbox_inches="tight",
+                dpi=200)
+if (sys.argv[1] == 'png'):
+    fig.savefig("trappist1Convergence.png", bbox_inches="tight",
+                dpi=200)
