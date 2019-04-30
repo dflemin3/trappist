@@ -7,7 +7,7 @@ import numpy as np
 from scipy.stats import norm
 from . import utils
 
-__all__ = ["kwargsTRAPPIST1", "LnPriorTRAPPIST", "samplePriorTRAPPIST1"]
+__all__ = ["kwargsTRAPPIST1", "LnPriorTRAPPIST1", "samplePriorTRAPPIST1"]
 
 # Observational constraints
 

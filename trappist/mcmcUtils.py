@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Utility functions for running MCMC simulations
+Utility functions for running stellar evolution MCMC simulations
 """
 
 import vplot as vpl
@@ -14,7 +14,6 @@ import os, sys
 import random
 import argparse
 from . import utils
-from . import proxima
 
 
 __all__ = ["FunctionWrapper", "LnLike", "GetEvol", "RunMCMC"]

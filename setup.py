@@ -39,10 +39,10 @@ def version(path):
     raise RuntimeError("Unable to find version string.")
 
 
-VERSION = version('ehi/__init__.py')
+VERSION = version('trappist/__init__.py')
 
 # Setup!
-setup(name = 'ehi',
+setup(name = 'trappist',
       version = VERSION,
       description = 'Constraining the stellar evolution of TRAPPIST-1 using MCMC',
       long_description = readme(),
