@@ -373,11 +373,4 @@ kwargsTRAPPIST1 = {"PATH" : ".",
                    "LUM" : lumTrappist1,
                    "LUMSIG" : lumTrappist1Sig,
                    "LOGLUMXUV" : logLXUVTrappist1,
-                   "LOGLUMXUVSIG" : logLXUVTrappist1Sig,
-                   "PLANETLIST" : ["trappist1b", "trappist1c", "trappist1d",
-                                   "trappist1e", "trappist1f", "trappist1g",
-                                   "trappist1h"],
-                   "PlanetMassSample" : Trappist1PlanetMassSample,
-                   "PlanetEccSample" : Trappist1PlanetEccSample,
-                   "PlanetRadiusSample" : Trappist1PlanetRadiusSample,
-                   "PlanetPorbSample" : Trappist1PlanetPorbSample}
+                   "LOGLUMXUVSIG" : logLXUVTrappist1Sig}
