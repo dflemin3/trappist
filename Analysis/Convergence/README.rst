@@ -18,8 +18,8 @@ of VPLanet's timestepping parameter, dEta. Note that this example relies on
 VPLanet simulations that have already been ran in Sims/Convergence and its
 subdirectories.
 
-To run this example
--------------------
+To make the plot
+----------------
 
 .. code-block:: bash
 

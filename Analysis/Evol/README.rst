@@ -16,8 +16,8 @@ samples from the posterior distribution.
 This example examines plots evolution of TRAPPIST-1's luminosity, XUV
 luminosity, and radius using samples from the posterior distribution.
 
-To run this example
--------------------
+To make the plot
+----------------
 
 .. code-block:: bash
 

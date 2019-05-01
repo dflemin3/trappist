@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+Make a corner plot of the MCMC-derived posterior distributions.
+
+@author: David P. Fleming, 2019
 """
 
 import numpy as np
 import os
+import sys
 import corner
 import emcee
-from statsmodels.stats.proportion import proportion_confint
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib.gridspec import GridSpec
-from ehi.mcmcUtils import extractMCMCResults
+from trappist.mcmcUtils import extractMCMCResults
 
 #Typical plot parameters that make for pretty plots
 mpl.rcParams['figure.figsize'] = (9,8)
@@ -22,7 +24,7 @@ mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
 # Path to data
-filename = "../../Data/apRun9.h5"#"../../Data/TRAPPIST1/trappist1WRaymond2007EpsBolmont.h5"
+filename = "../../Data/trappist1Fiducial.h5"
 
 # Whether or not to plot blobs
 plotBlobs = False
@@ -32,31 +34,14 @@ if plotBlobs:
     chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs)
 else:
     chain = extractMCMCResults(filename, blobsExist=plotBlobs)
-if plotBlobs:
-    # Select correct columns
-    mask = [0, 1, 19, 20, 21, 22, 44, 45, 46, 47, 48, 49, 50]
-    initWaterMask = [30, 31, 32, 33, 34, 35, 36]
-    finalWaterMask = [37, 38, 39, 40, 41, 42, 43]
-    initWater = blobs[:,initWaterMask]
-    finalWater = blobs[:,finalWaterMask]
-    deltaWater = finalWater - initWater
-    blobs = blobs[:,mask]
 
-    # Combine!
-    samples = np.hstack([chain, blobs, deltaWater])
+
+if plotBlobs:
+    samples = np.hstack([chain, blobs])
 
     # Define Axis Labels
     labels = ["Mass", "SatXUVFrac", "SatXUVTime", "Age", "XUVBeta", "Lum",
-              "logLumXUV", "dRGTimee", "dRGTimef", "dRGTimeg", "dRGTimeh",
-              "OxygenMassb", "OxygenMassc", "OxygenMassd", "OxygenMasse",
-              "OxygenMassf", "OxygenMassg", "OxygenMassh", "DeltaH20b", "DeltaH20c",
-             " DeltaH20d", "DeltaH20e", "DeltaH20f", "DeltaH20g", "DeltaH20h"]
-
-    # Convert RG Time to Myr
-    samples[:,7] = samples[:,7]/1.0e6
-    samples[:,8] = samples[:,8]/1.0e6
-    samples[:,9] = samples[:,9]/1.0e6
-    samples[:,10] = samples[:,10]/1.0e6
+              "logLumXUV", "Radius"]
 
     # Make luminosity units more palatable
     samples[:,5] = samples[:,5]*1.0e3
@@ -68,10 +53,14 @@ else:
 
 # Plot!
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
-                    show_titles=True, title_kwargs={"fontsize": 14})
+                    show_titles=True, title_kwargs={"fontsize": 14},
+                    title_fmt='.2f')
 
 # Save!
-fig.savefig("../../Plots/trapist1UpdatedAPRun.png", bbox_inches="tight", dpi=200)
-#fig.savefig("../../Plots/trappist1CornerWRaymond2007EpsBolmont.png", bbox_inches="tight", dpi=200)
+fig.tight_layout()
+if (sys.argv[1] == 'pdf'):
+    fig.savefig("trappist1Corner.pdf", bbox_inches="tight", dpi=200)
+if (sys.argv[1] == 'png'):
+    fig.savefig("trappist1Corner.png", bbox_inches="tight", dpi=200)
 
 # Done!

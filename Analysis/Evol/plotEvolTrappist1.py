@@ -148,6 +148,13 @@ axLXUV.set_xticklabels([])
 
 fig.tight_layout()
 plt.subplots_adjust(wspace=0.225)
-fig.savefig("trappist1Evol.png", bbox_inches="tight", dpi=200)
 
+# Save!
+fig.tight_layout()
+if (sys.argv[1] == 'pdf'):
+    fig.savefig("trappist1Evol.pdf", bbox_inches="tight",
+                dpi=200)
+if (sys.argv[1] == 'png'):
+    fig.savefig("trappist1Evol.png", bbox_inches="tight",
+                dpi=200)
 # Done!

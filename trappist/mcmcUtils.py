@@ -73,10 +73,10 @@ def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True
 
     if verbose:
         # Compute acceptance fraction for each walker
+        print("Number of iterations: %d" % reader.iteration)
         print("Acceptance fraction for each walker:")
         print(reader.accepted / reader.iteration)
         print("Mean acceptance fraction:", np.mean(reader.accepted / reader.iteration))
-
     # Compute convergence diagnostics
 
     # Compute burnin?
