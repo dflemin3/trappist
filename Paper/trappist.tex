@@ -104,6 +104,30 @@ MCMC!
 
 Priors!
 
+-\citet{Jackson2012} $f_{sat}$ measurements are derived for late K dwarfs through early F dwarfs, but are consistent with observations of fully-convective M dwarfs \citep{Wright2018}
+- Jackson 2019 for M dwarf radius inflation
+- great info on characterization from \citet{Burgasser2017}: "As spin-down timescales increase for
+the lowest-mass stars, saturated magnetic emission can persist
+for even slowly rotating stars (P less than 86 day) with little
+correlation between the incidence of emission and rotation
+period (West et al. 2008, 2015)"
+
+\begin{deluxetable}{lcc}
+\tabletypesize{\small}
+\tablecaption{Prior Distributions \label{tab:priors}}
+\tablewidth{0pt}
+\tablehead{
+\colhead{Parameter} & \colhead{Prior} & \colhead{Notes}
+}
+\startdata
+$m_\star$ [$M_{\odot}$] & $\mathcal{U}(0.07, 0.11)$ & Uniform \\  
+$f_{sat}$ & $\mathcal{N}(-3.14, 0.37^2)$ & \citet{Jackson2012} \\
+$t_{sat}$ [Gyr] & $\mathcal{U}(0.1, 12)$ & Uniform \\
+$t_{age}$ [Gyr] & $\mathcal{N}(7.6, 2.2^2)$ & \citet{Burgasser2017} \\
+$\beta_{XUV}$ & $\mathcal{N}(-1.18, 0.31^2)$ & \citet{Jackson2012}
+\enddata \vspace*{0.1in}
+\end{deluxetable}
+
 %% Results %%
 
 \section{Results} \label{sec:results}
@@ -112,8 +136,8 @@ Results.
 
 \begin{figure*}[ht]
 	\includegraphics[width=\textwidth]{../Analysis/Evol/trappist1Evol.pdf}
-   \caption{\xxx{Updated Figure} Stellar $R$ (left), $r_g$ (middle), and P$_{rot}$ (right) evolution for 0.2 M$_{\odot}$ (M, green), 0.7 M$_{\odot}$ (K, orange), and 1 M$_{\odot}$ (G, blue) mass stars computed according to \stellar, our interpolation of the \citet{Baraffe2015} stellar evolution models ($\S$~\ref{sec:methods:stellar}) combined with the \xxx{\citet{Matt2015} magnetic braking model}. Each dot denotes the approximate time when each star reaches the main sequence.}%
-    \label{fig:stellarExample}%
+   \caption{Caption.}%
+    \label{fig:evol}%
 \end{figure*}
 
 %% approxposterior %%
