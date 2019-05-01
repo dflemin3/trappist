@@ -10,8 +10,7 @@ timestepping parameter, dEta.
 ===================   ============
 **Date**              04/30/19
 **Author**            David P. Fleming
-**Modules**           STELLAR
-**Approx. runtime**   1 second
+**VPLanet Modules**   STELLAR
 ===================   ============
 
 This example examines convergence of stellar evolution quantities as a function

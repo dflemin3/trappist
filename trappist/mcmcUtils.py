@@ -132,7 +132,7 @@ def LnLike(x, **kwargs):
     # Get the prior probability
     lnprior = kwargs["LnPrior"](x, **kwargs)
     if np.isinf(lnprior):
-        blobs = np.array([np.nan, np.nan])
+        blobs = np.array([np.nan, np.nan, np.nan])
         return -np.inf, blobs
 
     # Get strings containing VPLanet input files (they must be provided!)
@@ -190,17 +190,18 @@ def LnLike(x, **kwargs):
         os.remove(os.path.join(PATH, "output", logfile))
     except FileNotFoundError:
         # Run failed!
-        blobs = np.array([np.nan, np.nan])
+        blobs = np.array([np.nan, np.nan, np.nan])
         return -np.inf, blobs
 
     # Ensure we ran for as long as we set out to
     if not output.log.final.system.Age / utils.YEARSEC >= dStopTime:
-        blobs = np.array([np.nan, np.nan])
+        blobs = np.array([np.nan, np.nan, np.nan])
         return -np.inf, blobs
 
     # Get stellar properties
     dLum = float(output.log.final.star.Luminosity)
     dLogLumXUV = np.log10(float(output.log.final.star.LXUVStellar)) # Logged!
+    dRad = float(output.log.final.star.Radius)
 
     # Extract constraints
     # Must at least have luminosity, err for star
@@ -221,7 +222,7 @@ def LnLike(x, **kwargs):
     lnlike = -0.5 * lnlike + lnprior
 
     # Return likelihood and blobs
-    blobs = np.array([dLum, dLogLumXUV])
+    blobs = np.array([dLum, dLogLumXUV, dRad])
     return lnlike, blobs
 
 # end function
