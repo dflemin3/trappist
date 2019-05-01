@@ -51,6 +51,15 @@ else:
     labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",
               r"$t_{sat}$ [Gyr]", r"Age [Gyr]", r"$\beta_{XUV}$"]
 
+# Estimate probability that TRAPPIST-1 is still saturated at the age of the
+# system using the posterior distribution
+mask = samples[:,2] >= samples[:,3]
+print("P(tsat >= age | data) = %0.3lf" % np.mean(mask))
+
+# Estimate probability that tsat < 1 Gyr
+mask = samples[:,2] <= 1
+print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
+
 # Plot!
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
                     show_titles=True, title_kwargs={"fontsize": 14},

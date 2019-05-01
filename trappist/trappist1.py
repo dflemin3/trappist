@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+TRAPPIST-1 constraints and prior distributions
 """
 
 import numpy as np
@@ -13,23 +14,26 @@ __all__ = ["kwargsTRAPPIST1", "LnPriorTRAPPIST1", "samplePriorTRAPPIST1",
 # Observational constraints
 
 # Stellar properties: Trappist1 in nearly solar metallicity, so the Baraffe+2015 tracks will be good
-lumTrappist1 = 0.000522           # Van Grootel et al. (2018) [Lsun]
-lumTrappist1Sig = 0.000019        # Van Grootel et al. (2018) [Lsun]
+lumTrappist1 = 0.000522               # Van Grootel et al. (2018) [Lsun]
+lumTrappist1Sig = 0.000019            # Van Grootel et al. (2018) [Lsun]
 
-radTrappist1 = 0.121              # Van Grootel et al. (2018) [Rsun]
-radTrappist1Sig = 0.003           # Van Grootel et al. (2018) [Rsun]
+radTrappist1 = 0.121                  # Van Grootel et al. (2018) [Rsun]
+radTrappist1Sig = 0.003               # Van Grootel et al. (2018) [Rsun]
 
-logLXUVTrappist1 = -6.4           # Wheatley et al. (2017)
-logLXUVTrappist1Sig = 0.1         # Wheatley et al. (2017)
+logLXUVTrappist1 = -6.4               # Wheatley et al. (2017)
+logLXUVTrappist1Sig = 0.1             # Wheatley et al. (2017)
 
-betaTrappist1 = -1.18             # Jackson et al. (2012)
-betaTrappist1Sig = 0.31           # Jackson et al. (2012)
+betaTrappist1 = -1.18                 # Jackson et al. (2012)
+betaTrappist1Sig = 0.31               # Jackson et al. (2012)
 
-ageTrappist1 = 7.6                # Burgasser et al. (2017) [Gyr]
-ageTrappist1Sig = 2.2             # Burgasser et al. (2017) [Gyr]
+ageTrappist1 = 7.6                    # Burgasser et al. (2017) [Gyr]
+ageTrappist1Sig = 2.2                 # Burgasser et al. (2017) [Gyr]
 
-fsatTrappist1 = -3.14             # Jackson et al. (2012)
-fsatTrappist1Sig = 0.37           # Jackson et al. (2012)
+fsatTrappist1 = -3.05                 # Wright et al. (2018)
+fsatTrappist1Sig = 0.06               # Wright et al. (2018)
+
+fsatTrappist1Jackson2012 = -3.14      # Jackson et al. (2012)
+fsatTrappist1Jackson2012Sig = 0.37    # Jackson et al. (2012)
 
 
 ### Prior, likelihood, MCMC functions ###
