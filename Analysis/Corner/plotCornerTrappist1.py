@@ -57,7 +57,6 @@ fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
                     title_fmt='.2f')
 
 # Save!
-fig.tight_layout()
 if (sys.argv[1] == 'pdf'):
     fig.savefig("trappist1Corner.pdf", bbox_inches="tight", dpi=200)
 if (sys.argv[1] == 'png'):
