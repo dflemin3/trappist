@@ -7,6 +7,7 @@ posterior distributions.
 
 import numpy as np
 import os
+import sys
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec

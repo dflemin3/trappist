@@ -33,7 +33,6 @@ Expected output
    :width: 600px
    :align: center
 
-   Evolution of the luminosity (left), XUV luminosity (middle), and radius
-   (center) of TRAPPIST-1 using 100 samples (black) drawn from the posterior
-   distribution. The insets display the marginalized values (blue) and the
-   black dashed lines indicate the observed value and +/- 1 sigma uncertainties.
+   Posterior probability distribution for stellar mass, saturation fraction,
+   saturation timescale, age, and LXUV decay exponent derived from our
+   Markov Chain Monte Carlo analysis.
