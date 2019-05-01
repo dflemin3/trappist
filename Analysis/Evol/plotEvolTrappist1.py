@@ -15,7 +15,7 @@ from trappist import mcmcUtils, trappist1 as t1
 
 #Typical plot parameters that make for pretty plots
 mpl.rcParams['figure.figsize'] = (9,8)
-mpl.rcParams['font.size'] = 20.0
+mpl.rcParams['font.size'] = 22.0
 
 ## for Palatino and other serif fonts use:
 mpl.rc('font',**{'family':'serif'})
@@ -75,7 +75,7 @@ axLum.axhline(0.000522-0.000019, lw=2, ls="--", color="k")
 # Format inset
 axLum.set_xlabel("")
 axLum.set_ylabel("")
-axLum.set_title(r"Luminosity [L$_{\odot}$]", fontsize=15)
+axLum.set_title(r"Luminosity [L$_{\odot}$]", fontsize=17)
 
 y2 = [0.000462, 0.00052, 0.000582]
 y2_labels = ["0.00050", "0.00052", "0.00054"]
@@ -106,7 +106,7 @@ axLXUV.axhline(-6.3, lw=2, ls="--", color="k")
 # Format inset
 axLXUV.set_xlabel("")
 axLXUV.set_ylabel("")
-axLXUV.set_title(r"log$_{10}$ XUV Luminosity", fontsize=15)
+axLXUV.set_title(r"log$_{10}$ XUV Luminosity", fontsize=17)
 
 y2 = [-6.7, -6.4, -6.1]
 y2_labels = ["-6.7", "-6.4", "-6.1"]
@@ -139,7 +139,7 @@ axLXUV.axhline(0.124, lw=2, ls="--", color="k")
 # Format inset
 axLXUV.set_xlabel("")
 axLXUV.set_ylabel("")
-axLXUV.set_title(r"Radius [R$_{\odot}$]", fontsize=15)
+axLXUV.set_title(r"Radius [R$_{\odot}$]", fontsize=17)
 
 y2 = [0.1, 0.12, 0.13]
 y2_labels = ["0.11", "0.12", "0.13"]
@@ -151,7 +151,6 @@ fig.tight_layout()
 plt.subplots_adjust(wspace=0.225)
 
 # Save!
-fig.tight_layout()
 if (sys.argv[1] == 'pdf'):
     fig.savefig("trappist1Evol.pdf", bbox_inches="tight",
                 dpi=200)
