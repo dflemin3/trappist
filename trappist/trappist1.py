@@ -29,11 +29,8 @@ betaTrappist1Sig = 0.31               # Jackson et al. (2012)
 ageTrappist1 = 7.6                    # Burgasser et al. (2017) [Gyr]
 ageTrappist1Sig = 2.2                 # Burgasser et al. (2017) [Gyr]
 
-fsatTrappist1 = -3.05                 # Wright et al. (2018)
-fsatTrappist1Sig = 0.06               # Wright et al. (2018)
-
-fsatTrappist1Jackson2012 = -3.14      # Jackson et al. (2012)
-fsatTrappist1Jackson2012Sig = 0.37    # Jackson et al. (2012)
+fsatTrappist1 = -2.92                 # Wright et al. (2011) and Chadney et al. (2015)
+fsatTrappist1Sig = 0.26               # Wright et al. (2011) and Chadney et al. (2015)
 
 
 ### Prior, likelihood, MCMC functions ###
