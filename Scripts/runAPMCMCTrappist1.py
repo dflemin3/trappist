@@ -1,14 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Trappist1 b-h approxposterior run
+TRAPPIST-1 approxposterior run script.
+
+@author: David P. Fleming, 2019
+@email: dflemin3 (at) uw (dot) edu
+
 """
 
 import os
 from trappist import pool
 from trappist import trappist1, mcmcUtils
-from approxposterior import approx
-import emcee, corner
+from approxposterior import approx, utility, gpUtils
+import emcee
 import numpy as np
 import george
 
@@ -24,12 +28,12 @@ nGPRestarts = 20                 # Number of times to restart GP hyperparameter 
 nMinObjRestarts = 10             # Number of times to restart objective fn minimization
 optGPEveryN = 25                 # Optimize GP hyperparameters even this many iterations
 nKLSamples = int(1.0e7)          # Number of samples from posterior to use to calculate KL-Divergence
-bounds = ((0.1, 0.15),
-          (-5.0, -2.0),
-          (-0.3, 1.0),
-          (1.0e-3, 8.0),
-          (-2.0, 0.0))          # Prior bounds
-algorithm = "bape"              # Use the Kandasamy et al. (2015) formalism
+bounds = ((0.07, 0.11),          # Prior bounds
+          (-5.0, -1.0),
+          (0.1, 12.0),
+          (0.1, 12.0),
+          (-2.0, 0.0))
+algorithm = "bape"              # Use the Kandasamy et al. (2015) BAPE formalism
 
 # Set RNG seed
 np.random.seed(seed)
@@ -52,14 +56,14 @@ with open(os.path.join(PATH, "vpl.in"), 'r') as f:
     vpl_in = f.read()
     kwargs["VPLIN"] = vpl_in
 
-# Randomly sample initial conditions from the prior
+# Generate initial training set using latin hypercube sampling over parameter bounds
 # Evaluate forward model log likelihood + lnprior for each theta
 if not os.path.exists("apFModelCache.npz"):
     y = np.zeros(m0)
-    theta = np.zeros((m0, ndim))
+    theta = utility.latinHypercubeSampling(m0, bounds, criterion="maximin")
     for ii in range(m0):
         theta[ii,:] = trappist1.samplePriorTRAPPIST1()
-        y[ii] = ehimc.LnLike(theta[ii], **kwargs)[0] + trappist1.LnPriorTRAPPIST1(theta[ii], **kwargs)
+        y[ii] = mcmcUtils.LnLike(theta[ii], **kwargs)[0] + trappist1.LnPriorTRAPPIST1(theta[ii], **kwargs)
 
 else:
     print("Loading in cached simulations...")
@@ -69,27 +73,15 @@ else:
 
 ### Initialize GP ###
 
-# Guess initial metric, or scale length of the covariances in loglikelihood space
-initialMetric = [5.0*len(theta)**(1.0/theta.shape[-1]) for _ in range(theta.shape[-1])]
-
-# Create kernel: We'll model coverianges in loglikelihood space using a
-# Squared Expoential Kernel as we anticipate Gaussian-ish posterior
-# distributions in our 2-dimensional parameter space
-kernel = george.kernels.ExpSquaredKernel(initialMetric, ndim=ndim)
-
-# Guess initial mean function
-mean = np.mean(y)
-
-# Create GP and compute the kernel
-gp = george.GP(kernel=kernel, fit_mean=True, mean=mean)
-gp.compute(theta)
+# Use ExpSquared kernel, the approxposterior default option
+gp = gpUtils.defaultGP(theta, y)
 
 # Initialize approxposterior
 ap = approx.ApproxPosterior(theta=theta,
                             y=y,
                             gp=gp,
                             lnprior=trappist1.LnPriorTRAPPIST1,
-                            lnlike=ehimc.LnLike,
+                            lnlike=mcmcUtils.LnLike,
                             priorSample=trappist1.samplePriorTRAPPIST1,
                             algorithm=algorithm)
 
@@ -99,16 +91,4 @@ ap.run(m=m, nmax=nmax, Dmax=Dmax, kmax=kmax, bounds=bounds,  estBurnin=True,
        samplerKwargs=samplerKwargs, verbose=True, gmmKwargs=gmmKwargs,
        nGPRestarts=nGPRestarts, nMinObjRestarts=nMinObjRestarts,
        optGPEveryN=optGPEveryN, seed=seed, cache=True, **kwargs)
-
-# Check out the final posterior distribution!
-
-# Load in chain from last iteration
-reader = emcee.backends.HDFBackend(ap.backends[-1], read_only=True)
-samples = reader.get_chain(discard=ap.iburns[-1], flat=True, thin=ap.ithins[-1])
-
-# Corner plot!
-fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], show_titles=True,
-                    scale_hist=True, plot_contours=True)
-
-fig.savefig("apFinalPosterior.png", bbox_inches="tight") # Uncomment to save
 # Done!
