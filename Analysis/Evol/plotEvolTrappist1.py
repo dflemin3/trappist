@@ -25,7 +25,7 @@ mpl.rc('text', usetex=True)
 data = np.load("../../Data/trappist1StarEvol.npz")
 nsamples = len(data["Luminosity"])
 
-chains, blobs = mcmcUtils.extractMCMCResults("../../Data/trappist1.h5",
+chains, blobs = mcmcUtils.extractMCMCResults("../../Data/trappist1Fiducial.h5",
                                              verbose=True, applyBurnin=True,
                                              thinChains=True, blobsExist=True)
 
@@ -125,27 +125,23 @@ axes[2].set_xlabel("Time [yr]", fontsize=25)
 axes[2].set_xscale("log")
 axes[2].set_ylim(0.09, 0.40)
 
-radTrappist1 = 0.121              # Van Grootel et al. (2018) [Rsun]
-radTrappist1Sig = 0.003
-
 # Radius inset
-rads = np.random.normal(loc=t1.radTrappist1, scale=t1.radTrappist1Sig, size=10000)
-axLXUV = fig.add_axes([0.885, 0.55, 0.085, 0.3])
-axLXUV.hist(rads, bins=20, orientation="horizontal", range=[0.11, 0.132], color="C0");
-axLXUV.axhline(0.118, lw=2, ls="--", color="k")
-axLXUV.axhline(0.121, lw=2, ls="--", color="k")
-axLXUV.axhline(0.124, lw=2, ls="--", color="k")
+axRad = fig.add_axes([0.885, 0.55, 0.085, 0.3])
+axRad.hist(blobs[:,2], bins=20, orientation="horizontal", color="C0");
+axRad.axhline(0.118, lw=2, ls="--", color="k")
+axRad.axhline(0.121, lw=2, ls="--", color="k")
+axRad.axhline(0.124, lw=2, ls="--", color="k")
 
 # Format inset
-axLXUV.set_xlabel("")
-axLXUV.set_ylabel("")
-axLXUV.set_title(r"Radius [R$_{\odot}$]", fontsize=17)
+axRad.set_xlabel("")
+axRad.set_ylabel("")
+axRad.set_title(r"Radius [R$_{\odot}$]", fontsize=17)
 
-y2 = [0.1, 0.12, 0.13]
-y2_labels = ["0.11", "0.12", "0.13"]
-axLXUV.set_yticks(y2)
-axLXUV.set_yticklabels(y2_labels, minor=False, fontsize=18)
-axLXUV.set_xticklabels([])
+y2 = [0.11, 0.121, 0.125]
+y2_labels = ["0.11", "0.121", "0.125"]
+axRad.set_yticks(y2)
+axRad.set_yticklabels(y2_labels, minor=False, fontsize=18)
+axRad.set_xticklabels([])
 
 fig.tight_layout()
 plt.subplots_adjust(wspace=0.225)

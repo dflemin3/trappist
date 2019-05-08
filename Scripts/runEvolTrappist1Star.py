@@ -17,9 +17,9 @@ from trappist import trappist1, mcmcUtils
 nsamples = 100
 
 # RNG seed
-seed = 90
+seed = 91
 np.random.seed(seed)
-dataDir = "../Data/trappist1.h5"
+dataDir = "../Data/trappist1Fiducial.h5"
 
 # Options
 kwargs = trappist1.kwargsTRAPPIST1
