@@ -78,7 +78,6 @@ Abstract.
 - cite scholnik papers saying UV/Xray measurements of M dwarfs are critical, especially to estimate water losses and cite other HAZMAT papers for the activity evolution of M dwarfs
 - note why I chose LXUV evolution as a function of time and not Rossby number, e.g. why I didn't use Wright+2018 data explicitely
 - from Peacock+2018: "Late-type M stars remain UV active for much longer than their early M counterparts, typically with more variability in the FUV than the NUV (Miles Shkolnik 2017)."
-- Roettenbacher+2017 show that the Prot measurement might not be reliable, mention Brett's TRAPPIST-1 work for how the rotation period might not be 3 d
 
 \end{abstract}
 
@@ -90,27 +89,47 @@ Abstract.
 
 \section{Introduction} \label{sec:intro}
 
-Introduction.
+"Although the dynamo processes that drive stellar activity and XUV emission in fully-convective stars have been shown to evolve qualitatively similar to solar-type stars \citep{Wright2016,Wright2018} ..."
 
-%% Methods %%
+Introduction about stellar activity for late type stars, what it is like and how late type stars evolve, and finally why it matters for exoplanet habitability, e.g. the XUV flux is a critical parameter for atmospheric escape and water loss, other loss mechanisms scale as FXUV to some power, like energy-limited and recombination-limited escape. In the intro, I explain what saturated and unsaturated phases correspond to physically, and under what conditions they are expected to occur. Argue how this qualitative behavior is observed for both partially and fully-convective stars, e.g. FGK and M dwarfs.
 
-\section{Methods} \label{sec:methods}
+This study is critical and timely since people are modeling the hell out of TRAPPIST-1 and its planets and JWST proposals are going in to observe this system. My approach is generic and applicable to any systems with data and is relevant for LUVOIR where it can observe a statistically meaningful sample of planets, need \approxposterior for speed for constraints
 
-\subsection{Markov Chain Monte Carlo} \label{sec:methods:mcmc}
+\section{Model} \label{sec:model}
 
-MCMC!
+We simulate TRAPPIST-1's bolometric luminosity evolution using the \stellar module in \vplanet \citep{Barnes2016,vplanet2018} that performs a bicubic interpolation over mass and age of the \citet{Baraffe2015} stellar evolution tracks. The \citet{Baraffe2015} models, also employed by both \citet{Burgasser2017} and \citet{vanGrootel2018} to constrain TRAPPIST-1's stellar properties, were computed for solar metallicity stars and hence are valid for use with TRAPPIST-1, whose metallicity is consistent with solar \citep{Gillon2016}, although \citet{Burgasser2017} argue TRAPPIST-1 has a slightly super-solar metallicity based on isochrone modeling.
 
-\subsection{Priors} \label{sec:methods:priors}
+The L$_{X}$ evolution of fully convective stars has been shown to follow the same broken power law model examined for partially-convective low-mass FGK and M dwarfs \citep{Wright2016,Wright2018}. We therefore assume TRAPPIST-1's L$_{XUV}$ evolution traces that of L$_{X}$ and use the broken power law model of \citet{Pizzolato2003} and \citet{Ribas2005}:
+\begin{align}
+\label{eq:lxuv}
+\frac{L_\mathrm{XUV}}{L_\mathrm{bol}} = \left\{
+				\begin{array}{lcr}
+					f_\mathrm{sat} &\ & t \leq t_\mathrm{sat} \\
+					f_\mathrm{sat}\left(\frac{t}{t_\mathrm{sat}}\right)^{-\beta_\mathrm{XUV}} &\ & t > t_\mathrm{sat},
+				\end{array}
+				\right.
+\end{align}
+where $f_{sat}$ is ratio of stellar XUV to bolometric luminosity during the saturated phase, $t_{sat}$ is the duration of the saturated phase, and $\beta_{XUV}$ is the exponent that controls how steeply L$_{XUV}$ decays after saturation.
 
-Priors!
+%% MCMC %%
 
+\section{Markov Chain Monte Carlo} \label{sec:mcmc}
+
+MCMC + constraints!
+
+- we don't use radius or effective temperature or density constraints in our modeling for reasons explained in \citet{vanGrootel2018}
 -\citet{Jackson2012} $f_{sat}$ measurements are derived for late K dwarfs through early F dwarfs, but are consistent with observations of fully-convective M dwarfs \citep{Wright2018}
 - Jackson 2019 for M dwarf radius inflation
-- great info on characterization from \citet{Burgasser2017}: "As spin-down timescales increase for
-the lowest-mass stars, saturated magnetic emission can persist
-for even slowly rotating stars (P less than 86 day) with little
-correlation between the incidence of emission and rotation
-period (West et al. 2008, 2015)"
+
+\subsection{Priors} \label{sec:mcmc:priors}
+
+We leverage the extensive observations of TRAPPIST-1 and late M dwarfs to derive prior probability distributions for our MCMC analysis. We summarize our adopted prior distributions in Table~\ref{tab:priors} and justify our choices below. Following \citet{vanGrootel2018} who find that ... XXX. We adopt the age constraint for TRAPPIST-1 derived by by \citet{Burgasser2017}, age $\sim \mathcal{N}(7.6, 2.2^2)$, as their thorough analysis considered observations of TRAPPIST-1 and age indicators for peer systems. 
+
+For low-mass stars in the saturated phase, the X-ray luminosity remains a constant fraction of the bolometric luminosity and is observed to cluster around $L_X/L_{bol} \approx -3$ \citep{Pizzolato2003,Wright2011,Wright2018} before decaying exponentially in the unsaturated regime. The saturation ratio shows tentative evidence of increasing with decreasing stellar mass \citep{Wright2011,Jackson2012}, consistent with the observation that later type low-mass stars are more active \citep[e.g.][]{West2008}. We assume the $L_{XUV}$ evolution traces that of $L_{X}$ and construct an empirical $f_{sat} = L_{XUV}/L_{bol}$ distribution from the sample of fully-convective, saturated stars with observed $L_{X}$ from \citet{Wright2011}. For each star in the sample, we follow \citet{Wheatley2017} and estimate $L_{XUV}$ as a function of L$_{X}$ using Eqn.~(2) from \citet{Chadney2015} and the stellar parameters given by \citet{Wright2011}. From the \citet{Wright2011} sample and our calculations, we find that the distribution of $L_{XUV}/L_{bol}$ for fully-convective M dwarfs in the saturated regime is well-approximated by a normal distribution with $f_{sat} \sim \mathcal{N}(-2.92, 0.26^2)$ and adopt it as our prior. 
+ 
+The length of the saturated phase is estimated to be $t_{sat} \approx 100$ Myr for FGK stars \citep{Jackson2012}. Studies of L$_{XUV}$ evolution as a function of stellar age, or its proxy, rotation period, indicate that the activity lifetime, and hence duration of the saturated phase, is likely longer for later-type stars \citep{Shkolnik2014,Wright2011,GonzalezAlvarez2019}. Fully-convective M dwarfs can remain active for Gyrs, up to the ages of field stars \citep{West2008,Schneider2018}, with this trend persisting for slowly-rotating, and hence old, low-mass M dwarfs \citep{West2015}. TRAPPIST-1's high observed L$_{X}$ \citep{Wheatley2017}, short photometric rotation period \citep[3.3 d, ][]{Luger2017}, and Rossby number \citep[Ro $\approx 0.01$, ][]{Wright2018} suggest that TRAPPIST-1 is still saturated today \citep{Pizzolato2003,Wright2011,Wright2018,GonzalezAlvarez2019}. Both \citet{Roettenbacher2017} and \citet{Morris2018} suggest that the photometrically-determined rotation period might not be accurate, with the latter study showing that the 3.3 d period might correspond to a characteristic timescale for active regions on the stellar surface. Observations by \citet{Barnes2014} find $vsini = 6$ km s$^{-1}$ for TRAPPIST-1, corresponding to a rotation period of about 1 d for an inclination of $90^{\circ}$, implying that TRAPPIST-1's rapid rotation is likely physical.  Given these observational constraints, we adopt a broad uniform $t_{sat}$ prior distribution over $0.1 - 12$ Gyr.
+
+In the unsaturated phase, L$_{X}$, and hence $L_{XUV}$, falls off exponentially with powerlaw slope $\beta_{XUV}$ \citep{Ribas2005}. \citet{Jackson2012} find that $\beta_{XUV}$ does not vary significantly with stellar mass in their sample of FGK stars, so we therefore adopt the distribution derived from their sample of late K dwarfs as our prior: $\beta_{XUV} \sim \mathcal{N}(-1.18, 0.31^2)$.
 
 \begin{deluxetable}{lcc}
 \tabletypesize{\small}
@@ -121,9 +140,10 @@ period (West et al. 2008, 2015)"
 }
 \startdata
 $m_\star$ [$M_{\odot}$] & $\mathcal{U}(0.07, 0.11)$ & Uniform \\  
-$f_{sat}$ & $\mathcal{N}(-3.14, 0.37^2)$ & \citet{Jackson2012} \\
+$f_{sat}$ & $\mathcal{N}(-2.92, 0.26^2)$ & \citet{Wright2011},  \\
+ &  & \citet{Chadney2015}  \\
 $t_{sat}$ [Gyr] & $\mathcal{U}(0.1, 12)$ & Uniform \\
-$t_{age}$ [Gyr] & $\mathcal{N}(7.6, 2.2^2)$ & \citet{Burgasser2017} \\
+age [Gyr] & $\mathcal{N}(7.6, 2.2^2)$ & \citet{Burgasser2017} \\
 $\beta_{XUV}$ & $\mathcal{N}(-1.18, 0.31^2)$ & \citet{Jackson2012}
 \enddata \vspace*{0.1in}
 \end{deluxetable}
@@ -134,9 +154,17 @@ $\beta_{XUV}$ & $\mathcal{N}(-1.18, 0.31^2)$ & \citet{Jackson2012}
 
 Results.
 
-\begin{figure*}[ht]
+\begin{figure*}[t]
+\centering
+	\includegraphics[width=0.75\textwidth]{../Analysis/Corner/trappist1Corner.pdf}
+   \caption{Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters made using \texttt{corner} \citep{ForemanMackey2016}. From the posterior distribution, we infer that there is a $43.5\%$ chance that TRAPPIST-1 is still in the saturated phase today, i.e. P$(t_{sat} \geq \mathrm{ age } | \mathrm{data}) \approx 0.435$, and that there is only a $0.5\%$ chance that $t_{sat} \leq 1$ Gyr. Both the stellar age and $\beta_{XUV}$ mostly reflect the prior, although we find an age slightly lower, yet entirely consistent, with the age inferred by \citet{Burgasser2017}.}%
+    \label{fig:corner}%
+\end{figure*}
+
+
+\begin{figure*}[t]
 	\includegraphics[width=\textwidth]{../Analysis/Evol/trappist1Evol.pdf}
-   \caption{Caption.}%
+   \caption{Plausible evolutionary histories of TRAPPIST-1's bolometric luminosity (left), XUV luminosity (center), and radius (right) simulated using \vplanet using 100 samples drawn from the posterior distribution. In each panel, the blue shaded regions display the 1, 2, and 3 $\sigma$ the observational uncertainties. The insets display the marginalized distributions of the quantities displayed in each panel evaluated at the age of the system, with the black dashed lines indicating the observed value and +/- 1 $\sigma$ uncertainty. The radius and bolometric luminosity constraints are adopted from \citet{vanGrootel2018}, and the L$_{XUV}$ constraint is taken from \citet{Wheatley2017}.}%
     \label{fig:evol}%
 \end{figure*}
 
@@ -148,16 +176,16 @@ Results.
 
 %% Discussion %%
 
-\section{Discussion} \label{sec:discussion}
+\section{Discussion and Conclusions} \label{sec:discussion}
 
-Discuss!
+Discuss, and then conclude.
 
 %% ACKNOWLEDGEMENTS %%
 \acknowledgments
 This work was facilitated though the use of advanced computational, storage, and networking infrastructure provided by the Hyak supercomputer system and funded by the Student Technology Fund at the University of Washington. DPF was supported by NASA Headquarters under the NASA Earth and Space Science Fellowship Program - Grant 80NSSC17K0482.  RB acknowledges support from the NASA Astrobiology Institute's Virtual Planetary Laboratory under Cooperative Agreement number NNA13AA93A.
 
 %% SOFTWARE %%
-\software{matplotlib: \citet{Hunter2007}, numpy: \citet{vanderWalt2011}, \vplanet: \citet{Barnes2016,vplanet2018}}, \approxposterior: \citet{FlemingVanderPlas2018}
+\software{\approxposterior: \citet{FlemingVanderPlas2018}, \texttt{corner}: \citet{ForemanMackey2016}, \texttt{emcee}: \citet{ForemanMackey2013}, \texttt{matplotlib}: \citet{Hunter2007}, \texttt{numpy}: \citet{vanderWalt2011}, \vplanet: \citet{Barnes2016,vplanet2018}}, 
 
 %% BIBLIOGRAPHY %%
 
