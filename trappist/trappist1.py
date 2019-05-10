@@ -23,6 +23,9 @@ radTrappist1Sig = 0.003               # Van Grootel et al. (2018) [Rsun]
 logLXUVTrappist1 = -6.4               # Wheatley et al. (2017), Van Grootel et al. (2018)
 logLXUVTrappist1Sig = 0.05            # Wheatley et al. (2017), Van Grootel et al. (2018)
 
+LXUVTrappist1 = 3.9e-7                # Wheatley et al. (2017), Van Grootel et al. (2018)
+LXUVTrappist1Sig = 0.5e-7             # Wheatley et al. (2017), Van Grootel et al. (2018)
+
 betaTrappist1 = -1.18                 # Jackson et al. (2012)
 betaTrappist1Sig = 0.31               # Jackson et al. (2012)
 
@@ -165,5 +168,5 @@ kwargsTRAPPIST1 = {"PATH" : ".",
                    "PriorSample" : samplePriorTRAPPIST1,
                    "LUM" : lumTrappist1,
                    "LUMSIG" : lumTrappist1Sig,
-                   "LOGLUMXUV" : logLXUVTrappist1,
-                   "LOGLUMXUVSIG" : logLXUVTrappist1Sig}
+                   "LUMXUV" : LXUVTrappist1,
+                   "LUMXUVSIG" : LXUVTrappist1Sig}

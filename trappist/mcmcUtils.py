@@ -200,7 +200,7 @@ def LnLike(x, **kwargs):
 
     # Get stellar properties
     dLum = float(output.log.final.star.Luminosity)
-    dLogLumXUV = np.log10(float(output.log.final.star.LXUVStellar)) # Logged!
+    dLumXUV = float(output.log.final.star.LXUVStellar)
     dRad = float(output.log.final.star.Radius)
 
     # Extract constraints
@@ -208,21 +208,21 @@ def LnLike(x, **kwargs):
     lum = kwargs.get("LUM")
     lumSig = kwargs.get("LUMSIG")
     try:
-        logLumXUV = kwargs.get("LOGLUMXUV")
-        logLumXUVSig = kwargs.get("LOGLUMXUVSIG")
+        lumXUV = kwargs.get("LUMXUV")
+        lumXUVSig = kwargs.get("LUMXUVSIG")
     except KeyError:
-        logLumXUV = None
-        logLumXUVSig = None
+        lumXUV = None
+        lumXUVSig = None
 
     # Compute the likelihood using provided constraints, assuming we have
     # luminosity constraints for host star
     lnlike = ((dLum - lum) / lumSig) ** 2
-    if logLumXUV is not None:
-        lnlike += ((dLogLumXUV - logLumXUV) / logLumXUVSig) ** 2
+    if lumXUV is not None:
+        lnlike += ((dLumXUV - lumXUV) / lumXUVSig) ** 2
     lnlike = -0.5 * lnlike + lnprior
 
     # Return likelihood and blobs
-    blobs = np.array([dLum, dLogLumXUV, dRad])
+    blobs = np.array([dLum, dLumXUV, dRad])
     return lnlike, blobs
 
 # end function
