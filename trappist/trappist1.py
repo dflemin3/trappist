@@ -20,8 +20,8 @@ lumTrappist1Sig = 0.000019            # Van Grootel et al. (2018) [Lsun]
 radTrappist1 = 0.121                  # Van Grootel et al. (2018) [Rsun]
 radTrappist1Sig = 0.003               # Van Grootel et al. (2018) [Rsun]
 
-logLXUVTrappist1 = -6.4               # Wheatley et al. (2017)
-logLXUVTrappist1Sig = 0.1             # Wheatley et al. (2017)
+logLXUVTrappist1 = -6.4               # Wheatley et al. (2017), Van Grootel et al. (2018)
+logLXUVTrappist1Sig = 0.05            # Wheatley et al. (2017), Van Grootel et al. (2018)
 
 betaTrappist1 = -1.18                 # Jackson et al. (2012)
 betaTrappist1Sig = 0.31               # Jackson et al. (2012)
