@@ -43,7 +43,7 @@ class FunctionWrapper(object):
 
 
 def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True,
-                       blobsExist=True):
+                       blobsExist=True, burn=None):
     """
     Extract and process MCMC results
 
@@ -59,6 +59,8 @@ def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True
         Thin chains to reduce their size? Defaults to True.
     blobsExist : bool (optional)
         Whether or not blobs exist.  If True, return them! Defaults to True.
+    burn : int (optional)
+        User-specified burn-in. Defaults to None
 
     Returns
     -------
@@ -89,6 +91,10 @@ def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True
         thin = int(0.5*np.min(tau))
     else:
         thin = 1
+
+    # Use user-specified burn-in?
+    if burn is not None:
+        burnin = burn
 
     # Output convergence diagnostics?
     if verbose:

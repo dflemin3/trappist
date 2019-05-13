@@ -65,9 +65,9 @@ plotBlobs = False
 
 # Extract results
 if plotBlobs:
-    chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs)
+    chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500)
 else:
-    chain = extractMCMCResults(filename, blobsExist=plotBlobs)
+    chain = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500)
 
 
 if plotBlobs:

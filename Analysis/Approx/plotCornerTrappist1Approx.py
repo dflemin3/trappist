@@ -25,7 +25,7 @@ mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
 # Path to data
-filename = "../../Data/apRun0.h5"
+filename = "../../Data/apRun2.h5"
 
 # Whether or not to plot blobs
 plotBlobs = False
