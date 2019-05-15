@@ -34,9 +34,10 @@ Expected output
    :width: 200px
    :align: center
 
-   Empirical log10(Lx/Lbol) (black) and log10(LXUV/Lbol) for fully-convective
-   M dwarfs from the Wright et al. (2011) sample with the latter computed in
-   this work.
+   Empirical Lx/Lbol (black) and LXUV/Lbol for saturated, fully-convective M
+   dwarfs from the Wright et al. (2011) sample, with the latter computed in
+   this work, as a function of Rossby number. Both distributions are consistent
+   with a flat line near 10^-3, but with the LXUV ratio mean > Lx ratio mean.
 
 .. figure:: XXUVDist.png
   :width: 200px
@@ -44,4 +45,5 @@ Expected output
 
   Empirical X and XUV fsat distribution overplotted with Gaussian fit. We find
   that the XUV sat distribution is well-approximated by a Gaussian with
-  mean = -2.92 and standard deviation = 0.26.
+  mean = -2.92 and standard deviation = 0.26 where we defined fsat as
+  log10(LXUV/Lbol).
