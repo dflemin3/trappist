@@ -1,5 +1,5 @@
-TRAPPIST-1 MCMC Posterior Distributions
-=======================================
+TRAPPIST-1 Radius Estimation
+============================
 
 Overview
 --------
@@ -28,7 +28,7 @@ Expected output
 ---------------
 
 .. figure:: estRad.png
-   :width: 600px
+   :width: 400px
    :align: center
 
    Derived distribution of TRAPPIST-1's radius using our stellar mass posterior
