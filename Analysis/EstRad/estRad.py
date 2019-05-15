@@ -22,8 +22,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 #Typical plot parameters that make for pretty plots
-mpl.rcParams['figure.figsize'] = (9,8)
-mpl.rcParams['font.size'] = 15.0
+mpl.rcParams['font.size'] = 20.0
 
 ## for Palatino and other serif fonts use:
 mpl.rc('font',**{'family':'serif'})
@@ -59,7 +58,7 @@ radMinus = rad - np.percentile(rads, 16)
 print("Radius [Rsun] = %lf + %lf - %lf" % (rad, radPlus, radMinus))
 
 # Plot histogram
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(6,5))
 
 # Plot histogram of samples
 ax.hist(rads, bins="auto", color="C0", density=True, alpha=0.6);
