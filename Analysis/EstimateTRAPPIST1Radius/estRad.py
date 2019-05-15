@@ -22,7 +22,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 #Typical plot parameters that make for pretty plots
-mpl.rcParams['font.size'] = 20.0
+mpl.rcParams['font.size'] = 12.0
 
 ## for Palatino and other serif fonts use:
 mpl.rc('font',**{'family':'serif'})
@@ -76,7 +76,7 @@ ax.axvline(0.121 - 0.003, color="C1", ls="--", lw=2.5)
 
 ax.set_ylabel("Density")
 ax.set_xlabel(r"Radius [$R_{\odot}]$")
-ax.legend(loc="best", framealpha=0.8)
+ax.legend(loc="best", framealpha=0.8, fontsize=10)
 fig.tight_layout()
 
 # Save!
