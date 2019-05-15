@@ -1,15 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Estimate XUV f_sat for TRAPPIST-1 in the saturated phase from Lx/Lbol relation
-from Wright et al. (2018). We estimate LEUV as a function of LX using Eqn. 2
-from Chadney et al. (2015) following Wheatley et al. (2017) who showed that this
-application was valid.
+Estimate XUV fsat for TRAPPIST-1 from Lx, stellar parameters for fully-convective
+saturated stars in Wright et al. (2011). We estimate LEUV as a function of LX
+using Eqn. 2 from Chadney et al. (2015) following Wheatley et al. (2017) who
+showed that this application was valid for TRAPPIST-1's modern fluxes, and
+hence late M dwarfs.
 
-@author David P. Fleming, 2019
+Script output:
+
+LX/LBOL Mean, Scatter: -3.118071065989848 0.3091963301595652
+LXUV/LBOL Mean, Scatter: -2.920610124051001 0.2633377495450546
+X Gaussian Fit: -3.118071065989848 0.3091963301595652
+XUV Gaussian Fit: -2.920610124051001 0.2633377495450546
+
+@author: David P. Fleming, 2019
+@email: dflemin3 (at) uw (dot) edu
 """
 
 
+import sys
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -18,7 +28,7 @@ import matplotlib.pyplot as plt
 
 #Typical plot parameters that make for pretty plots
 mpl.rcParams['figure.figsize'] = (9,8)
-mpl.rcParams['font.size'] = 15.0
+mpl.rcParams['font.size'] = 20.0
 
 ## for Palatino and other serif fonts use:
 mpl.rc('font',**{'family':'serif'})
@@ -63,7 +73,7 @@ def calcLXUV(Lbol, LX, Rstar):
 
 def calcTauCZ(mass):
     """
-    Compute convective turnover time using Wright+2011 Eqn. 6
+    Compute convective turnover time using Wright+2018 Eqn. 6
 
     Parameters
     ----------
@@ -88,7 +98,7 @@ if __name__ == "__main__":
     # Load in Wright+2011 data
     columns = ["Vmag",  "V-K", "log10LX", "Prot", "Mass", "Radius", "LBOL",
                "Teff", "dcz", "Lx/bol"]
-    data = pd.read_table("../Data/Wright2011.tsv", delimiter=";", header=None,
+    data = pd.read_table("../../Data/Wright2011.tsv", delimiter=";", header=None,
                          comment="#", names=columns, index_col=False)
 
     # Unlog LX [Lsun]
@@ -116,17 +126,18 @@ if __name__ == "__main__":
     data["LXLBOL"] = pd.Series(data["LX"].values/data["LBOL"].values,
                                 index=data.index)
 
-    # Compute convective turnover time
+    # Compute convective turnover time using Wright+2018 relation
     data["Tau"] = pd.Series(calcTauCZ(data["Mass"].values), index=data.index)
 
     # Compute Rossby Number
     data["Ro"] = pd.Series(data["Prot"].values/data["Tau"].values,
                            index=data.index)
 
-    # Only select fully-convective stars
+    # Only select fully-convective stars. We select these by finding the stars
+    # in the Wright+2011 data with 0 height of the radiative-convective boundary
     data = data[data.dcz < 1.0e-3]
 
-    # Only select saturated stars with R0 <= 0.14 (Wright+2018)
+    # Only select saturated stars with R0 <= 0.14 (Wright+2018 cutoff)
     data = data[data.Ro <= 0.14]
 
     # Print mean, scatter
@@ -149,10 +160,15 @@ if __name__ == "__main__":
     ax.set_yscale("log")
     ax.legend(loc="best", fontsize=18)
 
-    fig.tight_layout()
-    fig.savefig("lumFracVsRossby.png", bbox_inches="tight", dpi=200)
+    # Save!
+    if (sys.argv[1] == 'pdf'):
+        fig.savefig("lumFracVsRossby.pdf", bbox_inches="tight",
+                    dpi=200)
+    if (sys.argv[1] == 'png'):
+        fig.savefig("lumFracVsRossby.png", bbox_inches="tight",
+                    dpi=200)
 
-    # Histogram of fsats
+    # Histogram of X and XUV fsats
     fig, ax = plt.subplots()
 
     ax.hist(np.log10(data["LXUVLBOL"]), bins="auto", range=[-4.5, -2],
@@ -164,12 +180,10 @@ if __name__ == "__main__":
             histtype="step", lw=3)
 
     ax.hist(np.log10(data["LXUVLBOL"]), bins="auto", range=[-4.5, -2],
-            color="C0", label=r"$L_{XUV}/L_{Bol}$", density=True,
-            alpha=0.5)
+            color="C0", density=True, alpha=0.5, label="")
 
     ax.hist(np.log10(data["LXLBOL"]), bins="auto", range=[-4.5, -2],
-            color="k", label=r"$L_{X}/L_{Bol}$", density=True,
-            alpha=0.5)
+            color="k", density=True, alpha=0.5, label="")
 
     # Fit normal distributions
     muXUV, stdXUV = norm.fit(np.log10(data["LXUVLBOL"].values))
@@ -184,11 +198,18 @@ if __name__ == "__main__":
     pdfX = norm.pdf(x, muX, stdX)
     pdfXUV = norm.pdf(x, muXUV, stdXUV)
 
-    ax.plot(x, pdfX, color="k", ls="--", lw=2.5, label="X Fit")
-    ax.plot(x, pdfXUV, color="C0", ls="--", lw=2.5, label="XUV Fit")
+    ax.plot(x, pdfX, color="k", ls="--", lw=2.5, label="LX Fit")
+    ax.plot(x, pdfXUV, color="C0", ls="--", lw=2.5, label="LXUV Fit")
 
-    ax.legend(loc="best")
+    ax.legend(loc="upper left")
     ax.set_xlabel("Luminosity Ratio", fontsize=20)
     ax.set_ylabel("Density", fontsize=20)
+    fig.tight_layout()
 
-    plt.show()
+    # Save!
+    if (sys.argv[1] == 'pdf'):
+        fig.savefig("XXUVDist.pdf", bbox_inches="tight",
+                    dpi=200)
+    if (sys.argv[1] == 'png'):
+        fig.savefig("XXUVDist.png", bbox_inches="tight",
+                    dpi=200)
