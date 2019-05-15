@@ -28,7 +28,7 @@ Expected output
 ---------------
 
 .. figure:: estRad.png
-   :width: 400px
+   :width: 200px
    :align: center
 
    Derived distribution of TRAPPIST-1's radius using our stellar mass posterior
