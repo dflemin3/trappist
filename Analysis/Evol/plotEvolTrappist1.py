@@ -49,6 +49,22 @@ for ii in range(nsamples):
 
 # Plot constraints, format
 
+# Output constraints
+lum = np.median(blobs[:,0])
+lumPlus = np.percentile(blobs[:,0], 84) - lum
+lumMinus = lum - np.percentile(blobs[:,0], 16)
+print("Luminosity [Lsun] = %e + %e - %e" % (lum, lumPlus, lumMinus))
+
+lxuv = np.median(blobs[:,1])
+lxuvPlus = np.percentile(blobs[:,1], 84) - lxuv
+lxuvMinus = lxuv - np.percentile(blobs[:,1], 16)
+print("LXUV [Lsun] = %e + %e - %e" % (lxuv, lxuvPlus, lxuvMinus))
+
+rad = np.median(blobs[:,2])
+radPlus = np.percentile(blobs[:,2], 84) - rad
+radMinus = rad - np.percentile(blobs[:,2], 16)
+print("Radius [Rsun] = %lf + %lf - %lf" % (rad, radPlus, radMinus))
+
 # Luminosity from Grootel+2018
 x = np.linspace(0, 1.2e10, 100)
 
@@ -97,7 +113,7 @@ axes[1].set_xscale("log")
 
 # LXUV inset
 axLXUV = fig.add_axes([0.555, 0.55, 0.085, 0.3])
-axLXUV.hist(blobs[:,1], bins=20, orientation="horizontal", color="C0",
+axLXUV.hist(np.log10(blobs[:,1]), bins=20, orientation="horizontal", color="C0",
            range=[-6.75, -6.05]);
 axLXUV.axhline(-6.4, lw=2, ls="--", color="k")
 axLXUV.axhline(-6.5, lw=2, ls="--", color="k")
