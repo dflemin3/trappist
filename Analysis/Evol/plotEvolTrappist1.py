@@ -10,8 +10,8 @@ posterior distributions.
 Script output:
 
 Luminosity [Lsun] = 5.220000e-04 + 1.900000e-05 - 1.900000e-05
-LXUV [Lsun] = 3.868037e-07 + 4.930874e-08 - 5.000271e-08
-Radius [Rsun] = 0.111612 + 0.000738 - 0.000757
+LXUV [Lsun] = 3.866823e-07 + 4.876776e-08 - 4.998834e-08
+Radius [Rsun] = 0.111608 + 0.000750 - 0.000760
 
 """
 
@@ -36,7 +36,7 @@ data = np.load("../../Data/trappist1StarEvol.npz")
 nsamples = len(data["Luminosity"])
 
 chains, blobs = mcmcUtils.extractMCMCResults("../../Data/trappist1Fiducial.h5",
-                                             verbose=True, applyBurnin=True,
+                                             verbose=True, burn=500,
                                              thinChains=True, blobsExist=True)
 
 ### Plot Lum, LumXUV, radius evolution and compare to observations ###
@@ -92,11 +92,13 @@ axes[0].set_xscale("log")
 
 # Luminosity inset
 axLum = fig.add_axes([0.225, 0.55, 0.085, 0.3])
-axLum.hist(blobs[:,0], bins=20, orientation="horizontal", color="C0",
-           range=[0.00046, 0.000584], alpha=0.8);
-axLum.axhline(0.000522, lw=2, ls="--", color="k")
-axLum.axhline(0.000522+0.000019, lw=2, ls="--", color="k")
-axLum.axhline(0.000522-0.000019, lw=2, ls="--", color="k")
+axLum.hist(blobs[:,0], bins=20, orientation="horizontal", color="gray",
+           range=[0.00046, 0.000584], alpha=0.5);
+axLum.hist(blobs[:,0], bins=20, orientation="horizontal", color="k",
+          range=[0.00046, 0.000584], lw=2, histtype="step");
+axLum.axhline(0.000522, lw=3, ls="--", color="C0")
+axLum.axhline(0.000522+0.000019, lw=3, ls="--", color="C0")
+axLum.axhline(0.000522-0.000019, lw=3, ls="--", color="C0")
 
 # Format inset
 axLum.set_xlabel("")
@@ -124,11 +126,13 @@ axes[1].set_xscale("log")
 
 # LXUV inset
 axLXUV = fig.add_axes([0.555, 0.55, 0.085, 0.3])
-axLXUV.hist(blobs[:,1], bins=20, orientation="horizontal", color="C0",
-           range=[2.3e-7, 5.5e-7], alpha=0.8);
-axLXUV.axhline(3.4e-7, lw=2, ls="--", color="k")
-axLXUV.axhline(3.9e-7, lw=2, ls="--", color="k")
-axLXUV.axhline(4.4e-7, lw=2, ls="--", color="k")
+axLXUV.hist(blobs[:,1], bins=20, orientation="horizontal", color="gray",
+           range=[2.3e-7, 5.5e-7], alpha=0.5);
+axLXUV.hist(blobs[:,1], bins=20, orientation="horizontal", color="k",
+           range=[2.3e-7, 5.5e-7], lw=2, histtype="step");
+axLXUV.axhline(3.4e-7, lw=3, ls="--", color="C0")
+axLXUV.axhline(3.9e-7, lw=3, ls="--", color="C0")
+axLXUV.axhline(4.4e-7, lw=3, ls="--", color="C0")
 
 # Format inset
 axLXUV.set_xlabel("")
@@ -154,10 +158,13 @@ axes[2].set_ylim(0.09, 0.40)
 
 # Radius inset
 axRad = fig.add_axes([0.885, 0.55, 0.085, 0.3])
-axRad.hist(blobs[:,2], bins=20, orientation="horizontal", color="C0", alpha=0.8);
-axRad.axhline(0.118, lw=2, ls="--", color="k")
-axRad.axhline(0.121, lw=2, ls="--", color="k")
-axRad.axhline(0.124, lw=2, ls="--", color="k")
+axRad.hist(blobs[:,2], bins=20, orientation="horizontal", color="gray",
+           alpha=0.5);
+axRad.hist(blobs[:,2], bins=20, orientation="horizontal", color="k", lw=2,
+           histtype="step");
+axRad.axhline(0.118, lw=3, ls="--", color="C0")
+axRad.axhline(0.121, lw=3, ls="--", color="C0")
+axRad.axhline(0.124, lw=3, ls="--", color="C0")
 
 # Format inset
 axRad.set_xlabel("")
