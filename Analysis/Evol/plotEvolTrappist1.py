@@ -83,7 +83,7 @@ axes[0].set_xscale("log")
 # Luminosity inset
 axLum = fig.add_axes([0.225, 0.55, 0.085, 0.3])
 axLum.hist(blobs[:,0], bins=20, orientation="horizontal", color="C0",
-           range=[0.00046, 0.000584]);
+           range=[0.00046, 0.000584], alpha=0.8);
 axLum.axhline(0.000522, lw=2, ls="--", color="k")
 axLum.axhline(0.000522+0.000019, lw=2, ls="--", color="k")
 axLum.axhline(0.000522-0.000019, lw=2, ls="--", color="k")
@@ -91,7 +91,7 @@ axLum.axhline(0.000522-0.000019, lw=2, ls="--", color="k")
 # Format inset
 axLum.set_xlabel("")
 axLum.set_ylabel("")
-axLum.set_title(r"Luminosity [L$_{\odot}$]", fontsize=17)
+axLum.set_title(r"Luminosity [L$_{\odot}$]", fontsize=18)
 
 y2 = [0.000462, 0.00052, 0.000582]
 y2_labels = ["0.00050", "0.00052", "0.00054"]
@@ -100,8 +100,9 @@ axLum.set_yticklabels(y2_labels, minor=False, fontsize=18)
 axLum.set_xticklabels([])
 
 # XUV Luminosity from Wheatley+2017 1-3 Sigmas
+
 for ii in range(1,4):
-    axes[1].fill_between(x, 10**(-6.4-(ii*0.1)), 10**(-6.4+(ii*0.1)), color="C0",
+    axes[1].fill_between(x, 3.9e-7-(ii*0.5e-7), 3.9e-7+(ii*0.5e-7), color="C0",
                          alpha=0.22, zorder=0)
 axes[1].axhline(10**-6.4, color="C0", lw=2, ls="--", zorder=2)
 
@@ -113,19 +114,19 @@ axes[1].set_xscale("log")
 
 # LXUV inset
 axLXUV = fig.add_axes([0.555, 0.55, 0.085, 0.3])
-axLXUV.hist(np.log10(blobs[:,1]), bins=20, orientation="horizontal", color="C0",
-           range=[-6.75, -6.05]);
-axLXUV.axhline(-6.4, lw=2, ls="--", color="k")
-axLXUV.axhline(-6.5, lw=2, ls="--", color="k")
-axLXUV.axhline(-6.3, lw=2, ls="--", color="k")
+axLXUV.hist(blobs[:,1], bins=20, orientation="horizontal", color="C0",
+           range=[2.3e-7, 5.5e-7], alpha=0.8);
+axLXUV.axhline(3.4e-7, lw=2, ls="--", color="k")
+axLXUV.axhline(3.9e-7, lw=2, ls="--", color="k")
+axLXUV.axhline(4.4e-7, lw=2, ls="--", color="k")
 
 # Format inset
 axLXUV.set_xlabel("")
 axLXUV.set_ylabel("")
-axLXUV.set_title(r"log$_{10}$ XUV Luminosity", fontsize=17)
+axLXUV.set_title(r"$L_{XUV}$ [$10^{-7} L_{\odot}$]", fontsize=18)
 
-y2 = [-6.7, -6.4, -6.1]
-y2_labels = ["-6.7", "-6.4", "-6.1"]
+y2 = [2.4e-7, 3.9e-7, 5.4e-7]
+y2_labels = ["2.4", "3.9 " ,"5.4"]
 axLXUV.set_yticks(y2)
 axLXUV.set_yticklabels(y2_labels, minor=False, fontsize=18)
 axLXUV.set_xticklabels([])
@@ -143,7 +144,7 @@ axes[2].set_ylim(0.09, 0.40)
 
 # Radius inset
 axRad = fig.add_axes([0.885, 0.55, 0.085, 0.3])
-axRad.hist(blobs[:,2], bins=20, orientation="horizontal", color="C0");
+axRad.hist(blobs[:,2], bins=20, orientation="horizontal", color="C0", alpha=0.8);
 axRad.axhline(0.118, lw=2, ls="--", color="k")
 axRad.axhline(0.121, lw=2, ls="--", color="k")
 axRad.axhline(0.124, lw=2, ls="--", color="k")
@@ -151,10 +152,11 @@ axRad.axhline(0.124, lw=2, ls="--", color="k")
 # Format inset
 axRad.set_xlabel("")
 axRad.set_ylabel("")
-axRad.set_title(r"Radius [R$_{\odot}$]", fontsize=17)
+axRad.set_title(r"Radius [R$_{\odot}$]", fontsize=18)
 
-y2 = [0.11, 0.121, 0.125]
-y2_labels = ["0.11", "0.121", "0.125"]
+radMed = np.mean(blobs[:,2])
+y2 = [radMed, 0.121]
+y2_labels = ["%.3lf" % radMed, "0.121"]
 axRad.set_yticks(y2)
 axRad.set_yticklabels(y2_labels, minor=False, fontsize=18)
 axRad.set_xticklabels([])

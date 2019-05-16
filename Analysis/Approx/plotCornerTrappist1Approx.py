@@ -25,16 +25,16 @@ mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
 # Path to data
-filename = "../../Data/apRun5.h5"
+filename = "../../Data/apRun3.h5"
 
 # Whether or not to plot blobs
 plotBlobs = False
 
 # Extract results
 if plotBlobs:
-    chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs)
+    chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500)
 else:
-    chain = extractMCMCResults(filename, blobsExist=plotBlobs)
+    chain = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500)
 
 
 if plotBlobs:
