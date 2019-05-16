@@ -129,7 +129,7 @@ where $m_{\star}$ is the stellar mass, $f_{sat}$ is the saturation fraction, $t_
 
 \subsection{Priors} \label{sec:mcmc:priors}
 
-We leverage observations of TRAPPIST-1 and late M dwarfs to derive prior probability distributions to condition our MCMC analysis. The priors for the parameters that control the $L_{XUV}$ evolution are designed to constrain TRAPPIST-1's evolution, but can also be used to model the $L_{XUV}$ evolution of any fully-convective M dwarfs. We summarize our adopted distributions in Table~\ref{tab:priors}.
+With only two data points to condition our analysis, $L_{bol}$ and $L_{XUV}$, our prior probability distributions will strongly impact our results. We leverage observations of TRAPPIST-1 and late M dwarfs to assemble the best priors for our MCMC analysis. Note that the priors for the parameters that control the $L_{XUV}$ evolution are designed to constrain TRAPPIST-1's evolution, but can also be used to model the $L_{XUV}$ evolution of any fully-convective M dwarfs. We summarize our adopted distributions in Table~\ref{tab:priors}.
 
 Following \citet{vanGrootel2018}, we rely on TRAPPIST-1's luminosity (here in our likelihood function, Eqn.~\ref{eqn:lnlike}) and age to constrain its mass and therefore adopt a flat prior of $m_{\star} \sim \mathcal{U}(0.07, 0.11)$. We use the empirical age constraint for TRAPPIST-1 derived by \citet{Burgasser2017}, age $\sim \mathcal{N}(7.6, 2.2^2)$ Gyr, as their thorough analysis considered both observations of TRAPPIST-1 and a host of empirical age indicators for ultracool dwarfs. 
 
@@ -137,7 +137,7 @@ We construct an empirical $f_{sat} = \log_{10}(L_{XUV}/L_{bol})$ distribution fo
 
 The duration of the saturated phase is estimated to be $t_{sat} \approx 100$ Myr for FGK stars \citep{Jackson2012}. Studies of stellar activity of late type stars as a function of stellar age, or its proxy, rotation period, indicate that the activity lifetime, and hence duration of the saturated phase, is likely longer for later-type stars \citep{Shkolnik2014,Wright2011,West2015,GonzalezAlvarez2019}, with fully-convective M dwarfs potentially remaining active for Gyrs, up to the ages of field stars \citep{West2008,Schneider2018}. TRAPPIST-1's high observed L$_{X}$ \citep{Wheatley2017}, short photometric rotation period \citep[3.3 d, ][]{Luger2017}, and low Rossby number \citep[Ro $\approx 0.01$, ][]{Roettenbacher2017,Wright2018} suggest that TRAPPIST-1 is still saturated today \citep{Pizzolato2003,Wright2011,Wright2018,Garraffo2017,GonzalezAlvarez2019}. Both \citet{Roettenbacher2017} and \citet{Morris2018} suggest that the photometrically-determined rotation period might not be accurate, with the latter study proposing that the 3.3 d period corresponds to a characteristic timescale for active regions on the stellar surface, but TRAPPIST-1's $v \sin i = 6$ km s$^{-1}$ \citep{Barnes2014} implies a rotation period of $\approx 1$ d for $i = 90^{\circ}$, providing evidence that TRAPPIST-1's rapid rotation is physical and consistent with saturation.  Given these constraints, we adopt a broad uniform $t_{sat}$ prior distribution over $0.1 - 12$ Gyr.
 
-Finally, in the unsaturated phase, L$_{X}$, and hence $L_{XUV}$, fall off exponentially with powerlaw slope $\beta_{XUV}$ \citep{Ribas2005}. \citet{Jackson2012} find that $\beta_{XUV}$ does not vary significantly with stellar mass in their sample of FGK stars, so we adopt the distribution derived from their sample of late K dwarfs as our prior: $\beta_{XUV} \sim \mathcal{N}(-1.18, 0.31^2)$.
+Finally, in the unsaturated phase, L$_{X}$, and hence $L_{XUV}$, fall off exponentially with powerlaw slope $\beta_{XUV}$ \citep{Ribas2005}. \citet{Jackson2012} find that $\beta_{XUV}$ does not vary significantly with stellar mass in their sample of FGK stars, and \citet{Wright2016} found that the X-ray evolution of fully-convective stars is qualitatively similar to that of partially-convective FGK stars, so we adopt the distribution derived from the \citet{Jackson2012} sample of late K dwarfs as our prior: $\beta_{XUV} \sim \mathcal{N}(-1.18, 0.31^2)$.
 
 \begin{deluxetable}{lcc}
 \tabletypesize{\small}
@@ -171,27 +171,32 @@ For a given state vector \textbf{x}, we define our loglikelihood function as
 \normalsize
 where $L_{bol}$, $L_{XUV}$ and $L_{bol}(\textbf{x})$, $L_{XUV}(\textbf{x})$ are the observed values and \vplanet outputs given \textbf{x}, respectively, $\sigma_{L_{bol}}$ and $\sigma_{L_{XUV}}$ are the observational uncertainties, $\ln \mathrm{Prior}(\textbf{x})$ is the prior probability, and $C$ is an arbitrary constant. 
 
-With our likelihood function and priors specified, we run our MCMC analysis with 100 parallel chains for 5,000 iterations, initializing each chain by randomly sampling each element of \textbf{x} from their respective prior distributions. We discard the first 500 iterations as burn-in.  Each step of the MCMC chain, \vplanet takes the current \textbf{x} as input and simulates TRAPPIST-1's evolution up to its age, predicting $L_{bol}$ and $L_{XUV}$ to evaluate the likelihood function. To assess the convergence of our MCMC chains, we compute the integrated autocorrelation length and acceptance fraction for each chain. We find a mean acceptance fraction of 0.48 and a minimum and mean number of iterations per integrated autocorrelation length of 55.9 and 74.3, respectively, indicating that our chains have likely converged.
+With our likelihood function and priors specified, we run our MCMC analysis with 100 parallel chains for 5,000 iterations, initializing each chain by randomly sampling each element of \textbf{x} from their respective prior distributions. We discard the first 500 iterations as burn-in.  Each step of the MCMC chain, \vplanet takes the current \textbf{x} as input and simulates TRAPPIST-1's evolution up to its age, predicting $L_{bol}$ and $L_{XUV}$ to evaluate the likelihood function. To assess the convergence of our MCMC chains, we compute the integrated autocorrelation length and acceptance fraction for each chain. We find a mean acceptance fraction of XXX and a minimum and mean number of iterations per integrated autocorrelation length of XXX and XXX, respectively, indicating that our chains have likely converged.
 
 %% Results %%
 
 \section{Results} \label{sec:results}
 
-Results.
+In Fig.~\ref{fig:corner}, we display the posterior probability distributions for our model parameters derived by our MCMC analysis, adopting the median values of the marginal distributions as our best-fit solutions and the 16th and 84th percentiles as the upper and lower uncertainties. Since we rely on ... 
 
 \begin{figure*}[t]
 \centering
 	\includegraphics[width=0.75\textwidth]{../Analysis/Corner/trappist1Corner.pdf}
-   \caption{Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters made using \texttt{corner} \citep{ForemanMackey2016}. From the posterior distribution, we infer that there is a $43.5\%$ chance that TRAPPIST-1 is still in the saturated phase today, i.e. P$(t_{sat} \geq \mathrm{ age } | \mathrm{data}) \approx 0.435$, and that there is only a $0.5\%$ chance that $t_{sat} \leq 1$ Gyr. Both the stellar age and $\beta_{XUV}$ reflect their priors.}%
+   \caption{Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters made using \texttt{corner} \citep{ForemanMackey2016}. From the posterior distribution, we infer that there is a XXX chance that TRAPPIST-1 is still in the saturated phase today, i.e. P$(t_{sat} \geq \mathrm{ age } | \mathrm{data}) \approx $ XXX, and that there is only a XXX chance that $t_{sat} \leq 1$ Gyr. Both the stellar age and $\beta_{XUV}$ reflect their priors.}%
     \label{fig:corner}%
 \end{figure*}
 
+\subsection{TRAPPIST-1's Evolutionary History}
+
+Here we consider plausible stellar evolutionary histories for TRAPPIST-1, conditioned on observations, by evolving 100 draws from the posterior distribution using \vplanet. We plot the evolution of TRAPPIST-1's $L_{bol}$, $L_{XUV}$, and radius in Fig.~\ref{fig:evol} and compare our predicted evolution to the observed values. 
 
 \begin{figure*}[t]
 	\includegraphics[width=\textwidth]{../Analysis/Evol/trappist1Evol.pdf}
    \caption{Plausible evolutionary histories of TRAPPIST-1's bolometric luminosity (left), XUV luminosity (center), and radius (right) simulated using \vplanet using 100 samples drawn from the posterior distribution. In each panel, the blue shaded regions display the 1, 2, and 3 $\sigma$ the observational uncertainties. The insets display the marginalized distributions of the quantities displayed in each panel evaluated at the age of the system, with the black dashed lines indicating the observed value and +/- 1 $\sigma$ uncertainty. The radius and bolometric luminosity constraints are adopted from \citet{vanGrootel2018}, and the L$_{XUV}$ constraint is taken from \citet{Wheatley2017}.}%
     \label{fig:evol}%
 \end{figure*}
+
+Since TRAPPIST-1 is likely still saturated today, its $L_{XUV}$ evolution tracks $L_{bol}$. Both decrease along the pre-main sequence for ${\sim}1$ Gyr before stabilizing on the main sequence, with some $L_{XUV}$ evolutions entering the unsaturated powerlaw decay at late times near the age of the system. We find posterior vaues of $L_{bol} = 5.22 \pm{0.19} \times 10^{-4} \ L_{\odot}$ and $L_{XUV} = 3.9 \pm{0.5} \times 10^{-7} \ L_{\odot}$ that match their observed values by construction via our likelihood function, Eqn~\ref{eqn:lnlike}, and confirms the accuracy of the \citet{Baraffe2015} models in this case. TRAPPIST-1's radius likely shrank by roughly a factor of 4 along the pre-main sequence, with our posterior observed radius $R = 0.11 \pm{0.0007} \ R_{\odot}$. Our posterior radius is ${\sim} 8\%$ away from the inferred \citet{vanGrootel2018} $R = 0.121 \pm {0.003} \ R_{\odot}$ who computed theirs from their inferred mass and TRAPPIST-1's observed density \citep{Delrez2018}. The difference arises from the likely underprediction of TRAPPIST-1's radius by the \citet{Baraffe2015} models, consistent with stellar evolution models often underestimating the radii of late M dwarfs \citep{Reid2005,Spada2013,Jackson2019}, and suggests that TRAPPIST-1 might have super-solar metallicity to account for the underestimation \citep{Burgasser2017,vanGrootel2018}. If we instead follow \citet{vanGrootel2018} and compute the radius from our stellar mass marginalized posterior distribution and the \citet{Delrez2018} constraint, we obtain $R = 0.12 \pm{0.002} \ R_{\odot}$, in good agreement with the \citet{vanGrootel2018} stellar radius.
 
 %% approxposterior %%
 
