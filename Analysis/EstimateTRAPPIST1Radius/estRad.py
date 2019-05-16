@@ -7,7 +7,7 @@ procedure outlined in Van Grootel et al. (2018).
 
 Script output:
 
-Radius [Rsun] = 0.120300 + 0.001963 - 0.001845
+Radius [Rsun] = 0.120295 + 0.001951 - 0.001821
 
 @author: David P. Fleming, 2019
 @email: dflemin3 (at) uw (dot) edu

@@ -3,6 +3,16 @@
 """
 Plot the evolution of TRAPPIST-1 with initial conditions sampled from the
 posterior distributions.
+
+@author: David P. Fleming, 2019
+@email: dflemin3 (at) uw (dot) edu
+
+Script output:
+
+Luminosity [Lsun] = 5.220000e-04 + 1.900000e-05 - 1.900000e-05
+LXUV [Lsun] = 3.868037e-07 + 4.930874e-08 - 5.000271e-08
+Radius [Rsun] = 0.111612 + 0.000738 - 0.000757
+
 """
 
 import numpy as np
