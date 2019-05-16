@@ -96,8 +96,8 @@ print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 
 # Plot!
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
-                    show_titles=True, title_kwargs={"fontsize": 14},
-                    title_fmt='.2f', verbose=True, lw=2.5)
+                    show_titles=True, title_kwargs={"fontsize": 16},
+                    title_fmt='.2f', verbose=True, hist_kwargs={"linewidth" : 1.5})
 
 # Save!
 if (sys.argv[1] == 'pdf'):
