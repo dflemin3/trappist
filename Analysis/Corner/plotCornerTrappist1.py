@@ -50,8 +50,7 @@ import matplotlib.pyplot as plt
 from trappist.mcmcUtils import extractMCMCResults
 
 #Typical plot parameters that make for pretty plots
-mpl.rcParams['figure.figsize'] = (9,8)
-mpl.rcParams['font.size'] = 15.0
+mpl.rcParams['font.size'] = 17.5
 
 ## for Palatino and other serif fonts use:
 mpl.rc('font',**{'family':'serif'})
@@ -85,8 +84,11 @@ else:
     labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",
               r"$t_{sat}$ [Gyr]", r"Age [Gyr]", r"$\beta_{XUV}$"]
 
+# Scale Mass for readability
+samples[:,0] = samples[:,0] * 1.0e2
+
 # Estimate probability that TRAPPIST-1 is still saturated at the age of the
-# system using the posterior distribution
+# system using samples from the posterior distribution
 mask = samples[:,2] >= samples[:,3]
 print("P(tsat >= age | data) = %0.3lf" % np.mean(mask))
 
@@ -98,6 +100,11 @@ print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
                     show_titles=True, title_kwargs={"fontsize": 16},
                     title_fmt='.2f', verbose=True, hist_kwargs={"linewidth" : 1.5})
+
+# Fine-tune the formatting
+ax_list = fig.axes
+ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089^{+0.0006}_{-0.0006}$", fontsize=16)
+ax_list[-5].set_xlabel(r"$m_{\star}$ [$100\times$ M$_{\odot}$]", labelpad=30)
 
 # Save!
 if (sys.argv[1] == 'pdf'):
