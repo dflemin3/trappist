@@ -139,7 +139,7 @@ We construct an empirical $f_{sat} = \log_{10}(L_{XUV}/L_{bol})$ distribution fo
 
 The duration of the saturated phase is estimated to be $t_{sat} \approx 100$ Myr for FGK stars \citep{Jackson2012}. Studies of stellar activity of late type stars as a function of stellar age, or its proxy, rotation period, indicate that the activity lifetime, and hence duration of the saturated phase, is likely longer for later-type stars \citep{Shkolnik2014,Wright2011,West2015,GonzalezAlvarez2019}, with fully-convective M dwarfs potentially remaining active for Gyrs, up to the ages of field stars \citep{West2008,Schneider2018}. TRAPPIST-1's high observed L$_{X}$ \citep{Wheatley2017}, short photometric rotation period \citep[3.3 d, ][]{Luger2017}, and low Rossby number \citep[Ro $\approx 0.01$, ][]{Roettenbacher2017,Wright2018} suggest that TRAPPIST-1 is still saturated today \citep{Pizzolato2003,Wright2011,Wright2018,Garraffo2017,GonzalezAlvarez2019}. Both \citet{Roettenbacher2017} and \citet{Morris2018} suggest that the photometrically-determined rotation period is inaccurate, with the latter study proposing that the 3.3 d period corresponds to a characteristic timescale for active regions on the stellar surface, but TRAPPIST-1's $v \sin i = 6$ km s$^{-1}$ \citep{Barnes2014} implies a rotation period of $\approx 1$ d for $i = 90^{\circ}$, providing evidence that TRAPPIST-1's rapid rotation is physical and consistent with saturation.  Given these constraints, we adopt a broad uniform $t_{sat}$ prior distribution over $0.1 - 12$ Gyr.
 
-Finally, in the unsaturated phase, L$_{X}$, and hence $L_{XUV}$, fall off exponentially with powerlaw slope $\beta_{XUV}$ \citep{Ribas2005}. \citet{Jackson2012} find that $\beta_{XUV}$ does not vary significantly with stellar mass in their sample of FGK stars, and \citet{Wright2016} found that the X-ray evolution of fully-convective stars is qualitatively similar to that of partially-convective FGK stars. Therefore, we adopt the distribution derived from the \citet{Jackson2012} sample of late K dwarfs as our prior: $\beta_{XUV} \sim \mathcal{N}(-1.18, 0.31^2)$.
+In the unsaturated phase, $L_{X}$, and hence $L_{XUV}$, fall off exponentially with powerlaw slope $\beta_{XUV}$ \citep{Ribas2005}. \citet{Jackson2012} find that $\beta_{XUV}$ does not vary significantly with stellar mass in their sample of FGK stars, and \citet{Wright2016} found that the X-ray evolution of fully-convective stars is qualitatively similar to that of partially-convective FGK stars. Therefore, we adopt the distribution derived from the \citet{Jackson2012} sample of late K dwarfs as our prior: $\beta_{XUV} \sim \mathcal{N}(-1.18, 0.31^2)$.
 
 \begin{deluxetable}{lcc}
 \tabletypesize{\small}
@@ -149,10 +149,10 @@ Finally, in the unsaturated phase, L$_{X}$, and hence $L_{XUV}$, fall off expone
 \colhead{Parameter [units]} & \colhead{Prior} & \colhead{Notes}
 }
 \startdata
-$m_\star$ [$M_{\odot}$] & $\mathcal{U}(0.07, 0.11)$ & Uniform \\  
+$m_\star$ [$M_{\odot}$] & $\mathcal{U}(0.07, 0.11)$ & -- \\  
 $f_{sat}$ & $\mathcal{N}(-2.92, 0.26^2)$ & \citet{Wright2011},  \\
  &  & \citet{Chadney2015}  \\
-$t_{sat}$ [Gyr] & $\mathcal{U}(0.1, 12)$ & Uniform \\
+$t_{sat}$ [Gyr] & $\mathcal{U}(0.1, 12)$ & -- \\
 age [Gyr] & $\mathcal{N}(7.6, 2.2^2)$ & \citet{Burgasser2017} \\
 $\beta_{XUV}$ & $\mathcal{N}(-1.18, 0.31^2)$ & \citet{Jackson2012}
 \enddata \vspace*{0.1in}
@@ -179,14 +179,16 @@ With our likelihood function and priors specified, we run our MCMC analysis with
 
 \section{Results} \label{sec:results}
 
-In Fig.~\ref{fig:corner}, we display the posterior probability distributions for our model parameters derived by our MCMC analysis, adopting the median values of the marginal distributions as our best-fit solutions and the 16th and 84th percentiles as the upper and lower uncertainties. Since we rely on ... 
+In Fig.~\ref{fig:corner}, we display the posterior probability distributions for our model parameters derived by our MCMC analysis, adopting the median values of the marginal distributions as our best-fit solutions and derive the lower and upper uncertainties from the 16th and 84th percentiles, respectively. TRAPPIST-1 likely maintained a large $L_{XUV}$ throughout its lifetime, with our MCMC analysis uncovering strong correlations between the model parameters that control this evolution. We find TRAPPIST-1's $f_{sat} = -3.05^{+0.24}_{-.1}$ and $t_{sat} = 6.85^{+3.43}_{-3.15}$ Gyr, both deviating significantly from their priors and consistent with observed $L_{XUV}/L_{bol}$ and long activity lifetimes of late M dwarfs (XXX citations). The long upper-tail in the marginalized $f_{sat}$ distribution arises from the combination of the degeneracy between $f_{sat}$ and $t_{sat}$ and from our strong empirical $f_{sat}$ prior that disfavors $f_{sat} \gsim -2.7$. Large $f_{sat}$ require short $t_{sat}$, and hence earlier powerlaw $L_{XUV}$ decay during the unsaturated phase, to match TRAPPIST-1's observed $L_{XUV}$, and vice-versa. From the joint posterior distribution, we infer that there is a $42.6\%$ chance that TRAPPIST-1 is still in the saturated phase today, i.e. P$(t_{sat} \geq \mathrm{ age } | \mathrm{data}) \approx 0.426$. Our analysis strongly disfavors short saturation timescales, with only a $0.4\%$ chance that $t_{sat} \leq 1$ Gyr, the saturation timescale adopted by \citet{Luger2015} in their analysis of water loss from exoplanets orbiting in the habitable zone of late M dwarfs. These constraints imply that TRAPPIST-1 has likely maintained a high XUV luminosity throughout its lifetime, potentially driving extreme water loss from its planets (XXX citation).
 
 \begin{figure*}[t]
 \centering
 	\includegraphics[width=0.75\textwidth]{../Analysis/Corner/trappist1Corner.pdf}
-   \caption{Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters made using \texttt{corner} \citep{ForemanMackey2016}. From the posterior distribution, we infer that there is a $42.6\%$ chance that TRAPPIST-1 is still in the saturated phase today, i.e. P$(t_{sat} \geq \mathrm{ age } | \mathrm{data}) \approx 0.426$ , and that there is only a $0.4\%$ chance that $t_{sat} \leq 1$ Gyr.}%
+   \caption{Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters (XXX state vector eqn) made using \texttt{corner} \citep{ForemanMackey2016}. The black vertical dashed lines on the marginalized distributions indicate the median values and lower and upper uncertainties from the 16th and 84th percentiles, respectively. From the posterior, we infer that there is a $42.6\%$ chance that TRAPPIST-1 is still in the saturated phase today, potentially driving significant water loss and atmospheric escape from its planets.}%
     \label{fig:corner}%
 \end{figure*}
+
+We constrain TRAPPIST-1's mass to $m_{\star} = 0.089^{+0.0006}_{-0.0006}$ M$_{\odot}$, identical to the \citet{vanGrootel2018} constraint. Our marginalized age and $\beta_{XUV}$ posterior distributions reflect their prior distributions as for the former, $L_{bol}$ is not sufficient to further constraint TRAPPIST-1's age beyond our adopted prior since the luminosities of M dwarfs do not significantly change on the main sequence \citep{Baraffe2015}. We do not further constrain $\beta_{XUV}$ because our model prefers to exploit the degeneracy between $f_{sat}$ and $t_{sat}$ to match TRAPPIST-1's observed $L_{XUV}$, instead of varying the slope of the $L_{XUV}$ decay during the unsaturated phase, likely because TRAPPIST-1 is still saturated, rendering $\beta_{XUV}$ unnecessary to model its $L_{XUV}$ evolution. Age and $\beta_{XUV}$ weakly correlate with $f_{sat}$, both requiring a narrow spread of $f_{sat} \approx -3.05$ for young ages and steeper $\beta_{XUV}$. $\beta_{XUV}$ and $t_{sat}$ are uncorrelated, except at short $t_{sat}$ where steep $\beta_{XUV}$ are disfavored.
 
 \subsection{TRAPPIST-1's Evolutionary History}
 
