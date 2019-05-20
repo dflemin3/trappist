@@ -1,9 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Make a corner plot of the MCMC-derived posterior distributions.
+Make a corner plot of both the MCMC-derived ("true") and approxposterior-derived
+posterior distributions.
 
 @author: David P. Fleming, 2019
+@email: dflemin3 (at) uw (dot) edu
+
+script output:
+
+True P(tsat >= age | data) = 0.426
+True P(tsat <= 1Gyr | data) = 0.004
+approxposterior P(tsat >= age | data) = 0.373
+approxposterior P(tsat <= 1Gyr | data) = 0.000
 
 """
 
@@ -17,54 +26,78 @@ import matplotlib.pyplot as plt
 from trappist.mcmcUtils import extractMCMCResults
 
 #Typical plot parameters that make for pretty plots
-mpl.rcParams['figure.figsize'] = (9,8)
-mpl.rcParams['font.size'] = 15.0
+mpl.rcParams['font.size'] = 17.5
 
 ## for Palatino and other serif fonts use:
 mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
 # Path to data
-filename = "../../Data/apRun5.h5"
+filename = "../../Data/trappist1Fiducial.h5"
+approxFilename = "../../Data/apRun5.h5"
 
 # Whether or not to plot blobs
-plotBlobs = False
 
-# Extract results
-if plotBlobs:
-    chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500)
-else:
-    chain = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500)
+# Extract true MCMC results
+print("Loading true MCMC chain...")
+trueChain = extractMCMCResults(filename, blobsExist=False, burn=500)
 
+# Extract approxposterior MCMC results
+print("Loading approxposterior MCMC chain...")
+approxChain = extractMCMCResults(approxFilename, blobsExist=False, burn=500)
 
-if plotBlobs:
-    samples = np.hstack([chain, blobs])
+# Define labels
+labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",
+          r"$t_{sat}$ [Gyr]", r"Age [Gyr]", r"$\beta_{XUV}$"]
 
-    # Define Axis Labels
-    labels = ["Mass", "SatXUVFrac", "SatXUVTime", "Age", "XUVBeta", "Lum",
-              "logLumXUV", "Radius"]
-
-    # Make luminosity units more palatable
-    samples[:,5] = samples[:,5]*1.0e3
-else:
-    # Just consider stellar data
-    samples = chain
-    labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",
-              r"$t_{sat}$ [Gyr]", r"Age [Gyr]", r"$\beta_{XUV}$"]
+# Scale Mass for readability
+trueChain[:,0] = trueChain[:,0] * 1.0e2
+approxChain[:,0] = approxChain[:,0] * 1.0e2
 
 # Estimate probability that TRAPPIST-1 is still saturated at the age of the
-# system using the posterior distribution
-mask = samples[:,2] >= samples[:,3]
-print("P(tsat >= age | data) = %0.3lf" % np.mean(mask))
+# system using samples from the posterior distribution
+mask = trueChain[:,2] >= trueChain[:,3]
+print("True P(tsat >= age | data) = %0.3lf" % np.mean(mask))
 
 # Estimate probability that tsat < 1 Gyr
-mask = samples[:,2] <= 1
-print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
+mask = trueChain[:,2] <= 1
+print("True P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 
-# Plot!
-fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
-                    show_titles=True, title_kwargs={"fontsize": 14},
-                    title_fmt='.2f', verbose=True)
+# Estimate probability that TRAPPIST-1 is still saturated at the age of the
+# system using samples from the posterior distribution
+mask = approxChain[:,2] >= approxChain[:,3]
+print("approxposterior P(tsat >= age | data) = %0.3lf" % np.mean(mask))
+
+# Estimate probability that tsat < 1 Gyr
+mask = approxChain[:,2] <= 1
+print("approxposterior P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
+
+# Plot both true and approxposterior posterior distribution
+bins = 20
+range = [[8.7, 9.06], [-3.3, -2.2], [0, 12], [0, 12], [-2, -0.2]]
+
+# approxposterior
+fig = corner.corner(approxChain, quantiles=[0.16, 0.5, 0.84], labels=labels,
+                    bins=bins, show_titles=True, title_kwargs={"fontsize": 16},
+                    title_fmt='.2f', verbose=True, hist_kwargs={"linewidth" : 1.5},
+                    plot_contours=True, plot_datapoints=False, plot_density=False,
+                    color="C0", range=range)
+
+# True
+fig = corner.corner(trueChain, quantiles=[], labels=labels, show_titles=False,
+                    bins=bins, verbose=True, plot_density=True, fig=fig,
+                    hist_kwargs={"linewidth" : 1.5}, plot_contours=False,
+                    plot_datapoints=False, color="k", range=range)
+
+# Add legend
+fig.axes[1].text(0.13, 0.55, "True", fontsize=26, color="k", zorder=99)
+fig.axes[1].text(0.13, 0.375, r"approxposterior", fontsize=26, color="C0",
+                 zorder=99)
+
+# Fine-tune the formatting
+ax_list = fig.axes
+ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089^{+0.0006}_{-0.0006}$", fontsize=16)
+ax_list[-5].set_xlabel(r"$m_{\star}$ [$100\times$ M$_{\odot}$]", labelpad=30)
 
 # Save!
 if (sys.argv[1] == 'pdf'):
