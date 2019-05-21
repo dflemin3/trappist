@@ -20,11 +20,11 @@ import george
 ndim = 5                         # Dimensionality of the problem
 m0 = 250                         # Initial size of training set
 m = 100                          # Number of new points to find each iteration
-nmax = 10                        # Maximum number of iterations
+nmax = 5                         # Maximum number of iterations
 Dmax = 10.0                      # KL-Divergence convergence limit
 kmax = 5                         # Number of iterations for Dmax convergence to kick in
-seed = 90                        # RNG seed
-nGPRestarts = 20                 # Number of times to restart GP hyperparameter optimizations
+seed = 6                         # RNG seed
+nGPRestarts = 25                 # Number of times to restart GP hyperparameter optimizations
 nMinObjRestarts = 10             # Number of times to restart objective fn minimization
 optGPEveryN = 25                 # Optimize GP hyperparameters even this many iterations
 nKLSamples = int(1.0e7)          # Number of samples from posterior to use to calculate KL-Divergence
@@ -33,14 +33,14 @@ bounds = ((0.07, 0.11),          # Prior bounds
           (0.1, 12.0),
           (0.1, 12.0),
           (-2.0, 0.0))
-algorithm = "bape"              # Use the Kandasamy et al. (2015) BAPE formalism
+algorithm = "bape"              # BAPE formalism
 
 # Set RNG seed
 np.random.seed(seed)
 
 # emcee.EnsembleSampler, emcee.EnsembleSampler.run_mcmc and GMM parameters
 samplerKwargs = {"nwalkers" : 100}
-mcmcKwargs = {"iterations" : int(5.0e3)}
+mcmcKwargs = {"iterations" : int(1.0e4)}
 gmmKwargs = {"reg_covar" : 1.0e-5}
 
 # Loglikelihood function setup required to run VPLanet simulations
@@ -58,7 +58,7 @@ with open(os.path.join(PATH, "vpl.in"), 'r') as f:
 
 # Generate initial training set using latin hypercube sampling over parameter bounds
 # Evaluate forward model log likelihood + lnprior for each theta
-if not os.path.exists("apFModelCache.npz"):
+if not os.path.exists("apRunAPFModelCache.npz"):
     y = np.zeros(m0)
     theta = utility.latinHypercubeSampling(m0, bounds, criterion="maximin")
     for ii in range(m0):
@@ -67,14 +67,28 @@ if not os.path.exists("apFModelCache.npz"):
 
 else:
     print("Loading in cached simulations...")
-    sims = np.load("apFModelCache.npz")
+    sims = np.load("apRunAPFModelCache.npz")
     theta = sims["theta"]
     y = sims["y"]
 
 ### Initialize GP ###
 
 # Use ExpSquared kernel, the approxposterior default option
-gp = gpUtils.defaultGP(theta, y)
+#gp = gpUtils.defaultGP(theta, y)
+
+# Guess initial metric, or scale length of the covariances in loglikelihood space
+# using suggestion from Kandasamy et al. (2015)
+initialMetric = np.array([5.0*len(theta)**(-1.0/theta.shape[-1]) for _ in range(theta.shape[-1])])
+
+# Create kernel
+metric_bounds = ((-100, 100) for _ in range(theta.shape[-1]))
+kernel = george.kernels.Matern32Kernel(initialMetric,
+                                       ndim=theta.shape[-1],
+                                       metric_bounds=metric_bounds)
+
+# Create GP and compute the kernel, aka factor the covariance matrix
+gp = george.GP(kernel=kernel, fit_mean=True, mean=np.mean(y))
+gp.compute(theta)
 
 # Initialize approxposterior
 ap = approx.ApproxPosterior(theta=theta,
@@ -83,12 +97,14 @@ ap = approx.ApproxPosterior(theta=theta,
                             lnprior=trappist1.LnPriorTRAPPIST1,
                             lnlike=mcmcUtils.LnLike,
                             priorSample=trappist1.samplePriorTRAPPIST1,
-                            algorithm=algorithm)
+                            bounds=bounds,
+                            algorithm=algorithm,
+                            scale=False)
 
 # Run!
-ap.run(m=m, nmax=nmax, Dmax=Dmax, kmax=kmax, bounds=bounds,  estBurnin=True,
+ap.run(m=m, nmax=nmax, Dmax=Dmax, kmax=kmax, estBurnin=True,
        nKLSamples=nKLSamples, mcmcKwargs=mcmcKwargs, maxComp=12, thinChains=True,
        samplerKwargs=samplerKwargs, verbose=True, gmmKwargs=gmmKwargs,
-       nGPRestarts=nGPRestarts, nMinObjRestarts=nMinObjRestarts,
+       nGPRestarts=nGPRestarts, nMinObjRestarts=nMinObjRestarts, gpCv=5,
        optGPEveryN=optGPEveryN, seed=seed, cache=True, **kwargs)
 # Done!

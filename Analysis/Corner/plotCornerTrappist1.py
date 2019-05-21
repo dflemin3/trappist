@@ -97,8 +97,9 @@ mask = samples[:,2] <= 1
 print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 
 # Plot!
+range = [[8.7, 9.06], [-3.3, -2.2], [0, 12], [0, 12], [-2, -0.2]]
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
-                    show_titles=True, title_kwargs={"fontsize": 16},
+                    show_titles=True, title_kwargs={"fontsize": 16}, range=range,
                     title_fmt='.2f', verbose=True, hist_kwargs={"linewidth" : 1.5})
 
 # Fine-tune the formatting
