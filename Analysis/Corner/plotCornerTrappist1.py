@@ -50,7 +50,7 @@ import matplotlib.pyplot as plt
 from trappist.mcmcUtils import extractMCMCResults
 
 #Typical plot parameters that make for pretty plots
-mpl.rcParams['font.size'] = 17.5
+mpl.rcParams['font.size'] = 17
 
 ## for Palatino and other serif fonts use:
 mpl.rc('font',**{'family':'serif'})
@@ -105,7 +105,16 @@ fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
 # Fine-tune the formatting
 ax_list = fig.axes
 ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089^{+0.0006}_{-0.0006}$", fontsize=16)
-ax_list[-5].set_xlabel(r"$m_{\star}$ [$100\times$ M$_{\odot}$]", labelpad=30)
+ax_list[-5].set_xlabel(r"$m_{\star}$ [$100\times$ M$_{\odot}$]", fontsize=22)
+ax_list[-4].set_xlabel(r"$f_{sat}$", fontsize=22)
+ax_list[-3].set_xlabel(r"$t_{sat}$ [Gyr]", fontsize=22)
+ax_list[-2].set_xlabel(r"age [Gyr]", fontsize=22)
+ax_list[-1].set_xlabel(r"$\beta_{XUV}$", fontsize=22)
+
+ax_list[5].set_ylabel(r"$f_{sat}$", fontsize=22)
+ax_list[10].set_ylabel(r"$t_{sat}$ [Gyr]", fontsize=22)
+ax_list[15].set_ylabel(r"age [Gyr]", fontsize=22)
+ax_list[20].set_ylabel(r"$\beta_{XUV}$", fontsize=22)
 
 # Save!
 if (sys.argv[1] == 'pdf'):
