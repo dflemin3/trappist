@@ -34,10 +34,12 @@
 
 \newcommand{\xxx}[1]{{\textbf{#1}}}
 \newcommand{\vplanet}[0]{\texttt{VPLanet}\xspace}
+\newcommand{\emcee}[0]{\texttt{emcee}\xspace}
 \newcommand{\approxposterior}[0]{\texttt{approxposterior}\xspace}
 \newcommand{\eqtide}[0]{\texttt{EQTIDE}\xspace}
 \newcommand{\stellar}[0]{\texttt{STELLAR}\xspace}
 \newcommand{\kepler}[0]{\textit{Kepler}\xspace}
+\newcommand{\jwst}[0]{\textit{JWST}\xspace}
 
 %% Begin doc %%
 \begin{document}
@@ -59,6 +61,10 @@ Box 951580, Seattle, WA 98195}
 \affiliation{Astronomy Department, University of Washington \\
 Box 951580, Seattle, WA 98195}
 \affil{NASA Astrobiology Institute - Virtual Planetary Laboratory Lead Team, USA}
+
+\author{Jake VanderPlas}
+\affiliation{Google \\
+601 N 34th St, Seattle, WA 98103}
 
 \author{Rodrigo Luger}
 \affil{NASA Astrobiology Institute - Virtual Planetary Laboratory Lead Team, USA}
@@ -86,20 +92,64 @@ Abstract.
 
 \section{Introduction} \label{sec:intro}
 
-\citet{Reiners2014} find that rotation period can determine Lx
+-look at Rory's XRP for good references to mass-loss mechanisms
+
+-\citet{Reiners2014} find that rotation period can determine Lx
 \citet{Newton2017} find that LHalpha, an activity indicator saturates as low Prot/Ro with the cutoff occuring at a similar Ro to other inidicators like Lx
 
-For low-mass stars in the saturated phase, $L_{X}$ remains a constant fraction of $L_{bol}$ and is observed to cluster around $\log_{10}(L_X/L_{bol}) \approx -3$ \citep{Pizzolato2003,Wright2011,Wright2018}. 
+-For low-mass stars in the saturated phase, $L_{X}$ remains a constant fraction of $L_{bol}$ and is observed to cluster around $\log_{10}(L_X/L_{bol}) \approx -3$ \citep{Pizzolato2003,Wright2011,Wright2018}. 
 
 "Although the dynamo processes that drive stellar activity and XUV emission in fully-convective stars have been shown to evolve qualitatively similar to solar-type stars \citep{Wright2016,Wright2018} ..."
 
 - define XUV, what it is, and why it's important
 
-Introduction about stellar activity for late type stars, what it is like and how late type stars evolve, and finally why it matters for exoplanet habitability, e.g. the XUV flux is a critical parameter for atmospheric escape and water loss, other loss mechanisms scale as FXUV to some power, like energy-limited and recombination-limited escape. In the intro, I explain what saturated and unsaturated phases correspond to physically, and under what conditions they are expected to occur. Argue how this qualitative behavior is observed for both partially and fully-convective stars, e.g. FGK and M dwarfs.
+-Introduction about stellar activity for late type stars, what it is like and how late type stars evolve, and finally why it matters for exoplanet habitability, e.g. the XUV flux is a critical parameter for atmospheric escape and water loss, other loss mechanisms scale as FXUV to some power, like energy-limited and recombination-limited escape. In the intro, I explain what saturated and unsaturated phases correspond to physically, and under what conditions they are expected to occur. Argue how this qualitative behavior is observed for both partially and fully-convective stars, e.g. FGK and M dwarfs.
 
-This study is critical and timely since people are modeling the hell out of TRAPPIST-1 and its planets and JWST proposals are going in to observe this system. My approach is generic and applicable to any systems with data and is relevant for LUVOIR where it can observe a statistically meaningful sample of planets, need \approxposterior for speed for constraints
+-This study is critical and timely since people are modeling the hell out of TRAPPIST-1 and its planets and JWST proposals are going in to observe this system. My approach is generic and applicable to any systems with data and is relevant for LUVOIR where it can observe a statistically meaningful sample of planets, need \approxposterior for speed for constraints
 
-The saturation ratio shows tentative evidence of increasing with decreasing stellar mass \citep{Wright2011,Jackson2012}, consistent with the observation that later type low-mass stars are more active \citep[e.g.][]{West2008}. 
+-The saturation ratio shows tentative evidence of increasing with decreasing stellar mass \citep{Wright2011,Jackson2012}, consistent with the observation that later type low-mass stars are more active \citep[e.g.][]{West2008}. 
+
+-"Stellar XUV flux cannot be reliably determined as it is heavily absorbed by the ISM
+even for closest stars. However, XUV fluxes are required input parameters for the characterization
+of photoionization and photodissociation which are crucial for modeling exoplanetary atmospheric
+dynamics and escape (Ribas+2005; Airapetian+2017a; Garcia-Sage+2017; Johnstone+2018; 
+Lammer 2018; Glocer+2018). This effort should be combined with empirical and semi-empirical
+methods which reconstruct XUV fluxes using FUV/NUV and radiative transfer modeling efforts
+(Linsky+2013; France +2016; Peacock+2018; Richey-Yowell+2019)."
+
+-"stellar ionizing radiation including soft X-ray and Extreme
+Ultraviolet, EUV (100 – 920 Å) later referred to as XUV"
+
+-"It is also known
+that the rotation velocity of a star is correlated with its magnetic activity specified by X-ray
+flux (Güdel 2007)."
+
+-"most of stellar XUV emission remains
+hidden from us because most of the EUV flux longer that 40 nm is absorbed by interstellar
+medium even from the closest stars."
+
+-"The XUV stellar spectrum is crucial for understanding the
+exoplanetary atmospheric evolution and its impact on habitable worlds as it drives and regulates
+atmospheric heating, mass loss and chemistry on Earth-like planets, and thus is critical to the
+long-term stability of terrestrial atmospheres."
+
+-"The stellar XUV emission can be reconstructed using empirical and theoretical
+approaches. Empirical reconstructions have already provided valuable insights on the level of
+ionizing radiation from F, K, G and M dwarfs (Cuntz & Guinan 2016; France et al. 2016; 2018;
+Loyd et al. 2016; Youngblood et al. 2016; 2017). "
+
+- "Assuming N+/O+ ~ 1 during large
+geomagnetic storms driven by flare and CME events, the total ion mass loss rate scales as" ion (O+, N+) escape rate scales linearly with FXUV
+
+-"Lighter species, such as hydrogen, tend to escape more easily through thermal escape, but
+strong XUV fluxes can also stimulate the loss of light and heavy ions through ionospheric
+outflow and exospheric pick-up by stellar winds (Glocer et al. 2012; Airapetian et al. 2017a;
+Kislyakova et al. 2014; Dong et. al. 2017; Lammer et al. 2008; 2018)."
+
+-"Way et al. (2016) summarize possible scenarios of the
+water evolution on early Venus. They note that the early water inventory was likely lost within
+~100 Myrs of years after formation due to atmospheric escape driven by XUV flux from the
+active young Sun (see also Chassefiere 1997 and Ramirez and Kaltenegger 2014)."
 
 \section{Model} \label{sec:model}
 
@@ -200,21 +250,31 @@ Here we consider plausible stellar evolutionary histories for TRAPPIST-1, condit
     \label{fig:evol}%
 \end{figure*}
 
-Since TRAPPIST-1 is likely still saturated today, its $L_{XUV}$ evolution tracks $L_{bol}$. Both decrease by a factor of ${\sim}40$ along the pre-main sequence for ${\sim}1$ Gyr before stabilizing on the main sequence, with some $L_{XUV}$ evolutions entering the unsaturated powerlaw decay at late times near the age of the system. We find posterior values of $L_{bol} = 5.22 \pm{0.19} \times 10^{-4} \ L_{\odot}$ and $L_{XUV} = 3.9 \pm{0.5} \times 10^{-7} \ L_{\odot}$ that both match their observed values by construction via our likelihood function, Eqn~\ref{eqn:lnlike}. TRAPPIST-1's radius likely shrank by roughly a factor of 4 along the pre-main sequence, with our posterior present-day radius $R_{\star} = 0.11 \pm{0.0008} \ R_{\odot}$. Our posterior radius is ${\sim} 8\%$ smaller than the \citet{vanGrootel2018} constraint, $R_{\star} = 0.121 \pm {0.003} \ R_{\odot}$, that was computed from their inferred mass and TRAPPIST-1's density \citep{Delrez2018}. This difference arises from the likely underprediction of TRAPPIST-1's radius by the \citet{Baraffe2015} models, consistent with stellar evolution models often underestimating the radii of late M dwarfs \citep{Reid2005,Spada2013,Jackson2019}, and suggests that TRAPPIST-1 might have super-solar metallicity \citep{Burgasser2017,vanGrootel2018}. If we instead follow \citet{vanGrootel2018} and compute the radius from our marginalized stellar mass posterior distribution and the \citet{Delrez2018} density constraint, we obtain $R_{\star} = 0.12 \pm{0.002} \ R_{\odot}$, in agreement with the \citet{vanGrootel2018} constraint.
+Since TRAPPIST-1 could still be saturated today, its planetary system has likely experienced a persistent extreme XUV environment, potentially driving massive water loss \citep[][;Fleming et al., in prep]{Luger2015,Bolmont2017,Bourrier2017}. For example, from our posterior distributions, we infer that TRAPPIST-1b, if its remained near its current semi-major axis after migration halted once its natal gaseous disk dissipated \citep{Luger2017}, likely received from $XXX \times F_{XUV,\ocross}$ over TRAPPIST-1's ${\sim}1$ Gyr pre-main sequence lifetime. TRAPPIST-1's $L_{XUV}$ evolution mainly tracks $L_{bol}$, with both decreasing by a factor of ${\sim}40$ along the pre-main sequence before stabilizing on the main sequence, with ${\sim}60\%$ of $L_{XUV}$ evolutions entering the unsaturated powerlaw decay at late times near the age of the system. 
+
+TRAPPIST-1's radius likely shrank by roughly a factor of 4 along the pre-main sequence, with our posterior present-day radius $R_{\star} = 0.11 \pm{0.0008} \ R_{\odot}$. Our posterior radius is ${\sim} 8\%$ smaller than the \citet{vanGrootel2018} constraint, $R_{\star} = 0.121 \pm {0.003} \ R_{\odot}$, that was computed from their inferred mass and TRAPPIST-1's density \citep{Delrez2018}. This difference arises from the likely underprediction of TRAPPIST-1's radius by the \citet{Baraffe2015} models, consistent with stellar evolution models often underestimating the radii of late M dwarfs \citep{Reid2005,Spada2013,Jackson2019}, and suggests that TRAPPIST-1 might have super-solar metallicity \citep{Burgasser2017,vanGrootel2018}. If we instead follow \citet{vanGrootel2018} and compute the radius from our marginalized stellar mass posterior distribution and the \citet{Delrez2018} density constraint, we obtain $R_{\star} = 0.12 \pm{0.002} \ R_{\odot}$, in agreement with the \citet{vanGrootel2018} constraint.
 
 %% approxposterior %%
 
 \section{\approxposterior} \label{sec:approx}
 
-Results.
+-cite meadows 2018, andrew and jake's papers, ask them for other good citations
+-wonderlick, morley, jake's paper for how far our we could observe
 
-True MCMC requires about 3,700 core hours.
+This analysis could be applied to the ${\sim}XXX$ stars within $XXX$ pc to characterize the XUV flux histories of any known or putative exoplanets they may host, given sufficient observational constraints for each star, e.g. bolometric and XUV luminosities. This sample of stars includes FGKM dwarfs, spectral types for which good priors to constrain the XUV evolution exist, and is of particular interest as all are close enough for future space missions missions, e.g. \jwst (XXX cite), to potentially detect and characterize the atmospheres of any terrestrial exoplanets they may host. The TESS (XXX cite) mission is currently observing the nearby brightest stars to detect transiting planets, increasing the number of known near-by potentially-habitable planets. Characterizing their water loss environments is important. (XXX jotted ideas down in this paragram, edit into coherent argument)  The MCMC presented in this work required 3,700 core hours on the University of Washington Hyak supercomputer system. Assuming similar convergence properties, repeating this analysis for the the ${\sim}XXX$ stars within $XXX$ pc would require $XXX$ core-hours, a non-trivial computational expense. Here, we apply \approxposterior, a Python machine learning package for the approximate inference of Bayesian posterior distributions, to our inference of TRAPPIST-1's XUV evolution to derive accurate approximations to the true MCMC-derived posteriors using only $XXX$ simulations and $XXX$ core hours, a fraction of the amounts used in our MCMC analysis.
+
+Collaborator Fleming led the development of the \approxposterior package that employs machine learning to rapidly infer accurate approximations to the true posterior distributions of model parameters for Bayesian inference \cite[][Fleming et al., in prep]{FlemingVanDerPlas18}. This publicly available code can converge over 1000x faster than standard Markov Chain Monte Carlo (MCMC) samplers (e.g., \emcee \citealp{ForemanMackey13}), see $\S$~II and \cite{FlemingBarnes19}. In conjunction with \vplanet, these packages will enable the team to identify, quantify and understand the evolutionary trajectories of exoplanets and probablistically probe model degeneracies based on observational data and uncertainties.
+
+We will use the statistical analysis code \approxposterior to compute Bayesian posterior distributions for model parameters, given observational constraints on a system, while minimizing the number of forward model (\vplanet) evaluations. This package is a Python implementation of the Bayesian Active Learning for Posterior Estimation method of \cite{Kandasamy15}, an adaptive learning Gaussian process (GP) approximation for Bayesian inference with expensive likelihood functions. This algorithm computes approximate posterior probability distributions by training a GP surrogate for the likelihood evaluation used for MCMC. The algorithm then leverages the inherent uncertainty in the GP's predictions to identify regions in parameter space that require forward model evaluations. By re-training the GP to maximize its predictive ability, the number of forward model evaluations is minimized. As an example, Fig.~XXX compares the results between \emcee and \approxposterior in evaluating the stellar parameters of TRAPPIST-1 conditioned on the observations of \citet{Grimm18} and \citet{Wheatley17}. The results are very similar, but the \approxposterior result required just 0.05\% as much CPU time.
+
 
 %% Discussion %%
 
 \section{Discussion and Conclusions} \label{sec:discussion}
 
 Discuss, and then conclude.
+
+Our results suggest that the atmospheric erosion of the TRAPPIST-1 planets could be on-going. Either a significant initial volatile mass fraction (XXX) or continual atmospheric replenishment via outgassing (XXX), perhaps driven by tidal interactions (XXX), are required to explain the TRAPPIST-1 planet's observed low densities \citep{Grimm2018}
 
 The methods presented in this work can be applied to any other M dwarf with observed $L_{bol}$, $L_{XUV}$, and preferably age. Other works who are interested in constraining the water loss history of potentially-habitable exoplanets should build probabilistic models for the stellar evolution.
 
