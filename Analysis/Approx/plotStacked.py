@@ -34,17 +34,19 @@ mpl.rc('text', usetex=True)
 
 # Path to data
 filename = "../../Data/trappist1Fiducial.h5"
-approxFilename = "../../Data/apRun5.h5"
+approxFilename = "../../Data/apRun9.h5"
 
 # Whether or not to plot blobs
 
 # Extract true MCMC results
 print("Loading true MCMC chain...")
-trueChain = extractMCMCResults(filename, blobsExist=False, burn=500)
+trueChain = extractMCMCResults(filename, blobsExist=False, burn=500,
+                               verbose=False)
 
 # Extract approxposterior MCMC results
 print("Loading approxposterior MCMC chain...")
-approxChain = extractMCMCResults(approxFilename, blobsExist=False, burn=500)
+approxChain = extractMCMCResults(approxFilename, blobsExist=False, burn=500,
+                                 verbose=False)
 
 # Define labels
 labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",
@@ -77,32 +79,37 @@ bins = 20
 range = [[8.7, 9.06], [-3.3, -2.2], [0, 12], [0, 12], [-2, -0.2]]
 
 # approxposterior
-fig = corner.corner(approxChain, quantiles=[0.16, 0.5, 0.84], labels=labels,
-                    bins=bins, show_titles=True, title_kwargs={"fontsize": 16},
-                    title_fmt='.2f', verbose=True, hist_kwargs={"linewidth" : 1.5},
+fig = corner.corner(approxChain, quantiles=[], labels=labels,
+                    bins=bins, show_titles=False, title_kwargs={"fontsize": 16},
+                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 1.5},
                     plot_contours=True, plot_datapoints=False, plot_density=False,
-                    color="C0", range=range)
+                    color="royalblue", range=range)
 
 # True
 fig = corner.corner(trueChain, quantiles=[], labels=labels, show_titles=False,
-                    bins=bins, verbose=True, plot_density=True, fig=fig,
+                    bins=bins, verbose=False, plot_density=True, fig=fig,
                     hist_kwargs={"linewidth" : 1.5}, plot_contours=False,
-                    plot_datapoints=False, color="k", range=range)
+                    plot_datapoints=False, color="darkslategrey", range=range)
+
+fig = corner.corner(approxChain, quantiles=[], labels=labels, fig=fig,
+                    bins=bins, show_titles=False, title_kwargs={"fontsize": 16},
+                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 1.5},
+                    plot_contours=False, plot_datapoints=False, plot_density=False,
+                    color="royalblue", range=range)
 
 # Add legend
-fig.axes[1].text(0.13, 0.55, "True", fontsize=26, color="k", zorder=99)
-fig.axes[1].text(0.13, 0.375, r"approxposterior", fontsize=26, color="C0",
+fig.axes[1].text(0.13, 0.55, "True", fontsize=26, color="darkslategrey", zorder=99)
+fig.axes[1].text(0.13, 0.375, r"approxposterior", fontsize=26, color="royalblue",
                  zorder=99)
 
 # Fine-tune the formatting
 ax_list = fig.axes
-ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089^{+0.0006}_{-0.0006}$", fontsize=16)
 ax_list[-5].set_xlabel(r"$m_{\star}$ [$100\times$ M$_{\odot}$]", labelpad=30)
 
 # Save!
 if (sys.argv[1] == 'pdf'):
-    fig.savefig("trappist1ApproxCorner.pdf", bbox_inches="tight", dpi=200)
+    fig.savefig("stacked.pdf", bbox_inches="tight", dpi=200)
 if (sys.argv[1] == 'png'):
-    fig.savefig("trappist1ApproxCorner.png", bbox_inches="tight", dpi=200)
+    fig.savefig("stacked.png", bbox_inches="tight", dpi=200)
 
 # Done!
