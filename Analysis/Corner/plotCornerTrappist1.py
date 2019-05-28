@@ -37,6 +37,18 @@ Quantiles:
 Quantiles:
 [(0.16, -1.4639834633001065), (0.5, -1.1595607830719579), (0.84, -0.8453924035645292)]
 
+$m_{\star}$ [M$_{\odot}$] = 8.894615e-02 + 5.591912e-04 - 5.506754e-04
+
+$f_{sat}$ = -3.052993e+00 + 2.415936e-01 - 9.655030e-02
+
+$t_{sat}$ [Gyr] = 6.852308e+00 + 3.425654e+00 - 3.152853e+00
+
+Age [Gyr] = 7.435268e+00 + 2.035864e+00 - 2.126720e+00
+
+$\beta_{XUV}$ = -1.159561e+00 + 3.141684e-01 - 3.044227e-01
+
+P(tsat >= age | data) = 0.426
+P(tsat <= 1Gyr | data) = 0.004
 
 """
 
@@ -83,6 +95,14 @@ else:
     samples = chain
     labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",
               r"$t_{sat}$ [Gyr]", r"Age [Gyr]", r"$\beta_{XUV}$"]
+
+    # Output constraints
+    for ii in range(samples.shape[-1]):
+        med = np.median(samples[:,ii])
+        plus = np.percentile(samples[:,ii], 84) - med
+        minus = med - np.percentile(samples[:,ii], 16)
+        print("%s = %e + %e - %e" % (labels[ii], med, plus, minus))
+        print()
 
 # Scale Mass for readability
 samples[:,0] = samples[:,0] * 1.0e2

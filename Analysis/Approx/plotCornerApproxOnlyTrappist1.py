@@ -7,35 +7,35 @@ Make a corner plot of the MCMC-derived posterior distributions.
 
 Script output:
 
-Number of iterations: 5000
+Number of iterations: 10000
 Acceptance fraction for each walker:
-[0.443  0.4596 0.4702 0.4488 0.4586 0.4456 0.4742 0.4556 0.471  0.4576
- 0.4546 0.4554 0.4624 0.4636 0.4496 0.4666 0.4656 0.4626 0.4678 0.459
- 0.4346 0.4548 0.4564 0.477  0.4402 0.4518 0.446  0.448  0.451  0.4644
- 0.4558 0.4602 0.4306 0.4368 0.4694 0.475  0.4674 0.4338 0.47   0.4674
- 0.4572 0.458  0.4612 0.455  0.4652 0.4644 0.4472 0.462  0.4428 0.4544
- 0.4396 0.4564 0.4552 0.4488 0.4526 0.4734 0.4628 0.457  0.457  0.4622
- 0.4632 0.456  0.468  0.4634 0.464  0.4606 0.4518 0.446  0.4796 0.0064
- 0.459  0.46   0.4758 0.4638 0.4592 0.448  0.4606 0.4378 0.4544 0.4706
- 0.4532 0.4402 0.4534 0.4746 0.4592 0.4394 0.4404 0.4688 0.451  0.4624
- 0.4554 0.4522 0.4664 0.4616 0.4768 0.4744 0.4766 0.464  0.4666 0.4472]
-Mean acceptance fraction: 0.45346400000000003
-Burnin, thin: 500 28
+[0.4733 0.4647 0.4706 0.4731 0.46   0.4708 0.4647 0.4617 0.4803 0.4833
+ 0.4556 0.4682 0.4519 0.4593 0.4764 0.469  0.45   0.4555 0.4634 0.4608
+ 0.4696 0.4708 0.4841 0.4735 0.4584 0.4645 0.4583 0.4543 0.4682 0.4697
+ 0.4777 0.4788 0.4676 0.4683 0.4733 0.4684 0.4807 0.4665 0.4377 0.4707
+ 0.4701 0.47   0.477  0.4661 0.4584 0.4626 0.4641 0.468  0.4694 0.4724
+ 0.4689 0.4934 0.4456 0.4501 0.4588 0.4687 0.4645 0.4645 0.4653 0.4787
+ 0.4638 0.4728 0.4569 0.4774 0.4695 0.4884 0.4616 0.4705 0.4666 0.4537
+ 0.4655 0.4656 0.4634 0.4696 0.4716 0.4824 0.4598 0.4704 0.475  0.4693
+ 0.4812 0.4736 0.4721 0.4672 0.4703 0.4699 0.4745 0.4777 0.4639 0.469
+ 0.4785 0.4677 0.4721 0.4604 0.4798 0.4767 0.4635 0.4726 0.4805 0.4602]
+Mean acceptance fraction: 0.468155
+Burnin, thin: 500 31
 Likely converged if iterations > 50 * tau, where tau is the integrated autocorrelation time.
-Number of iterations / tau: [88.50884821 47.36353897 39.82590807 68.37328676 72.91224171]
-Mean Number of iterations / tau: 63.39676474341238
-P(tsat >= age | data) = 0.357
+Number of iterations / tau: [158.99243628  87.54718736  73.10110259 133.00115384 138.44738198]
+Mean Number of iterations / tau: 118.21785240676866
+$m_{\star}$ [M$_{\odot}$] = 8.893236e-02 + 5.489587e-04 - 5.468893e-04
+
+$f_{sat}$ = -3.031557e+00 + 1.940222e-01 - 1.013755e-01
+
+$t_{sat}$ [Gyr] = 6.551915e+00 + 3.474280e+00 - 2.536282e+00
+
+Age [Gyr] = 7.568291e+00 + 1.435620e+00 - 1.456144e+00
+
+$\beta_{XUV}$ = -1.161093e+00 + 2.152944e-01 - 2.089716e-01
+
+P(tsat >= age | data) = 0.367
 P(tsat <= 1Gyr | data) = 0.000
-Quantiles:
-[(0.16, 8.838475456368696), (0.5, 8.893464138990819), (0.84, 8.949730763349681)]
-Quantiles:
-[(0.16, -3.1301672913045318), (0.5, -3.023720769774166), (0.84, -2.8292393630383925)]
-Quantiles:
-[(0.16, 3.995229018508609), (0.5, 6.460306939252781), (0.84, 10.072290899634773)]
-Quantiles:
-[(0.16, 6.1602266787201625), (0.5, 7.6041374512502), (0.84, 9.05215882464596)]
-Quantiles:
-[(0.16, -1.3792802884504942), (0.5, -1.170167023313772), (0.84, -0.9561062896150441)]
 
 """
 
@@ -56,13 +56,21 @@ mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
 # Path to data
-filename = "../../Data/apRun9.h5"
+filename = "../../Data/convergedAP.h5"
 
 # Extract data
 samples = extractMCMCResults(filename, blobsExist=False, burn=500)
 
 labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",
           r"$t_{sat}$ [Gyr]", r"Age [Gyr]", r"$\beta_{XUV}$"]
+
+# Output constraints
+for ii in range(samples.shape[-1]):
+    med = np.median(samples[:,ii])
+    plus = np.percentile(samples[:,ii], 84) - med
+    minus = med - np.percentile(samples[:,ii], 16)
+    print("%s = %e + %e - %e" % (labels[ii], med, plus, minus))
+    print()
 
 # Scale Mass for readability
 samples[:,0] = samples[:,0] * 1.0e2
@@ -80,11 +88,11 @@ print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 range = [[8.7, 9.06], [-3.3, -2.2], [0, 12], [0, 12], [-2, -0.2]]
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
                     show_titles=True, title_kwargs={"fontsize": 16}, range=range,
-                    title_fmt='.2f', verbose=True, hist_kwargs={"linewidth" : 1.5})
+                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 1.5})
 
 # Fine-tune the formatting
 ax_list = fig.axes
-ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089^{+0.0005}_{-0.0005}$", fontsize=16)
+ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089 \pm {0.0006}$", fontsize=16)
 ax_list[-5].set_xlabel(r"$m_{\star}$ [$100\times$ M$_{\odot}$]", fontsize=22)
 ax_list[-4].set_xlabel(r"$f_{sat}$", fontsize=22)
 ax_list[-3].set_xlabel(r"$t_{sat}$ [Gyr]", fontsize=22)

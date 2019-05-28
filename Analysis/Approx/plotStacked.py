@@ -34,7 +34,7 @@ mpl.rc('text', usetex=True)
 
 # Path to data
 filename = "../../Data/trappist1Fiducial.h5"
-approxFilename = "../../Data/apRun9.h5"
+approxFilename = "../../Data/convergedAP.h5"
 
 # Whether or not to plot blobs
 
@@ -83,22 +83,23 @@ fig = corner.corner(approxChain, quantiles=[], labels=labels,
                     bins=bins, show_titles=False, title_kwargs={"fontsize": 16},
                     title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 1.5},
                     plot_contours=True, plot_datapoints=False, plot_density=False,
-                    color="royalblue", range=range)
+                    color="royalblue", range=range, no_fill_contours=True)
 
 # True
 fig = corner.corner(trueChain, quantiles=[], labels=labels, show_titles=False,
                     bins=bins, verbose=False, plot_density=True, fig=fig,
                     hist_kwargs={"linewidth" : 1.5}, plot_contours=False,
-                    plot_datapoints=False, color="darkslategrey", range=range)
+                    plot_datapoints=False, color="k", range=range,
+                    no_fill_contours=True)
 
 fig = corner.corner(approxChain, quantiles=[], labels=labels, fig=fig,
                     bins=bins, show_titles=False, title_kwargs={"fontsize": 16},
                     title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 1.5},
                     plot_contours=False, plot_datapoints=False, plot_density=False,
-                    color="royalblue", range=range)
+                    color="royalblue", range=range, no_fill_contours=True)
 
 # Add legend
-fig.axes[1].text(0.13, 0.55, "True", fontsize=26, color="darkslategrey", zorder=99)
+fig.axes[1].text(0.13, 0.55, "True", fontsize=26, color="k", zorder=99)
 fig.axes[1].text(0.13, 0.375, r"approxposterior", fontsize=26, color="royalblue",
                  zorder=99)
 
