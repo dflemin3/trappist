@@ -194,9 +194,9 @@ fig, axes = jp.joyplot(df, by="Age", xlabelsize=18, ylabelsize=18, alpha=0.7,
 
 # Custom legend
 custom = [mpatches.Patch(facecolor="C%d" % ii, edgecolor="C%d" % ii) for ii in range(7)]
-legendLabels = ["TRAPPIST-1%s" % let for let in ["b", "c", "d", "e", "f", "g", "h"]]
-axes[0].legend(custom, legendLabels, bbox_to_anchor=[0.4,0.9], fontsize=10,
-               ncol=2, framealpha=0)
+legendLabels = ["%s" % let for let in ["b", "c", "d", "e", "f", "g", "h"]]
+axes[0].legend(custom, legendLabels, bbox_to_anchor=[0.3,1.1], fontsize=15,
+               ncol=2, framealpha=0, title="TRAPPIST-1")
 
 # Format
 xlabels = [r"$10^1$", r"$10^2$", r"$10^3$", r"$10^4$", r"$10^5$"]
