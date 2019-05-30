@@ -258,15 +258,43 @@ TRAPPIST-1's radius likely shrank by roughly a factor of 4 along the pre-main se
 
 \section{\approxposterior} \label{sec:approx}
 
--cite meadows 2018, andrew and jake's papers, ask them for other good citations
--wonderlick, morley, jake's paper for how far our we could observe
+The technique presented in this work can be applied to any FGKM star to constrain its $L_{XUV}$ history, given suitable priors \citep[e.g.][ for FGK stars]{Jackson2012} and observational constraints, for use with for modeling the XUV flux received by its exoplanets over time, a critical component for studies of atmospheric escape or water-loss \citep[e.g.][]{Lammer2003,MurrayClay2009,Luger2015,Airapetian2019}. Our MCMC analysis, however, required 3,700 core hours on the University of Washington Hyak supercomputer. Assuming similar convergence properties, repeating this analysis for even a modest sample of 30 stars would require~${\sim} 110,000$ core-hours, a non-trivial computational expense. If using a slower model than ours, perhaps one that models stellar evolution by interpolating tracks over mass, age, and metallicity to additionally constrain [Fe/H], or if testing alternate models of $L_{XUV}$ evolution for model comparisons, the computational expense will grow, exacerbating this issue.
 
-This analysis could be applied to the ${\sim}XXX$ stars within $XXX$ pc to characterize the XUV flux histories of any known or putative exoplanets they may host, given sufficient observational constraints for each star, e.g. bolometric and XUV luminosities. This sample of stars includes FGKM dwarfs, spectral types for which good priors to constrain the XUV evolution exist, and is of particular interest as all are close enough for future space missions missions, e.g. \jwst (XXX cite), to potentially detect and characterize the atmospheres of any terrestrial exoplanets they may host. The TESS (XXX cite) mission is currently observing the nearby brightest stars to detect transiting planets, increasing the number of known near-by potentially-habitable planets. Characterizing their water loss environments is important. (XXX jotted ideas down in this paragram, edit into coherent argument)  The MCMC presented in this work required 3,700 core hours on the University of Washington Hyak supercomputer system. Assuming similar convergence properties, repeating this analysis for the the ${\sim}XXX$ stars within $XXX$ pc would require $XXX$ core-hours, a non-trivial computational expense. Here, we apply \approxposterior, a Python machine learning package for the approximate inference of Bayesian posterior distributions, to our inference of TRAPPIST-1's XUV evolution to derive accurate approximations to the true MCMC-derived posteriors using only $XXX$ simulations and $XXX$ core hours, a fraction of the amounts used in our MCMC analysis.
+We apply \approxposterior\footnote{\approxposterior is publicly available on \href{https://github.com/dflemin3/approxposterior}{GitHub}.}, an open source Python machine learning package, to infer TRAPPIST-1's XUV evolution by computing an accurate approximation to the true MCMC-derived posterior distribution while minimizing the computational cost \citep{FlemingVanderPlas2018}. \approxposterior, an implementation of the ``Bayesian Active Learning for Posterior Estimation" (BAPE) algorithm of \citet{Kandasamy2015}, trains a Gaussian process \citep[GP, ][]{Rasmussen2006} surrogate for the likelihood evaluation within an MCMC sampling algorithm to obtain the posterior distribution. Following \citet{Kandasamy2015}, \approxposterior iteratively improves the GP's predictive ability by leveraging the inherent uncertainty in the GP's predictions to identify regions in parameter space that are high-likelihood and have large uncertainties. \approxposterior then evaluates the forward model, \vplanet in our case, in that region to supplement the initial training set, thereby actively improving the GP's predictive ability in the relevant regions of parameter space while minimizing the number of forward model evaluations. Similar techniques using a GP surrogate model have been shown to accurately infer \citep[e.g.][]{Bird2019,Rogers2019,Takhtaganov2019} and reconstruct \citep{McClintock2019} Bayesian posterior distributions for computationally-expensive cosmology studies.
 
-Collaborator Fleming led the development of the \approxposterior package that employs machine learning to rapidly infer accurate approximations to the true posterior distributions of model parameters for Bayesian inference \cite[][Fleming et al., in prep]{FlemingVanDerPlas18}. This publicly available code can converge over 1000x faster than standard Markov Chain Monte Carlo (MCMC) samplers (e.g., \emcee \citealp{ForemanMackey13}), see $\S$~II and \cite{FlemingBarnes19}. In conjunction with \vplanet, these packages will enable the team to identify, quantify and understand the evolutionary trajectories of exoplanets and probablistically probe model degeneracies based on observational data and uncertainties.
+To model the covariance between points in parameter space with a GP, we use the smooth and infinitely-differentiable squared exponential kernel,
+\begin{equation} \label{eqn:kernel}
+k(x_i, x_j) = \exp \left( - \frac{(x_i - x_j)^2}{2l^2} \right),
+\end{equation}
+where $x_i$ and $x_j$ are two arbitrary points in parameter space and $l$ is hyperparameter that controls the scale length of the correlations. We assume correlations in each dimension have a different scale length $l$ that we select by optimizing the GP's marginal likelihood of the training set data using the Nelder-Mead algorithm \citep{Nelder1965}. We restart this optimization 25 times with different random initial conditions to ensure optimal values are chosen. We run \approxposterior for 10 iterations, training the GP on an initial training set of 250 \vplanet simulations distributed over parameter space as a Latin hypercube following \citet{Bird2019}. \approxposterior selects 100 new training points each iteration via the procedure describe above, running \vplanet at each point to compute the logprobability, for a total of 1,250 training points, a factor of $800\times$ fewer \vplanet simulations than is required by our MCMC approach. This approach required only 11 hours on a single core to complete, a factor of $\336\times$ faster than our MCMC approach. 
 
-We will use the statistical analysis code \approxposterior to compute Bayesian posterior distributions for model parameters, given observational constraints on a system, while minimizing the number of forward model (\vplanet) evaluations. This package is a Python implementation of the Bayesian Active Learning for Posterior Estimation method of \cite{Kandasamy15}, an adaptive learning Gaussian process (GP) approximation for Bayesian inference with expensive likelihood functions. This algorithm computes approximate posterior probability distributions by training a GP surrogate for the likelihood evaluation used for MCMC. The algorithm then leverages the inherent uncertainty in the GP's predictions to identify regions in parameter space that require forward model evaluations. By re-training the GP to maximize its predictive ability, the number of forward model evaluations is minimized. As an example, Fig.~XXX compares the results between \emcee and \approxposterior in evaluating the stellar parameters of TRAPPIST-1 conditioned on the observations of \citet{Grimm18} and \citet{Wheatley17}. The results are very similar, but the \approxposterior result required just 0.05\% as much CPU time.
+\begin{figure*}[t]
+\centering
+	\includegraphics[width=0.75\textwidth]{../Analysis/Approx/stacked.pdf}
+   \caption{Same format as Fig.~\ref{fig:corner} with the MCMC constraints from Fig.~\ref{fig:corner} in black and the \approxposterior constraints in blue.}%
+    \label{fig:stacked}%
+\end{figure*}
 
+We compare the results of our \approxposterior run with our MCMC analysis in Fig.~\ref{fig:stacked}.
+
+XXX
+
+\begin{deluxetable}{lcc}
+\caption{Parameter Constraints} \label{tab:constraints}
+\tabletypesize{\small}
+\tablewidth{0pt}
+\tablehead{
+\colhead{Parameter [units]} & \colhead{MCMC} & \colhead{\approxposterior}
+}
+\startdata
+$m_\star$ [$M_{\odot}$] & $0.089 \pm{0.0006}$ & $0.089 \pm{0.0006}$ \\  
+$f_{sat}$ & $-3.05^{+0.24}_{-0.10}$ & $-3.03^{+0.19}_{-0.10}$,  \\
+$t_{sat}$ [Gyr] & $6.85^{+3.43}_{-3.15}$ & $6.55^{+3.47}_{-2.54}$ \\
+age [Gyr] & $7.44^{+2.04}_{-2.13}$ & $7.57^{+1.44}_{-1.46}$ \\
+$\beta_{XUV}$ & $-1.16^{+0.31}_{-0.30}$ & $-1.16^{+0.22}_{-0.21}$
+\enddata \vspace*{0.1in}
+\tablecomments{Best fit values and uncertainties are derived using the medians, $16^{th}$, and $84^{th}$ percentiles from the marginalized posterior distributions, respectively.}
+\end{deluxetable}
 
 %% Discussion %%
 
@@ -277,6 +305,8 @@ Discuss, and then conclude.
 Our results suggest that the atmospheric erosion of the TRAPPIST-1 planets could be on-going. Either a significant initial volatile mass fraction (XXX) or continual atmospheric replenishment via outgassing (XXX), perhaps driven by tidal interactions (XXX), are required to explain the TRAPPIST-1 planet's observed low densities \citep{Grimm2018}
 
 The methods presented in this work can be applied to any other M dwarf with observed $L_{bol}$, $L_{XUV}$, and preferably age. Other works who are interested in constraining the water loss history of potentially-habitable exoplanets should build probabilistic models for the stellar evolution.
+
+Note speed-ups will only grow when \approxposterior is used with slower forward models.
 
 %% ACKNOWLEDGEMENTS %%
 \acknowledgments
