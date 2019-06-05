@@ -4,35 +4,31 @@ TRAPPIST-1 MCMC Posterior Distributions
 Overview
 --------
 
-Plot the posterior probability distributions of the stellar mass, saturation
-fraction, saturation timescale, age, and LXUV decay exponent derived from our
-Markov Chain Monte Carlo analysis.
+This example examines plots the posterior distributions of the XUV flux each
+TRAPPIST-1 planet likely received at various ages throughout the pre-main
+sequence.
 
 ===================   ============
-**Date**              04/30/19
+**Date**              06/04/19
 **Author**            David P. Fleming
-**VPLanet Modules**   STELLAR
 ===================   ============
-
-This example examines plots the posterior probability distributions of the
-stellar mass, saturation fraction, saturation timescale, age, and LXUV
-decay exponent.
 
 To make the plot
 ----------------
 
 .. code-block:: bash
 
-    python plotCornerTrappist1.py <pdf | png>
+    python fluxes.py <pdf | png>
 
 
 Expected output
 ---------------
 
-.. figure:: trappist1Corner.png
+.. figure:: fluxes.png
    :width: 600px
    :align: center
 
-   Posterior probability distribution for stellar mass, saturation fraction,
-   saturation timescale, age, and LXUV decay exponent derived from our
-   Markov Chain Monte Carlo analysis.
+   XUV flux received by each TRAPPIST-1 planet, normalized by Earth's, derived
+   from the VPLanet evolutions of samples drawn from the posterior distribution
+   when the system was 0.01, 0.1, and 1 Gyr old. The latter age corresponds to
+   the approximate age at which TRAPPIST-1 entered the main sequence.
