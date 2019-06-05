@@ -188,8 +188,8 @@ df = pd.DataFrame({"b" : t1b, "c" : t1c, "d" : t1d, "e" : t1e, "f" : t1f,
                   "g" : t1g, "h" : t1h, "Age" : age})
 
 # Make the ridge(joy?) plot, grouping by age
-fig, axes = jp.joyplot(df, by="Age", xlabelsize=18, ylabelsize=18, alpha=0.5,
-                       figsize=(6,6), linewidth=1.5, legend=False, overlap=0.5,
+fig, axes = jp.joyplot(df, by="Age", xlabelsize=18, ylabelsize=18, alpha=0.6,
+                       figsize=(6,6), linewidth=2, legend=False, overlap=0.5,
                        labels=["0.01 Gyr", "0.1 Gyr", "1 Gyr"], linecolor="k")
 
 # Custom legend

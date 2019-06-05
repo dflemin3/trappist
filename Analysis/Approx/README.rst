@@ -23,13 +23,13 @@ To make the plot
 
 .. code-block:: bash
 
-    python plotCornerTrappist1Approx.py <pdf | png>
+    python plotCornerApproxOnlyTrappist1.py <pdf | png>
 
 
 Expected output
 ---------------
 
-.. figure:: trappist1ApproxCorner.png
+.. figure:: apCorner.png
    :width: 600px
    :align: center
 
