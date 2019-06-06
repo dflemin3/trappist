@@ -57,6 +57,7 @@ mpl.rc('text', usetex=True)
 
 # Path to data
 filename = "../../Data/convergedAP.h5"
+#filename = "../../Data/apRun2.h5"
 
 # Extract data
 samples = extractMCMCResults(filename, blobsExist=False, burn=500)
@@ -92,7 +93,7 @@ fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
 
 # Fine-tune the formatting
 ax_list = fig.axes
-ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089 \pm {0.0006}$", fontsize=16)
+ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089 \pm {0.001}$", fontsize=16)
 ax_list[-5].set_xlabel(r"$m_{\star}$ [$100\times$ M$_{\odot}$]", fontsize=22)
 ax_list[-4].set_xlabel(r"$f_{sat}$", fontsize=22)
 ax_list[-3].set_xlabel(r"$t_{sat}$ [Gyr]", fontsize=22)
