@@ -12,14 +12,14 @@ from trappist import trappist1, mcmcUtils
 
 # Define run parameters
 ndim = 5
-nwalk = 40
-nsteps = 10
+nwalk = 100
+nsteps = 5000
 nsamples = 0
-restart = False
-backend = "trappist1.h5"
+restart = True
+backend = "trappist1Fiducial.h5"
 
-# Open a pool, and let it rip! Use MultiPool for multiprocessing
-with pool.Pool(pool='SerialPool') as pool:
+# Open a pool, and let it rip!
+with pool.Pool(pool='MultiPool') as pool:
 
     # Options
     kwargs = trappist1.kwargsTRAPPIST1

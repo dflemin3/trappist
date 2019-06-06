@@ -20,10 +20,10 @@ import george
 ndim = 5                         # Dimensionality of the problem
 m0 = 250                         # Initial size of training set
 m = 100                          # Number of new points to find each iteration
-nmax = 5                         # Maximum number of iterations
+nmax = 10                        # Maximum number of iterations
 Dmax = 10.0                      # KL-Divergence convergence limit
 kmax = 5                         # Number of iterations for Dmax convergence to kick in
-seed = 6                         # RNG seed
+seed = 70                        # RNG seed
 nGPRestarts = 25                 # Number of times to restart GP hyperparameter optimizations
 nMinObjRestarts = 10             # Number of times to restart objective fn minimization
 optGPEveryN = 25                 # Optimize GP hyperparameters even this many iterations
@@ -33,7 +33,7 @@ bounds = ((0.07, 0.11),          # Prior bounds
           (0.1, 12.0),
           (0.1, 12.0),
           (-2.0, 0.0))
-algorithm = "bape"              # BAPE formalism
+algorithm = "alternate"          # Alternate
 
 # Set RNG seed
 np.random.seed(seed)
@@ -64,6 +64,7 @@ if not os.path.exists("apRunAPFModelCache.npz"):
     for ii in range(m0):
         theta[ii,:] = trappist1.samplePriorTRAPPIST1()
         y[ii] = mcmcUtils.LnLike(theta[ii], **kwargs)[0] + trappist1.LnPriorTRAPPIST1(theta[ii], **kwargs)
+    np.savez("apRunAPFModelCache.npz", theta=theta, y=y)
 
 else:
     print("Loading in cached simulations...")
@@ -74,21 +75,7 @@ else:
 ### Initialize GP ###
 
 # Use ExpSquared kernel, the approxposterior default option
-#gp = gpUtils.defaultGP(theta, y)
-
-# Guess initial metric, or scale length of the covariances in loglikelihood space
-# using suggestion from Kandasamy et al. (2015)
-initialMetric = np.array([5.0*len(theta)**(-1.0/theta.shape[-1]) for _ in range(theta.shape[-1])])
-
-# Create kernel
-metric_bounds = ((-100, 100) for _ in range(theta.shape[-1]))
-kernel = george.kernels.Matern32Kernel(initialMetric,
-                                       ndim=theta.shape[-1],
-                                       metric_bounds=metric_bounds)
-
-# Create GP and compute the kernel, aka factor the covariance matrix
-gp = george.GP(kernel=kernel, fit_mean=True, mean=np.mean(y))
-gp.compute(theta)
+gp = gpUtils.defaultGP(theta, y)
 
 # Initialize approxposterior
 ap = approx.ApproxPosterior(theta=theta,
@@ -98,8 +85,7 @@ ap = approx.ApproxPosterior(theta=theta,
                             lnlike=mcmcUtils.LnLike,
                             priorSample=trappist1.samplePriorTRAPPIST1,
                             bounds=bounds,
-                            algorithm=algorithm,
-                            scale=False)
+                            algorithm=algorithm)
 
 # Run!
 ap.run(m=m, nmax=nmax, Dmax=Dmax, kmax=kmax, estBurnin=True,
