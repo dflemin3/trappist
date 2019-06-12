@@ -13,7 +13,7 @@ from trappist import trappist1, mcmcUtils
 # Define run parameters
 ndim = 5
 nwalk = 100
-nsteps = 5000
+nsteps = 10000
 nsamples = 0
 restart = True
 backend = "trappist1Fiducial.h5"
