@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: trappist.aux
+The style file: aasjournal.bst
+Database file #1: trappist.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Warning--empty publisher in Reid2005
+You've used 50 entries,
+            3222 wiz_defined-function locations,
+            1052 strings with 18142 characters,
+and the built_in function-call counts, 24628 in all, are:
+= -- 1899
+> -- 2149
+< -- 13
++ -- 722
+- -- 792
+* -- 2224
+:= -- 4589
+add.period$ -- 50
+call.type$ -- 50
+change.case$ -- 308
+chr.to.int$ -- 49
+cite$ -- 51
+duplicate$ -- 899
+empty$ -- 1398
+format.name$ -- 846
+if$ -- 4867
+int.to.chr$ -- 2
+int.to.str$ -- 0
+missing$ -- 49
+newline$ -- 155
+num.names$ -- 200
+pop$ -- 434
+preamble$ -- 1
+purify$ -- 308
+quote$ -- 0
+skip$ -- 667
+stack$ -- 0
+substring$ -- 769
+swap$ -- 2
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 447
+warning$ -- 1
+while$ -- 183
+width$ -- 0
+write$ -- 504
+(There was 1 warning)
