@@ -35,7 +35,7 @@ for ii in range(500):
     # saOutputOrder 	Time -Luminosity -LXUVStellar -Radius Temperature -RotPer # Outputs
     lum.append(data[-1,1])
     lumXUV.append(data[-1,2])
-    xuvBol.append(data[-1,1]/data[-1,2])
+    xuvBol.append(data[-1,2]/data[-1,1])
     radius.append(data[-1,3])
     temp.append(data[-1,4])
 
