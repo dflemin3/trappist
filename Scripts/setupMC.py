@@ -64,7 +64,11 @@ for ii in range(num):
         star_in = f.read()
 
     # Sample stellar parameters from TRAPPIST-1 prior distributions
-    dMass, dSatXUVFrac, dSatXUVTime, dAge, dXUVBeta = t1.samplePriorTRAPPIST1()
+    dMass, dSatXUVFrac, dSatXUVTime, _, dXUVBeta = t1.samplePriorTRAPPIST1()
+
+    # Instead of using T1's age prior, we'll assume a flat age distribution
+    # over 100 Myr to 12 Gyr
+    dAge = np.random.uniform(low=0.1, high=12.0)
 
     # Save the values
     star_dMass.append(dMass)
