@@ -28,8 +28,8 @@ temp = []
 for ii in range(500):
 
     # Read output data
-    data = np.genfromtxt(os.path.join("simulation_" % ii, "Trappist.star.forward"),
-                         delimiter="\t")
+    data = np.genfromtxt(os.path.join("simulation_%d" % ii, "Trappist.star.forward"),
+                         delimiter=" ")
 
     # Cache final values
     # saOutputOrder 	Time -Luminosity -LXUVStellar -Radius Temperature -RotPer # Outputs
