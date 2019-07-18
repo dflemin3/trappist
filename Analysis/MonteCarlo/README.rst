@@ -1,37 +1,34 @@
-TRAPPIST-1 Stellar Evolution Convergence
-========================================
+Ultracool Dwarf XUV Evolution: Monte Carlo Simulations
+======================================================
 
 Overview
 --------
 
-Plot the evolution of TRAPPIST-1's luminosity, XUV luminosity, and radius using
-samples from the posterior distribution.
+Plot LXUV/Lbol as a function of age for a synthetic population of ultracool
+dwarfs with initial conditions sampled from our adopted prior distributions.
 
 ===================   ============
-**Date**              04/30/19
+**Date**              07/18/19
 **Author**            David P. Fleming
 **VPLanet Modules**   STELLAR
 ===================   ============
-
-This example examines plots evolution of TRAPPIST-1's luminosity, XUV
-luminosity, and radius using samples from the posterior distribution.
 
 To make the plot
 ----------------
 
 .. code-block:: bash
 
-    python plotEvolTrappist1.py <pdf | png>
+    python monte.py <pdf | png>
 
 
 Expected output
 ---------------
 
-.. figure:: trappist1Evol.png
+.. figure:: monte.png
    :width: 600px
    :align: center
 
-   Evolution of the luminosity (left), XUV luminosity (middle), and radius
-   (center) of TRAPPIST-1 using 100 samples (black) drawn from the posterior
-   distribution. The insets display the marginalized values (blue) and the
-   black dashed lines indicate the observed value and +/- 1 sigma uncertainties.
+   LXUV/Lbol as a function of age for a population of 2,500 ultracool dwarfs
+   evolved according to our model with initial conditions sampled from our
+   prior distributions. We overplot the data for TRAPPIST-1, with uncertainties,
+   in maroon.
