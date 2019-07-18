@@ -24,7 +24,7 @@ To make the plot
 Expected output
 ---------------
 
-.. figure:: monte.png
+.. figure:: ultracoolMC.png
    :width: 600px
    :align: center
 
