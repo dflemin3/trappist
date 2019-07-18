@@ -47,6 +47,8 @@ import emcee
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from trappist.mcmcUtils import extractMCMCResults
+from trappist import trappist1 as t1
+from scipy.stats import norm
 
 #Typical plot parameters that make for pretty plots
 mpl.rcParams['font.size'] = 17
@@ -88,7 +90,8 @@ print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 range = [[8.7, 9.06], [-3.3, -2.2], [0, 12], [0, 12], [-2, -0.2]]
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
                     show_titles=True, title_kwargs={"fontsize": 16}, range=range,
-                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 1.5})
+                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 2,
+                    "density" : True})
 
 # Fine-tune the formatting
 ax_list = fig.axes
@@ -103,6 +106,19 @@ ax_list[5].set_ylabel(r"$f_{sat}$", fontsize=22)
 ax_list[10].set_ylabel(r"$t_{sat}$ [Gyr]", fontsize=22)
 ax_list[15].set_ylabel(r"age [Gyr]", fontsize=22)
 ax_list[20].set_ylabel(r"$\beta_{XUV}$", fontsize=22)
+
+# Plot prior distributions on top of marginal posteriors
+ax_list[0].axhline(2.5, lw=2, color="C0")
+x = np.linspace(-3.3, -2.2, 100)
+ax_list[6].plot(x, norm.pdf(x, loc=t1.fsatTrappist1, scale=t1.fsatTrappist1Sig),
+                lw=2, color="C0")
+ax_list[12].axhline(0.084, lw=2, color="C0")
+x = np.linspace(0.1, 12, 100)
+ax_list[18].plot(x, norm.pdf(x, loc=t1.ageTrappist1, scale=t1.ageTrappist1Sig),
+                 lw=2, color="C0")
+x = np.linspace(-2, 0, 100)
+ax_list[24].plot(x, norm.pdf(x, loc=t1.betaTrappist1, scale=t1.betaTrappist1Sig),
+                 lw=2, color="C0")
 
 # Save!
 if (sys.argv[1] == 'pdf'):
