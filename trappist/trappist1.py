@@ -171,5 +171,5 @@ kwargsTRAPPIST1 = {"PATH" : ".",
                    "PriorSample" : samplePriorTRAPPIST1,
                    "LUM" : lumTrappist1,
                    "LUMSIG" : lumTrappist1Sig,
-                   "LUMXUV" : LXUVTrappist1,
-                   "LUMXUVSIG" : LXUVTrappist1Sig}
+                   "LUMXUVRATIO" : LRatioTrappist1,
+                   "LUMXUVRATIOSIG" : LRatioTrappist1Sig}
