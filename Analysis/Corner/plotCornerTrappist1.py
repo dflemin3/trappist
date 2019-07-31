@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Make a corner plot of the MCMC-derived posterior distributions.
+Make a corner plot of the MCMC-derived posterior distributions. Note that we
+remove rogue chains (via visual inspection and by indentifying those with
+very low acceptance fractions, < 0.01).
 
 @author: David P. Fleming, 2019
 
@@ -9,46 +11,43 @@ Script output:
 
 Number of iterations: 10000
 Acceptance fraction for each walker:
-[0.4323 0.4515 0.4361 0.455  0.4574 0.4429 0.4623 0.4361 0.461  0.4529
- 0.4436 0.4539 0.4477 0.4349 0.4525 0.451  0.4386 0.4459 0.4407 0.4518
- 0.4578 0.4383 0.4533 0.4413 0.4526 0.4519 0.4463 0.4455 0.4561 0.4409
- 0.436  0.4619 0.4285 0.4435 0.4557 0.438  0.4477 0.4486 0.4462 0.4515
- 0.452  0.4442 0.4458 0.4512 0.4587 0.4569 0.4547 0.4408 0.4469 0.4529
- 0.4509 0.4559 0.4535 0.4601 0.4591 0.4604 0.4516 0.4478 0.452  0.4461
- 0.4576 0.4459 0.4445 0.4476 0.4428 0.4585 0.4297 0.4584 0.4384 0.4473
- 0.4604 0.4639 0.4675 0.451  0.4572 0.4603 0.4582 0.4504 0.4424 0.452
- 0.4328 0.4556 0.4519 0.456  0.4524 0.4513 0.4403 0.4547 0.452  0.4477
- 0.4452 0.4518 0.453  0.4403 0.4558 0.4577 0.4481 0.4422 0.4588 0.4473]
-Mean acceptance fraction: 0.449601
-Burnin, thin: 500 35
+[0.4818 0.481  0.4825 0.4815 0.4701 0.4689 0.466  0.476  0.4804 0.4767
+ 0.4766 0.4811 0.466  0.4612 0.465  0.4845 0.4748 0.4797 0.4821 0.4753
+ 0.4668 0.4714 0.4715 0.4769 0.4773 0.482  0.4762 0.4676 0.4775 0.4898
+ 0.4606 0.4845 0.4705 0.4839 0.4846 0.4748 0.4788 0.4775 0.4715 0.485
+ 0.4734 0.4707 0.4715 0.4753 0.4766 0.474  0.4745 0.4851 0.4813 0.473
+ 0.4808 0.4852 0.4816 0.4673 0.4681 0.4694 0.4825 0.4802 0.4875 0.4845
+ 0.4687 0.4625 0.4875 0.4761 0.4828 0.4755 0.4744 0.4837 0.466  0.4882
+ 0.4817 0.4735 0.4766 0.4676 0.0064 0.4751 0.4731 0.4751 0.4769 0.4773
+ 0.4758 0.4771 0.4649 0.4863 0.4806 0.4914 0.4705 0.4845 0.4719 0.4823
+ 0.4734 0.4836 0.4634 0.4792 0.4778 0.4873 0.4518 0.485  0.4625 0.4787]
+Mean acceptance fraction: 0.4715909999999999
+Burnin, thin: 500 30
 Likely converged if iterations > 50 * tau, where tau is the integrated autocorrelation time.
-Number of iterations / tau: [140.59596201  78.50343436  75.26040711 120.65071601 137.41525736]
-Mean Number of iterations / tau: 110.48515537086878
-P(tsat >= age | data) = 0.426
-P(tsat <= 1Gyr | data) = 0.004
+Number of iterations / tau: [164.00771893 102.48784317  87.49975161 147.9347476  150.23351435]
+Mean Number of iterations / tau: 130.43271513146442
+$m_{\star}$ [M$_{\odot}$] = 8.896755e-02 + 5.626196e-04 - 5.469983e-04
+
+$f_{sat}$ = -3.036436e+00 + 2.307563e-01 - 1.233763e-01
+
+$t_{sat}$ [Gyr] = 6.645777e+00 + 3.540436e+00 - 3.119382e+00
+
+Age [Gyr] = 7.465679e+00 + 2.036275e+00 - 2.109250e+00
+
+$\beta_{XUV}$ = -1.160481e+00 + 3.119635e-01 - 3.075076e-01
+
+P(tsat >= age | data) = 0.406
+P(tsat <= 1Gyr | data) = 0.005
 Quantiles:
-[(0.16, 0.08839547472054667), (0.5, 0.08894615011071999), (0.84, 0.08950534135762712)]
+[(0.16, 8.842055640345118), (0.5, 8.896755474291194), (0.84, 8.95301743419984)]
 Quantiles:
-[(0.16, -3.1495432034580046), (0.5, -3.0529929021776536), (0.84, -2.8113992554362333)]
+[(0.16, -3.159811895289719), (0.5, -3.0364355453557934), (0.84, -2.8056792008684974)]
 Quantiles:
-[(0.16, 3.699454860180092), (0.5, 6.852308213256522), (0.84, 10.277962336184737)]
+[(0.16, 3.526395204705141), (0.5, 6.645776794552386), (0.84, 10.186212952128916)]
 Quantiles:
-[(0.16, 5.308547676761598), (0.5, 7.435267547328605), (0.84, 9.471131458867541)]
+[(0.16, 5.356428188012375), (0.5, 7.465678663800693), (0.84, 9.501953257219233)]
 Quantiles:
-[(0.16, -1.4639834633001065), (0.5, -1.1595607830719579), (0.84, -0.8453924035645292)]
-
-$m_{\star}$ [M$_{\odot}$] = 8.894615e-02 + 5.591912e-04 - 5.506754e-04
-
-$f_{sat}$ = -3.052993e+00 + 2.415936e-01 - 9.655030e-02
-
-$t_{sat}$ [Gyr] = 6.852308e+00 + 3.425654e+00 - 3.152853e+00
-
-Age [Gyr] = 7.435268e+00 + 2.035864e+00 - 2.126720e+00
-
-$\beta_{XUV}$ = -1.159561e+00 + 3.141684e-01 - 3.044227e-01
-
-P(tsat >= age | data) = 0.426
-P(tsat <= 1Gyr | data) = 0.004
+[(0.16, -1.4679887752478038), (0.5, -1.1604812115772747), (0.84, -0.8485177489506157)]
 
 """
 
@@ -71,16 +70,18 @@ mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
 # Path to data
-filename = "../../Data/trappist1Fiducial.h5"
+filename = "../../Data/trappist1FiducialRatio.h5"
 
 # Whether or not to plot blobs
 plotBlobs = False
 
 # Extract results
 if plotBlobs:
-    chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500)
+    chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500,
+                                      removeRogueChains=True)
 else:
-    chain = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500)
+    chain = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500,
+                               removeRogueChains=True)
 
 
 if plotBlobs:
@@ -119,7 +120,7 @@ mask = samples[:,2] <= 1
 print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 
 # Plot!
-range = [[8.7, 9.06], [-3.3, -2.2], [0, 12], [0, 12], [-2, -0.2]]
+range = [[8.7, 9.06], [-3.4, -2.2], [0, 12], [0, 12], [-2, -0.2]]
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
                     show_titles=True, title_kwargs={"fontsize": 16}, range=range,
                     title_fmt='.2f', verbose=True, hist_kwargs={"linewidth" : 2,
@@ -141,7 +142,7 @@ ax_list[20].set_ylabel(r"$\beta_{XUV}$", fontsize=22)
 
 # Plot prior distributions on top of marginal posteriors
 ax_list[0].axhline(2.5, lw=2, color="C0")
-x = np.linspace(-3.3, -2.2, 100)
+x = np.linspace(-3.4, -2.2, 100)
 ax_list[6].plot(x, norm.pdf(x, loc=t1.fsatTrappist1, scale=t1.fsatTrappist1Sig),
                 lw=2, color="C0")
 ax_list[12].axhline(0.084, lw=2, color="C0")

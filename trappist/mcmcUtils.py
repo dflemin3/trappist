@@ -43,7 +43,7 @@ class FunctionWrapper(object):
 
 
 def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True,
-                       blobsExist=True, burn=None):
+                       blobsExist=True, burn=None, removeRogueChains=False):
     """
     Extract and process MCMC results
 
@@ -61,6 +61,9 @@ def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True
         Whether or not blobs exist.  If True, return them! Defaults to True.
     burn : int (optional)
         User-specified burn-in. Defaults to None
+    removeRogueChains : bool (optional)
+        Whether or not to remove rogue chains, that is, chains with acceptance
+        fractions < 0.01.
 
     Returns
     -------
@@ -79,6 +82,7 @@ def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True
         print("Acceptance fraction for each walker:")
         print(reader.accepted / reader.iteration)
         print("Mean acceptance fraction:", np.mean(reader.accepted / reader.iteration))
+
     # Compute convergence diagnostics
 
     # Compute burnin?
@@ -106,7 +110,18 @@ def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True
         print("Mean Number of iterations / tau:", np.mean(reader.iteration / tau))
 
     # Load data
-    chain = reader.get_chain(discard=burnin, flat=True, thin=thin)
+    if removeRogueChains:
+        # Read in chain and remove errant walkers
+        chain = reader.get_chain(discard=burnin, flat=False, thin=thin)
+
+        # Find chains to keep
+        mask = reader.accepted / reader.iteration > 0.01
+        chain = chain[:,mask,:]
+
+        # Flatten chain
+        chain = chain.reshape((chain.shape[0]*chain.shape[1], chain.shape[-1]))
+    else:
+        chain = reader.get_chain(discard=burnin, flat=True, thin=thin)
 
     # Properly shape blobs
     tmp = reader.get_blobs(discard=burnin, flat=True, thin=thin)
