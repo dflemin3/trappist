@@ -21,19 +21,16 @@ ndim = 5                         # Dimensionality of the problem
 m0 = 250                         # Initial size of training set
 m = 100                          # Number of new points to find each iteration
 nmax = 10                        # Maximum number of iterations
-Dmax = 10.0                      # KL-Divergence convergence limit
-kmax = 5                         # Number of iterations for Dmax convergence to kick in
-seed = 70                        # RNG seed
+seed = 90                        # RNG seed
 nGPRestarts = 25                 # Number of times to restart GP hyperparameter optimizations
 nMinObjRestarts = 10             # Number of times to restart objective fn minimization
 optGPEveryN = 25                 # Optimize GP hyperparameters even this many iterations
-nKLSamples = int(1.0e7)          # Number of samples from posterior to use to calculate KL-Divergence
 bounds = ((0.07, 0.11),          # Prior bounds
           (-5.0, -1.0),
           (0.1, 12.0),
           (0.1, 12.0),
           (-2.0, 0.0))
-algorithm = "alternate"          # Alternate
+algorithm = "BAPE"              # Kandasamy et al. (2015) formalism
 
 # Set RNG seed
 np.random.seed(seed)
@@ -41,7 +38,6 @@ np.random.seed(seed)
 # emcee.EnsembleSampler, emcee.EnsembleSampler.run_mcmc and GMM parameters
 samplerKwargs = {"nwalkers" : 100}
 mcmcKwargs = {"iterations" : int(1.0e4)}
-gmmKwargs = {"reg_covar" : 1.0e-5}
 
 # Loglikelihood function setup required to run VPLanet simulations
 kwargs = trappist1.kwargsTRAPPIST1
@@ -75,7 +71,7 @@ else:
 ### Initialize GP ###
 
 # Use ExpSquared kernel, the approxposterior default option
-gp = gpUtils.defaultGP(theta, y)
+gp = gpUtils.defaultGP(theta, y, order=None, white_noise=-6)
 
 # Initialize approxposterior
 ap = approx.ApproxPosterior(theta=theta,
@@ -88,9 +84,8 @@ ap = approx.ApproxPosterior(theta=theta,
                             algorithm=algorithm)
 
 # Run!
-ap.run(m=m, nmax=nmax, Dmax=Dmax, kmax=kmax, estBurnin=True,
-       nKLSamples=nKLSamples, mcmcKwargs=mcmcKwargs, maxComp=12, thinChains=True,
-       samplerKwargs=samplerKwargs, verbose=True, gmmKwargs=gmmKwargs,
-       nGPRestarts=nGPRestarts, nMinObjRestarts=nMinObjRestarts, gpCv=5,
-       optGPEveryN=optGPEveryN, seed=seed, cache=True, **kwargs)
+ap.run(m=m, nmax=nmax, estBurnin=True, mcmcKwargs=mcmcKwargs, thinChains=True,
+       samplerKwargs=samplerKwargs, verbose=True, nGPRestarts=nGPRestarts,
+       nMinObjRestarts=nMinObjRestarts, gpCv=5, optGPEveryN=optGPEveryN,
+       seed=seed, cache=True, **kwargs)
 # Done!

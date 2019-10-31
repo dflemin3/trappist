@@ -32,7 +32,7 @@
 
 ## Specify the working directory for this job
 
-#SBATCH --workdir=/gscratch/stf/dflemin3/trappist/Fiducial
+#SBATCH --chdir=/gscratch/stf/dflemin3/trappist/Fiducial
 
 ##turn on e-mail notification
 

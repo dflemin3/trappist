@@ -57,8 +57,12 @@ mpl.rcParams['font.size'] = 17
 mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
+# Plot points selected by approxposterior?
+plotAPPoints = False
+
 # Path to data
-filename = "../../Data/convergedAP.h5"
+#filename = "../../Data/convergedAP.h5"
+filename = "../../Data/apRun9.h5"
 
 # Extract data
 samples = extractMCMCResults(filename, blobsExist=False, burn=500)
@@ -88,6 +92,7 @@ print("P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 
 # Plot!
 range = [[8.7, 9.06], [-3.3, -2.2], [0, 12], [0, 12], [-2, -0.2]]
+range = None
 fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
                     show_titles=True, title_kwargs={"fontsize": 16}, range=range,
                     title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 2,
@@ -119,6 +124,23 @@ ax_list[18].plot(x, norm.pdf(x, loc=t1.ageTrappist1, scale=t1.ageTrappist1Sig),
 x = np.linspace(-2, 0, 100)
 ax_list[24].plot(x, norm.pdf(x, loc=t1.betaTrappist1, scale=t1.betaTrappist1Sig),
                  lw=2, color="C0")
+
+# Plot where forward model was evaluated - uncomment to plot!
+# mass - fsat - tsat - age -beta
+if plotAPPoints:
+    theta = np.load("../../Data/apRunAPFModelCache.npz")["theta"][250:,:]
+    theta[:,0] = theta[:,0] * 1.0e2
+
+    ax_list[5].scatter(theta[:,0], theta[:,1], s=10, color="red", zorder=20, alpha=0.2) # (mass, fsat)
+    ax_list[10].scatter(theta[:,0], theta[:,2], s=10, color="red", zorder=20, alpha=0.2) # (mass, tsat)
+    ax_list[11].scatter(theta[:,1], theta[:,2], s=10, color="red", zorder=20, alpha=0.2) # (fsat, tsat)
+    ax_list[15].scatter(theta[:,0], theta[:,3], s=10, color="red", zorder=20, alpha=0.2) # (mass, age)
+    ax_list[16].scatter(theta[:,1], theta[:,3], s=10, color="red", zorder=20, alpha=0.2) # (fsat, age)
+    ax_list[17].scatter(theta[:,2], theta[:,3], s=10, color="red", zorder=20, alpha=0.2) # (tsat, age)
+    ax_list[20].scatter(theta[:,0], theta[:,4], s=10, color="red", zorder=20, alpha=0.2) # (mass, beta)
+    ax_list[21].scatter(theta[:,1], theta[:,4], s=10, color="red", zorder=20, alpha=0.2) # (fsat, beta)
+    ax_list[22].scatter(theta[:,2], theta[:,4], s=10, color="red", zorder=20, alpha=0.2) # (tsat, beta)
+    ax_list[23].scatter(theta[:,3], theta[:,4], s=10, color="red", zorder=20, alpha=0.2) # (age, beta)
 
 # Save!
 if (sys.argv[1] == 'pdf'):
