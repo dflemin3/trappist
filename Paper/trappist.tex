@@ -91,6 +91,10 @@ We model the long-term XUV luminosity of TRAPPIST-1 to constrain the evolving hi
 
 \section{Introduction} \label{sec:intro}
 
+xxx response to ref changes notes: varied the a sampling parameter within emcee's MCMC to ensure that our derived posteriors are robust. I compared posteriors to prior and found the data to provide constraints beyond prior. Used optimized version of VPLanet and it is still slow. Simulated a population of stars using prior to see what would happen
+
+XXX "posterior incorportates data, so we expect it to be less variable than the prior" -include argument from Gelman book
+
 The James Webb Space Telescope (JWST) is poised to detect and characterize the first terrestrial exoplanet atmospheres via transmission spectroscopy. This search will likely focus on planets orbiting nearby M dwarfs given their favorable relative transit depths, the potential buildup of biosignature gases due to UV-driven photochemisty \citep{Segura2005}, and the large occurrence rates of M dwarf planets \citep{Dressing2015}. The correct interpretation of those observations, however, is predicated on understanding the system's long-term evolution, most importantly processes that could impact the planet's atmospheric state and habitability, such as atmospheric escape, water loss, and the potential buildup of an abiotic O$_2$ atmosphere \citep{Watson1981,Lammer2003,MurrayClay2009,Luger2015}. These volatile escape mechanisms are partially driven by the host star's XUV luminosity (X-ray and EUV emission ranging over approximately 1-1000\AA), and therefore characterizing the long-term stellar XUV evolution of late M-dwarfs is critical to assessing the present state of their planets, including habitability.
 
 High-energy stellar radiation originates from the corona via the heating of magnetically-confined plasma \citep{Vaiana1981}. The stellar magnetic field is likely generated via differential rotation within the stellar convective envelope \citep{Parker1955}, linking rotation to stellar activity and XUV emission. Stellar rotation rates slow over time due to magnetic braking \citep{Skumanich1972}, causing XUV emission to decline with time. The X-ray luminosity ($L_{X}$) of FGK stars, for example, has been empirically shown to monotonically decrease with age \citep{Jackson2012}. This trend has also been observed for commonly-used proxies for stellar age, rotation period and Rossby number \citep[Ro = $P_{rot}/\tau$ for convective turnover timescale $\tau$,][]{Pizzolato2003,Wright2011}. Stellar activity evolution is characterized by two distinct phases. First, in the saturated phase, young, rapidly-rotating stars ($\mathrm{Ro}\lsim 0.1$) maintain a constant $L_{X}/L_{bol} \approx 10^{-3}$ \citep{Wright2011,Jackson2012}. Then, at longer rotation periods and larger Ro, stars transition to the unsaturated phase in which $L_{X}/L_{bol}$ exponentially decays over time \citep{Pizzolato2003,Ribas2005}. Recent work has shown that the stellar dynamo processes that generate magnetic fields and drive XUV emission in fully-convective M dwarfs follow the same evolution with Ro as described above for solar-type stars \citep{Wright2016,Wright2018}. We can therefore apply this model to examine the XUV evolution of individual fully-convective stars.
@@ -134,7 +138,7 @@ where $m_{\star}$ and age are the stellar mass and age, respectively, and the ot
 
 \subsection{Priors} \label{sec:mcmc:priors}
 
-Since we have few available observable properties of TRAPPIST-1 to use to condition our analysis ($L_{bol}$ and $L_{XUV}$, see $\S$~\ref{sec:mcmc:like}), our prior probability distributions will strongly impact our results. We use previous studies and empirical data of late M dwarfs to assemble the best available constraints to serve as priors for our MCMC analysis. Following \citet{vanGrootel2018}, we rely on TRAPPIST-1's luminosity and age to constrain its mass. We therefore adopt a simple uniform prior of $m_{\star} \sim \mathcal{U}(0.07, 0.11)$. For the age, we use the empirical estimate for TRAPPIST-1 derived by \citet{Burgasser2017}, age $\sim \mathcal{N}(7.6, 2.2^2)$ Gyr, as their thorough analysis considered both observations of TRAPPIST-1 and a host of empirical age indicators for ultracool dwarfs. We cap the maximum age we consider at 12 Gyr. Younger ages have been suggested based on TRAPPIST-1's activity \citep[e.g.~$\gsim 500$ Myr,][]{Bourrier2017b}, but here we argue that behavior is consistent with an extended saturation timescale.
+Since we have few available observable properties of TRAPPIST-1 to use to condition our analysis \xxx{($L_{bol}$ and $L_{XUV}/L_{bol}$, see $\S$~\ref{sec:mcmc:like})}, our prior probability distributions will strongly impact our results. We use previous studies and empirical data of late M dwarfs to assemble the best available constraints to serve as priors for our MCMC analysis. Following \citet{vanGrootel2018}, we rely on TRAPPIST-1's luminosity and age to constrain its mass. We therefore adopt a simple uniform prior of $m_{\star} \sim \mathcal{U}(0.07, 0.11)$. For the age, we use the empirical estimate for TRAPPIST-1 derived by \citet{Burgasser2017}, age $\sim \mathcal{N}(7.6, 2.2^2)$ Gyr, as their thorough analysis considered both observations of TRAPPIST-1 and a host of empirical age indicators for ultracool dwarfs. We cap the maximum age we consider at 12 Gyr. Younger ages have been suggested based on TRAPPIST-1's activity \citep[e.g.~$\gsim 500$ Myr,][]{Bourrier2017b}, but here we argue that behavior is consistent with an extended saturation timescale.
 
 We construct an empirical $f_{sat} = \log_{10}(L_{XUV}/L_{bol})$ distribution from the sample of fully-convective, saturated M dwarfs with observed $L_{X}$ from \citet{Wright2011}. For each star in the \citet{Wright2011} sample, we follow \citet{Wheatley2017} and estimate $L_{XUV}$ as a function of L$_{X}$ using Eqn.~(2) from \citet{Chadney2015}. We find that the distribution is well-approximated by a normal distribution, $f_{sat} \sim \mathcal{N}(-2.92, 0.26^2)$, and we adopt it as our prior.  
 
@@ -160,17 +164,19 @@ In the unsaturated phase, $L_{X}$, and hence $L_{XUV}$, decay exponentially with
 
 \subsection{Likelihood Function and Convergence} \label{sec:mcmc:like}
 
-We further condition our analysis on TRAPPIST-1's observed bolometric luminosity, $L_{bol} = 5.22 \pm{0.19} \times 10^{-4} \ L_{\odot}$ \citep{vanGrootel2018}, and $L_{XUV}/L_{bol}$ \citep{Wheatley2017}. We convolve the \citet{vanGrootel2018} $L_{bol}$ measurement with the $L_{XUV}/L_{bol}$ constraints from \citet{Wheatley2017}, finding $L_{XUV} = 3.9 \pm{0.5} \times 10^{-7} \ L_{\odot}$ today.
+We further condition our analysis on TRAPPIST-1's observed bolometric luminosity, $L_{bol} = 5.22 \pm{0.19} \times 10^{-4} \ L_{\odot}$ \citep{vanGrootel2018}, and \xxx{$L_{XUV}/L_{bol} = 7.5 \pm{1.5} \times 10^{-4}$ \citep{Wheatley2017}.} 
+
+%We convolve the \citet{vanGrootel2018} $L_{bol}$ measurement with the $L_{XUV}/L_{bol}$ constraints from \citet{Wheatley2017}, finding $L_{XUV} = 3.9 \pm{0.5} \times 10^{-7} \ L_{\odot}$ today.
 
 For a given state vector \textbf{x}, we define our likelihood function, $\mathcal{L}$, as
 \small
 \begin{equation} \label{eqn:lnlike}
-    \ln \mathcal{L} \propto -\frac{1}{2} \left[ \frac{(L_{bol} - L_{bol}(\textbf{x}))^2}{\sigma_{L_{bol}}^2} + \frac{(L_{XUV} - L_{XUV}(\textbf{x}))^2}{\sigma_{L_{XUV}}^2} \right] \\
+    \ln \mathcal{L} \propto -\frac{1}{2} \left[ \frac{(L_{bol} - L_{bol}(\textbf{x}))^2}{\sigma_{L_{bol}}^2} + \frac{(L_{XUV}/L_{bol} - L_{XUV}/L_{bol}(\textbf{x}))^2}{\sigma_{L_{XUV}/L_{bol}}^2} \right] \\
 \end{equation}
 \normalsize
-where $L_{bol}$, $L_{XUV}$ and $L_{bol}(\textbf{x})$, $L_{XUV}(\textbf{x})$ are the observed values and \vplanet outputs given \textbf{x}, respectively and $\sigma_{L_{bol}}$ and $\sigma_{L_{XUV}}$ are the observational uncertainties. We compute the total logprobability for each \textbf{x} by summing $\mathcal{L}$ and $\ln \mathrm{Prior}(\textbf{x})$, the log prior probability of \textbf{x}. We compute the log prior using the distributions described in $\S$~\ref{sec:mcmc:priors}. 
+\xxx{where $L_{bol}$, $L_{XUV}/L_{bol}$ and $L_{bol}(\textbf{x})$, $L_{XUV}/L_{bol}(\textbf{x})$ are the observed values and \vplanet outputs given \textbf{x}, respectively, and $\sigma_{L_{bol}}$ and $\sigma_{\xi}$ are the observational uncertainties.} We compute the total logprobability for each \textbf{x} by summing $\mathcal{L}$ and $\ln \mathrm{Prior}(\textbf{x})$, the log prior probability of \textbf{x}. We compute the log prior using the distributions described in $\S$~\ref{sec:mcmc:priors}. 
 
-We run our MCMC with 100 parallel chains for 10,000 iterations, initializing each chain by randomly sampling each element of \textbf{x} from their respective prior distributions. During each step of the MCMC chain, \vplanet takes \textbf{x} as input and simulates TRAPPIST-1's evolution up to the age in \textbf{x}, predicting $L_{bol}$ and $L_{XUV}$ to evaluate the likelihood function. We discard the first 500 iterations as burn-in and assess the convergence of our MCMC chains by computing the integrated autocorrelation length and acceptance fraction for each chain. We find a mean acceptance fraction of 0.45 and a minimum and mean number of iterations per integrated autocorrelation length of 75 and 110, respectively, indicating that our chains have converged \citep{ForemanMackey2013}. Given our integrated autocorrelation lengths, our MCMC chain yielded about 10,000 effective samples from the posterior distribution.
+We run our MCMC with 100 parallel chains for 10,000 iterations, initializing each chain by randomly sampling each element of \textbf{x} from their respective prior distributions. During each step of the MCMC chain, \vplanet takes \textbf{x} as input and simulates TRAPPIST-1's evolution up to the age in \textbf{x}, \xxx{predicting $L_{bol}$ and $L_{XUV}/L_{bol}$ to evaluate the likelihood function.} We discard the first 500 iterations as burn-in and assess the convergence of our MCMC chains by computing the integrated autocorrelation length and acceptance fraction for each chain. We find a mean acceptance fraction of 0.45 and a minimum and mean number of iterations per integrated autocorrelation length of 75 and 110, respectively, indicating that our chains have converged \citep{ForemanMackey2013}. Given our integrated autocorrelation lengths, our MCMC chain yielded about 10,000 effective samples from the posterior distribution.
 
 \subsection{Inference with \approxposterior} \label{sec:methods:approx}
 
@@ -199,7 +205,7 @@ TRAPPIST-1 likely maintained a large $L_{XUV}$ throughout its lifetime as we fin
 \begin{figure*}[t]
 \centering
 	\includegraphics[width=0.75\textwidth]{../Analysis/Corner/trappist1Corner.pdf}
-   \caption{Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters given in Eqn.~(\ref{eqn:state}) made using \texttt{corner} \citep{ForemanMackey2016}. The black vertical dashed lines on the marginalized distributions indicate the median values and lower and upper uncertainties from the 16th and 84th percentiles, respectively. From the posterior, we infer that there is a $43\%$ chance that TRAPPIST-1 is still in the saturated phase today, potentially driving significant volatile loss from its planets.}%
+   \caption{\xxx{Updated Figure} Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters given in Eqn.~(\ref{eqn:state}) made using \texttt{corner} \citep{ForemanMackey2016}. The black vertical dashed lines on the marginalized distributions indicate the median values and lower and upper uncertainties from the 16th and 84th percentiles, respectively. From the posterior, we infer that there is a $43\%$ chance that TRAPPIST-1 is still in the saturated phase today, potentially driving significant volatile loss from its planets.}%
     \label{fig:corner}%
 \end{figure*}
 
@@ -211,7 +217,7 @@ Here we consider plausible stellar evolutionary histories for TRAPPIST-1 by simu
 
 \begin{figure*}[t]
 	\includegraphics[width=\textwidth]{../Analysis/Evol/trappist1Evol.pdf}
-   \caption{Plausible evolutionary histories of TRAPPIST-1's $L_{bol}$ (left), $L_{XUV}$ (center), and radius (right) using 100 samples drawn from the posterior distribution and simulated with \vplanet. In each panel, the blue shaded regions display the 1, 2, and 3 $\sigma$ uncertainties. The insets display the marginalized distributions (black) evaluated at the age of the system, with the blue dashed lines indicating the observed value and +/- 1 $\sigma$ uncertainties. The radius, $L_{bol}$, and $L_{XUV}$ constraints are adopted from \citet{vanGrootel2018} and \citet{Wheatley2017}, respectively.}%
+   \caption{\xxx{Updated Figure} Plausible evolutionary histories of TRAPPIST-1's $L_{bol}$ (left), $L_{XUV}$ (center), and radius (right) using 100 samples drawn from the posterior distribution and simulated with \vplanet. In each panel, the blue shaded regions display the 1, 2, and 3 $\sigma$ uncertainties. The insets display the marginalized distributions (black) evaluated at the age of the system, with the blue dashed lines indicating the observed value and +/- 1 $\sigma$ uncertainties. The radius, $L_{bol}$, and $L_{XUV}$ constraints are adopted from \citet{vanGrootel2018} and \citet{Wheatley2017}, respectively.}%
     \label{fig:evol}%
 \end{figure*}
 
@@ -221,7 +227,7 @@ Since TRAPPIST-1 could still be saturated today, its planetary system has likely
 
 \begin{figure}
 	\includegraphics[width=\columnwidth]{../Analysis/Fluxes/fluxes.pdf}
-   \caption{$F_{XUV}/F_{XUV,\oplus}$ for each TRAPPIST-1 planet derived from samples drawn from the posterior distribution and simulated using \vplanet when the system was 0.01, 0.1, and 1 Gyr old. The latter age corresponds to the approximate age at which TRAPPIST-1 entered the main sequence.}%
+   \caption{\xxx{Updated Figure} $F_{XUV}/F_{XUV,\oplus}$ for each TRAPPIST-1 planet derived from samples drawn from the posterior distribution and simulated using \vplanet when the system was 0.01, 0.1, and 1 Gyr old. The latter age corresponds to the approximate age at which TRAPPIST-1 entered the main sequence.}%
     \label{fig:fluxes}%
 \end{figure}
 
@@ -246,7 +252,7 @@ In Table~\ref{tab:constraints}, we list the marginalized constraints derived by 
 The posterior distribution derived by \approxposterior, however, is not an exact match. \approxposterior underestimates the magnitude of both the age and $\beta_{XUV}$ uncertainties by ${\sim}30\%$ and predicts that there is a $39\%$ chance that TRAPPIST-1 is still saturated today, $9\%$ smaller than the fiducial MCMC-derived value. Our experiment demonstrates that \approxposterior can be used to derive accurate approximations to the posterior probability distributions of the parameters that control stellar XUV evolution in late M dwarfs, but significantly faster than traditional MCMC methods.
 
 \begin{deluxetable}{lcc}
-\caption{Parameter Constraints} \label{tab:constraints}
+\caption{\xxx{Updated Table} Parameter Constraints} \label{tab:constraints}
 \tabletypesize{\small}
 \tablewidth{0pt}
 \tablehead{
