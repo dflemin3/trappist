@@ -17,9 +17,9 @@ from trappist import trappist1, mcmcUtils
 nsamples = 100
 
 # RNG seed
-seed = 17
+seed = 57
 np.random.seed(seed)
-dataDir = "../Data/trappist1Fiducial.h5"
+dataDir = "../Data/trappist1FiducialRatio.h5"
 
 # Options
 kwargs = trappist1.kwargsTRAPPIST1
@@ -41,10 +41,12 @@ if not os.path.exists(os.path.join(PATH, "output")):
     os.makedirs(os.path.join(PATH, "output"))
 
 # Draw nsmaples from the posterior distributions
-samples = mcmcUtils.extractMCMCResults(dataDir, blobsExist=False)
+samples = mcmcUtils.extractMCMCResults(dataDir, blobsExist=False, burn=500,
+                                       removeRogueChains=True)
 
 # Get random initial conditions from posterior
-sampleInds = np.random.choice(np.arange(len(samples)), size=nsamples, replace=True)
+sampleInds = np.random.choice(np.arange(len(samples)), size=nsamples,
+                              replace=True)
 
 # Containers
 lum = []
