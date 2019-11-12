@@ -61,8 +61,7 @@ mpl.rc('text', usetex=True)
 plotAPPoints = False
 
 # Path to data
-#filename = "../../Data/convergedAP.h5"
-filename = "../../Data/apRun4.h5"
+filename = "../../Data/convergedAP.h5"
 
 # Extract data
 samples = extractMCMCResults(filename, blobsExist=False, burn=500)
@@ -128,7 +127,7 @@ ax_list[24].plot(x, norm.pdf(x, loc=t1.betaTrappist1, scale=t1.betaTrappist1Sig)
 # Plot where forward model was evaluated - uncomment to plot!
 # mass - fsat - tsat - age -beta
 if plotAPPoints:
-    theta = np.load("../../Data/apRunAPFModelCache.npz")["theta"][250:,:]
+    theta = np.load("../../Data/apRunAPFModelCache.npz")["theta"]
     theta[:,0] = theta[:,0] * 1.0e2
 
     ax_list[5].scatter(theta[:,0], theta[:,1], s=10, color="red", zorder=20, alpha=0.2) # (mass, fsat)
