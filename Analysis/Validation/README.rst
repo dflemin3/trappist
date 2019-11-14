@@ -45,10 +45,9 @@ Expected output
    function yields non-Gaussian posterior distributions with banana-shaped
    correlations between parameters.
 
+.. figure:: approxRD5Corner.png
+  :width: 600px
+  :align: center
 
- .. figure:: approxRD5Corner.png
-    :width: 600px
-    :align: center
-
-    Same as the above figure, but derived entirely using approxposterior. Both
-    the true and approximate posterior distributions are in good agreement.
+  Same as the above figure, but derived entirely using approxposterior. Both
+  the true and approximate posterior distributions are in good agreement.
