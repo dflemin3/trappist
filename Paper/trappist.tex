@@ -304,9 +304,16 @@ f(\textbf{x}) = -\sum_{i=1}^{d-1} \left[ (x_{i+1} - x_i^2)^2 + 0.01(1-x_i)^2 \ri
 
 \xxx{We adopt Eqn.~(\ref{eqn:rosenbrock}) with $d=5$ as our likelihood function for this experiment and apply a uniform prior over $[-5,5]$ for each $x_i$. Using \emcee, we first draw samples from the posterior distribution using 100 parallel walkers for 10,000 iterations. Then, we replicate this inference with \approxposterior using the exact same MCMC procedure as our \emcee case. The results of this experiment are discussed and compared below.}
 
-\subsection{MCMC with \emcee} \label{sec:appe:trueMCMC}
+\subsection{MCMC with \emcee} \label{sec:app:trueMCMC}
 
 \xxx{TODO}
+
+\begin{figure*}[h]
+\centering
+	\includegraphics[width=0.75\textwidth]{../Analysis/Validation/emceeRD5Corner.pdf}
+   \caption{\xxx{New Figure: Joint and marginal posterior probability distributions for the 5-dimensional Rosenbrock function likelihood made using \texttt{corner} \citep{ForemanMackey2016}. The black vertical dashed lines on the marginalized distributions indicate the median values and lower and upper uncertainties from the 16th and 84th percentiles, respectively. The blues curves superimposed on the marginal distributions display the adopted prior probability distribution for each parameter. The non-linear form of our likelihood function yields non-Gaussian posterior distributions with banana-shaped correlations between parameters.} }%
+    \label{fig:rosenemcee}%
+\end{figure*}
 
 \subsection{MCMC with \approxposterior} \label{sec:app:apMCMC}
 
