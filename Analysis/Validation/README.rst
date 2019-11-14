@@ -22,6 +22,14 @@ To make the plot
 
     python emceeR5D.py <pdf | png>
 
+to run the emcee MCMC and
+
+.. code-block:: bash
+
+  python approxR5D.py <pdf | png>
+
+to run the approxposterior MCMC.
+
 
 Expected output
 ---------------
@@ -36,3 +44,10 @@ Expected output
    adopted prior distribution (blue lines). The non-linear form of our likelihood
    function yields non-Gaussian posterior distributions with banana-shaped
    correlations between parameters.
+
+ .. figure:: approxRD5Corner.png
+    :width: 600px
+    :align: center
+
+    Same as the above figure, but derived entirely using approxposterior. Both
+    the true and approximate posterior distributions are in good agreement.
