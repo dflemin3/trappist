@@ -45,6 +45,7 @@ Expected output
    function yields non-Gaussian posterior distributions with banana-shaped
    correlations between parameters.
 
+
  .. figure:: approxRD5Corner.png
     :width: 600px
     :align: center
