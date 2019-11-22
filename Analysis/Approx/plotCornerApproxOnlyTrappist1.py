@@ -62,10 +62,10 @@ plotAPPoints = False
 
 # Path to data
 #filename = "../../Data/convergedAP.h5"
-filename = "../../Data/apRun9.h5"
+filename = "../../Data/apRun0.h5"
 
 # Extract data
-samples = extractMCMCResults(filename, blobsExist=False, burn=500)
+samples = extractMCMCResults(filename, blobsExist=False, burn=500, thinChains=True)
 
 labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",
           r"$t_{sat}$ [Gyr]", r"Age [Gyr]", r"$\beta_{XUV}$"]

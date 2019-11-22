@@ -11,22 +11,21 @@ Script output:
 
 Number of iterations: 10000
 Acceptance fraction for each walker:
-[0.4474 0.4449 0.4562 0.4495 0.4495 0.4441 0.4352 0.4517 0.4425 0.4516
- 0.4471 0.4529 0.4495 0.4425 0.4487 0.4595 0.4356 0.4495 0.4385 0.4436
- 0.4424 0.4433 0.4487 0.4405 0.433  0.4483 0.4413 0.439  0.4355 0.441
- 0.4548 0.4487 0.4367 0.4552 0.448  0.4544 0.4523 0.4495 0.4394 0.4624
- 0.4471 0.4574 0.4484 0.4504 0.4398 0.4494 0.4422 0.4409 0.4453 0.4577
- 0.4493 0.4415 0.4343 0.4529 0.4497 0.4497 0.4495 0.4462 0.4351 0.4428
- 0.4473 0.4527 0.4438 0.4428 0.4509 0.4514 0.4478 0.4424 0.4494 0.4506
- 0.4475 0.4527 0.4363 0.4471 0.4549 0.4549 0.4219 0.4369 0.4531 0.4435
- 0.4535 0.447  0.4492 0.4531 0.4404 0.454  0.4418 0.4525 0.4561 0.4505
- 0.4479 0.4584 0.4437 0.4549 0.4472 0.448  0.4547 0.4458 0.4427 0.4516]
-Mean acceptance fraction: 0.44704900000000003
-Burnin, thin: 254 49
+[0.4511 0.4467 0.4524 0.4538 0.4571 0.448  0.4533 0.4528 0.4643 0.4551
+ 0.4491 0.4553 0.4475 0.4701 0.4604 0.4476 0.4401 0.4436 0.4473 0.4511
+ 0.4692 0.4481 0.4505 0.457  0.4607 0.4562 0.4617 0.4512 0.4568 0.4417
+ 0.4586 0.4504 0.4535 0.4588 0.4485 0.4525 0.4742 0.4619 0.4622 0.4468
+ 0.4462 0.4562 0.4544 0.449  0.4434 0.4318 0.4626 0.4551 0.4515 0.4739
+ 0.4456 0.4495 0.4543 0.4549 0.4532 0.4557 0.4523 0.4705 0.4477 0.4514
+ 0.4524 0.4544 0.4616 0.4453 0.4701 0.4613 0.4601 0.462  0.4569 0.4478
+ 0.4615 0.4447 0.448  0.4511 0.4617 0.4581 0.4594 0.4377 0.4644 0.4603
+ 0.4515 0.4458 0.4556 0.4518 0.4579 0.454  0.4436 0.4348 0.4483 0.4591
+ 0.4445 0.4503 0.4572 0.4677 0.4498 0.461  0.4659 0.4454 0.4646 0.4489]
+Mean acceptance fraction: 0.45402899999999996
+Burnin, thin: 274 36
 Likely converged if iterations > 50 * tau, where tau is the integrated autocorrelation time.
-Number of iterations / tau: [ 97.66442009 100.08545413  94.17604387  78.68165842  93.65741193]
-Mean Number of iterations / tau: 92.85299768948485
-
+Number of iterations / tau: [ 72.89381859  81.71455823  89.37448911 136.40635668 132.44481868]
+Mean Number of iterations / tau: 102.56680825837005
 
 """
 
@@ -36,6 +35,7 @@ import corner
 import os
 import sys
 from scipy.optimize import rosen
+from scipy.stats import norm
 from trappist import mcmcUtils
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -48,17 +48,28 @@ nwalk = 20 * ndim # Use 20 walkers per dimension
 
 # Define logprobability function
 def lnprob(x):
+
+    x0, x1, x2, x3, x4 = x
+
+    # Apply standard normal prior on final two dimensions
+    lp = norm.logpdf(x3, loc=0, scale=1)
+    lp += norm.logpdf(x4, loc=0, scale=1)
+
+    # Only 1st 3 dimensions participate in likelihood calculation
+    x = [x0, x1, x2]
+
+    # Uniform prior over remaining parameters
     if np.any(np.fabs(x) > 5):
         return -np.inf
     else:
-        return -rosen(x)/100
+        return -rosen(x)/100 + lp
 # end function
 
 # Initial guess for walkers (random over prior)
 p0 = [np.random.uniform(low=-5, high=5, size=(ndim)) for j in range(nwalk)]
 
 # Initialize sampler and save results as an HDF5 file
-filename = "emceeRosen5D.h5"
+filename = "emceeUnder.h5"
 
 # Only actually run MCMC inference if it hasn't be done already
 if not os.path.exists(filename):
@@ -86,6 +97,6 @@ fig.axes[24].axhline(0.1, lw=2, color="C0")
 
 # Save figure
 if (sys.argv[1] == 'pdf'):
-    fig.savefig("emceeRD5Corner.pdf", bbox_inches="tight", dpi=200)
+    fig.savefig("emceeUnderCorner.pdf", bbox_inches="tight", dpi=200)
 if (sys.argv[1] == 'png'):
-    fig.savefig("emceeRD5Corner.png", bbox_inches="tight", dpi=200)
+    fig.savefig("emceeUnderCorner.png", bbox_inches="tight", dpi=200)
