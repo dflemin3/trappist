@@ -11,21 +11,21 @@ Script output:
 
 Number of iterations: 10000
 Acceptance fraction for each walker:
-[0.4523 0.4504 0.447  0.4571 0.4469 0.4596 0.4445 0.4308 0.4331 0.4605
- 0.4659 0.4612 0.4482 0.444  0.4561 0.4597 0.4656 0.4614 0.4477 0.4537
- 0.4588 0.4458 0.4538 0.4545 0.4373 0.4543 0.4611 0.435  0.472  0.4547
- 0.4551 0.4438 0.4608 0.4511 0.4539 0.4533 0.4607 0.4459 0.4338 0.4255
- 0.4482 0.458  0.4547 0.4543 0.4625 0.4545 0.452  0.465  0.4562 0.4505
- 0.4556 0.4543 0.4404 0.4433 0.4557 0.4479 0.4512 0.4457 0.4562 0.4466
- 0.4442 0.4553 0.4337 0.4349 0.4526 0.4459 0.4417 0.451  0.4323 0.4512
- 0.4473 0.4459 0.4421 0.4579 0.4532 0.4545 0.4477 0.4573 0.4518 0.4528
- 0.4454 0.4684 0.4539 0.4597 0.4542 0.4558 0.4553 0.4376 0.4503 0.4448
- 0.4481 0.4623 0.464  0.45   0.4324 0.4422 0.4704 0.4607 0.4599 0.4491]
-Mean acceptance fraction: 0.451275
-Burnin, thin: 269 34
+[0.4382 0.4493 0.4593 0.4562 0.4593 0.4646 0.4411 0.4575 0.4517 0.4445
+ 0.4491 0.4575 0.4498 0.4558 0.451  0.4399 0.4542 0.4613 0.4637 0.4588
+ 0.4598 0.4338 0.4474 0.4522 0.4485 0.4457 0.4547 0.4486 0.4631 0.4496
+ 0.4411 0.4575 0.4611 0.4629 0.4449 0.4534 0.455  0.4552 0.4323 0.4425
+ 0.4556 0.4604 0.4479 0.4649 0.4444 0.4693 0.4498 0.4599 0.4512 0.4534
+ 0.4579 0.4586 0.4539 0.4607 0.4515 0.4598 0.4345 0.4655 0.4568 0.4444
+ 0.4453 0.4587 0.4397 0.4438 0.4574 0.4551 0.4402 0.4586 0.4589 0.4506
+ 0.4558 0.4454 0.4449 0.4537 0.4442 0.4541 0.4611 0.4644 0.447  0.4535
+ 0.4547 0.4489 0.4504 0.4524 0.4592 0.4491 0.4572 0.4478 0.445  0.4486
+ 0.4589 0.4502 0.4362 0.4556 0.446  0.4579 0.4567 0.4666 0.4655 0.4371]
+Mean acceptance fraction: 0.452489
+Burnin, thin: 266 36
 Likely converged if iterations > 50 * tau, where tau is the integrated autocorrelation time.
-Number of iterations / tau: [ 74.21592016  81.40110824  89.84485246 143.08369401 132.01314261]
-Mean Number of iterations / tau: 104.11174349629773
+Number of iterations / tau: [ 75.10029811  79.23617561  86.76665557 133.56744333 137.75846948]
+Mean Number of iterations / tau: 102.48580841985279
 
 """
 
@@ -40,7 +40,7 @@ from trappist.mcmcUtils import extractMCMCResults
 
 
 # Define algorithm parameters
-m0 = 250                                        # Initial size of training set
+m0 = 100                                        # Initial size of training set
 m = 50                                          # Number of new points to find each iteration
 nmax = 5                                        # Maximum number of iterations
 ndim = 5                                        # Dimensionality
@@ -125,8 +125,7 @@ if not os.path.exists("under4.h5"):
     # Run!
     ap.run(m=m, nmax=nmax, estBurnin=True, nGPRestarts=5, mcmcKwargs=mcmcKwargs,
            cache=True, samplerKwargs=samplerKwargs, verbose=True, thinChains=True,
-           onlyLastMCMC=True, optGPEveryN=25, nMinObjRestarts=5,
-           dropInitialTraining=True, runName="under")
+           onlyLastMCMC=True, optGPEveryN=25, nMinObjRestarts=5, runName="under")
 
     # Load in chain from last iteration
     samples = ap.sampler.get_chain(discard=ap.iburns[-1], flat=True, thin=ap.ithins[-1])
