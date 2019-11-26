@@ -11,21 +11,21 @@ Script output:
 
 Number of iterations: 10000
 Acceptance fraction for each walker:
-[0.4571 0.4403 0.4565 0.4299 0.4635 0.4397 0.455  0.4477 0.4505 0.4393
- 0.4571 0.4442 0.4565 0.4455 0.4364 0.4491 0.437  0.4416 0.436  0.437
- 0.4464 0.4403 0.4531 0.4365 0.442  0.4525 0.4409 0.4434 0.4455 0.4442
- 0.4408 0.4416 0.4424 0.4499 0.4544 0.4554 0.4534 0.451  0.4468 0.4492
- 0.4601 0.4531 0.4344 0.4437 0.4572 0.4366 0.4466 0.4539 0.4457 0.4547
- 0.4574 0.4459 0.439  0.4495 0.4383 0.4447 0.4528 0.4558 0.4394 0.4523
- 0.4643 0.449  0.4528 0.4496 0.4511 0.4488 0.4547 0.4405 0.4365 0.4592
- 0.4535 0.4435 0.4545 0.4383 0.4514 0.4496 0.4445 0.457  0.4567 0.4535
- 0.4432 0.4491 0.4563 0.4504 0.4397 0.4419 0.4505 0.4482 0.4394 0.4468
- 0.4427 0.4401 0.4541 0.4595 0.4452 0.4532 0.4477 0.4578 0.4494 0.4509]
-Mean acceptance fraction: 0.4478579999999999
-Burnin, thin: 245 49
+[0.4415 0.4436 0.4458 0.4458 0.4518 0.4421 0.4534 0.4495 0.4533 0.4526
+ 0.451  0.4551 0.4464 0.4435 0.4512 0.4444 0.4542 0.4534 0.4561 0.4406
+ 0.4619 0.4332 0.45   0.4499 0.4344 0.4519 0.4516 0.4463 0.4515 0.4435
+ 0.4325 0.4413 0.4387 0.4429 0.4524 0.4419 0.4451 0.454  0.4431 0.4532
+ 0.4411 0.4479 0.4458 0.4469 0.4429 0.4509 0.4267 0.4524 0.4462 0.4435
+ 0.451  0.4411 0.4461 0.4559 0.4366 0.4506 0.4275 0.4544 0.4433 0.4511
+ 0.4274 0.4485 0.4316 0.4486 0.4465 0.4442 0.4333 0.442  0.4489 0.4323
+ 0.4356 0.4448 0.4317 0.4514 0.4488 0.4453 0.4452 0.4585 0.4535 0.4418
+ 0.4491 0.4489 0.4379 0.4499 0.452  0.4549 0.4527 0.4564 0.449  0.4344
+ 0.4475 0.4531 0.4532 0.4523 0.4415 0.4436 0.4495 0.4484 0.4503 0.4489]
+Mean acceptance fraction: 0.446299
+Burnin, thin: 249 46
 Likely converged if iterations > 50 * tau, where tau is the integrated autocorrelation time.
-Number of iterations / tau: [ 96.49808769 100.47998756  91.29981213  81.63147647  92.91741306]
-Mean Number of iterations / tau: 92.56535538389817
+Number of iterations / tau: [101.8065953  108.33310137  94.35649071  80.14005706  94.21795778]
+Mean Number of iterations / tau: 95.77084044212332
 
 """
 
@@ -45,7 +45,7 @@ nmax = 5                                        # Maximum number of iterations
 ndim = 5                                        # Dimensionality
 bounds = list((-5,5) for _ in range(ndim))      # Prior bounds
 algorithm = "alternate"                         # Use both bape and agp
-seed = 57                                       # RNG seed
+seed = 70                                       # RNG seed
 
 np.random.seed(seed)
 
@@ -82,7 +82,7 @@ if not os.path.exists("apRun4.h5"):
         y[ii] = lnlike(theta[ii]) + lnprior(theta[ii])
 
     # Create the the default GP which uses an ExpSquaredKernel
-    gp = gpUtils.defaultGP(theta, y, white_noise=-10)
+    gp = gpUtils.defaultGP(theta, y, white_noise=-10, fitAmp=True)
 
     # Initialize object using the Wang & Li (2017) Rosenbrock function example
     ap = approx.ApproxPosterior(theta=theta,
@@ -95,7 +95,7 @@ if not os.path.exists("apRun4.h5"):
                                 algorithm=algorithm)
 
     # Run!
-    ap.run(m=m, nmax=nmax, estBurnin=True, nGPRestarts=10, mcmcKwargs=mcmcKwargs,
+    ap.run(m=m, nmax=nmax, estBurnin=True, nGPRestarts=5, mcmcKwargs=mcmcKwargs,
            cache=True, samplerKwargs=samplerKwargs, verbose=True, thinChains=True,
            onlyLastMCMC=True, optGPEveryN=25, nMinObjRestarts=5,
            dropInitialTraining=True)
@@ -122,6 +122,6 @@ fig.axes[24].axhline(0.1, lw=2, color="C0")
 
 # Save figure
 if (sys.argv[1] == 'pdf'):
-    fig.savefig("approxRD5Corner.pdf", bbox_inches="tight", dpi=200)
+    fig.savefig("apCorner.pdf", bbox_inches="tight", dpi=200)
 if (sys.argv[1] == 'png'):
-    fig.savefig("approxRD5Corner.png", bbox_inches="tight", dpi=200)
+    fig.savefig("apCorner.png", bbox_inches="tight", dpi=200)

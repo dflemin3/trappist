@@ -150,6 +150,119 @@ def LnLike(x, **kwargs):
     dStopTime *= 1.e9 # Convert from Gyr -> yr
     dOutputTime = dStopTime # Output only at the end of the simulation
 
+    # Get the prior probability to ignore unphysical state vectors
+    # Do this to prevent errors stemming from VPLanet not finishing 
+    lnprior = kwargs["LnPrior"](x, **kwargs)
+    if np.isinf(lnprior):
+        blobs = np.array([np.nan, np.nan, np.nan])
+        return -np.inf, blobs
+
+    # Get strings containing VPLanet input files (they must be provided!)
+    try:
+        star_in = kwargs.get("STARIN")
+        vpl_in = kwargs.get("VPLIN")
+    except KeyError as err:
+        print("ERROR: Must supply STARIN and VPLIN.")
+        raise
+
+    # Get PATH
+    try:
+        PATH = kwargs.get("PATH")
+    except KeyError as err:
+        print("ERROR: Must supply PATH.")
+        raise
+
+    # Randomize file names
+    sysName = 'vpl%012x' % random.randrange(16**12)
+    starName = 'st%012x' % random.randrange(16**12)
+    sysFile = sysName + '.in'
+    starFile = starName + '.in'
+    logfile = sysName + '.log'
+    starFwFile = '%s.star.forward' % sysName
+
+    # Populate the star input file
+    star_in = re.sub("%s(.*?)#" % "dMass", "%s %.6e #" % ("dMass", dMass), star_in)
+    star_in = re.sub("%s(.*?)#" % "dSatXUVFrac", "%s %.6e #" % ("dSatXUVFrac", dSatXUVFrac), star_in)
+    star_in = re.sub("%s(.*?)#" % "dSatXUVTime", "%s %.6e #" % ("dSatXUVTime", -dSatXUVTime), star_in)
+    star_in = re.sub("%s(.*?)#" % "dXUVBeta", "%s %.6e #" % ("dXUVBeta", -dXUVBeta), star_in)
+    with open(os.path.join(PATH, "output", starFile), 'w') as f:
+        print(star_in, file = f)
+
+    # Populate the system input file
+
+    # Populate list of planets
+    saBodyFiles = str(starFile) + " #"
+    saBodyFiles = saBodyFiles.strip()
+
+    vpl_in = re.sub('%s(.*?)#' % "dStopTime", '%s %.6e #' % ("dStopTime", dStopTime), vpl_in)
+    vpl_in = re.sub('%s(.*?)#' % "dOutputTime", '%s %.6e #' % ("dOutputTime", dOutputTime), vpl_in)
+    vpl_in = re.sub('sSystemName(.*?)#', 'sSystemName %s #' % sysName, vpl_in)
+    vpl_in = re.sub('saBodyFiles(.*?)#', 'saBodyFiles %s #' % saBodyFiles, vpl_in)
+    with open(os.path.join(PATH, "output", sysFile), 'w') as f:
+        print(vpl_in, file = f)
+
+    # Run VPLANET and get the output, then delete the output files
+    subprocess.call(["vplanet", sysFile], cwd = os.path.join(PATH, "output"))
+    output = vpl.GetOutput(os.path.join(PATH, "output"), logfile = logfile)
+
+    try:
+        os.remove(os.path.join(PATH, "output", starFile))
+        os.remove(os.path.join(PATH, "output", sysFile))
+        os.remove(os.path.join(PATH, "output", starFwFile))
+        os.remove(os.path.join(PATH, "output", logfile))
+    except FileNotFoundError:
+        # Run failed!
+        blobs = np.array([np.nan, np.nan, np.nan])
+        return -np.inf, blobs
+
+    # Ensure we ran for as long as we set out to
+    if not output.log.final.system.Age / utils.YEARSEC >= dStopTime:
+        blobs = np.array([np.nan, np.nan, np.nan])
+        return -np.inf, blobs
+
+    # Get stellar properties
+    dLum = float(output.log.final.star.Luminosity)
+    dLumXUV = float(output.log.final.star.LXUVStellar)
+    dRad = float(output.log.final.star.Radius)
+
+    # Compute ratio of XUV to bolometric luminosity
+    dLumXUVRatio = dLumXUV / dLum
+
+    # Extract constraints
+    # Must at least have luminosity, err for star
+    lum = kwargs.get("LUM")
+    lumSig = kwargs.get("LUMSIG")
+    try:
+        lumXUVRatio = kwargs.get("LUMXUVRATIO")
+        lumXUVRatioSig = kwargs.get("LUMXUVRATIOSIG")
+    except KeyError:
+        lumXUVRatio = None
+        lumXUVRatioSig = None
+
+    # Compute the likelihood using provided constraints, assuming we have
+    # luminosity constraints for host star
+    lnlike = ((dLum - lum) / lumSig) ** 2
+    if lumXUVRatio is not None:
+        lnlike += ((dLumXUVRatio - lumXUVRatio) / lumXUVRatioSig) ** 2
+    lnlike = -0.5 * lnlike
+
+    # Return likelihood and blobs
+    blobs = np.array([dLum, dLumXUV, dRad])
+    return lnlike, blobs
+
+# end function
+
+def LnProb(x, **kwargs):
+    """
+    logprobability (lnlike + lnprior) function: runs VPLanet simulation
+    """
+
+    # Get the current vector
+    dMass, dSatXUVFrac, dSatXUVTime, dStopTime, dXUVBeta = x
+    dSatXUVFrac = 10 ** dSatXUVFrac # Unlog
+    dStopTime *= 1.e9 # Convert from Gyr -> yr
+    dOutputTime = dStopTime # Output only at the end of the simulation
+
     # Get the prior probability
     lnprior = kwargs["LnPrior"](x, **kwargs)
     if np.isinf(lnprior):
@@ -243,12 +356,11 @@ def LnLike(x, **kwargs):
     lnlike = ((dLum - lum) / lumSig) ** 2
     if lumXUVRatio is not None:
         lnlike += ((dLumXUVRatio - lumXUVRatio) / lumXUVRatioSig) ** 2
-    lnlike = -0.5 * lnlike + lnprior
+    lnprob = -0.5 * lnlike + lnprior
 
     # Return likelihood and blobs
     blobs = np.array([dLum, dLumXUV, dRad])
-    return lnlike, blobs
-
+    return lnprob, blobs
 # end function
 
 
@@ -382,7 +494,7 @@ def RunMCMC(x0=None, ndim=5, nwalk=100, nsteps=5000, pool=None, backend=None,
     ### Run MCMC ###
 
     # Initialize the sampler object
-    sampler = emcee.EnsembleSampler(nwalk, ndim, LnLike, kwargs=kwargs,
+    sampler = emcee.EnsembleSampler(nwalk, ndim, LnProb, kwargs=kwargs,
                                     pool=pool, backend=handler)
 
     # Actually run the MCMC
