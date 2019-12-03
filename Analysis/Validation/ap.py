@@ -98,8 +98,7 @@ if not os.path.exists("apRun4.h5"):
     # Run!
     ap.run(m=m, nmax=nmax, estBurnin=True, nGPRestarts=5, mcmcKwargs=mcmcKwargs,
            cache=True, samplerKwargs=samplerKwargs, verbose=True, thinChains=True,
-           onlyLastMCMC=True, optGPEveryN=25, nMinObjRestarts=5,
-           dropInitialTraining=True)
+           onlyLastMCMC=True, optGPEveryN=25, nMinObjRestarts=5)
 
     # Load in chain from last iteration
     samples = ap.sampler.get_chain(discard=ap.iburns[-1], flat=True, thin=ap.ithins[-1])
