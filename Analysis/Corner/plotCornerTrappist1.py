@@ -128,7 +128,7 @@ fig = corner.corner(samples, quantiles=[0.16, 0.5, 0.84], labels=labels,
 
 # Fine-tune the formatting
 ax_list = fig.axes
-ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089^{+0.001}_{-0.001}$", fontsize=16)
+ax_list[0].set_title(r"$m_{\star}$ [M$_{\odot}$] $= 0.089 \pm {0.001}$", fontsize=16)
 ax_list[-5].set_xlabel(r"$m_{\star}$ [$100\times$ M$_{\odot}$]", fontsize=22)
 ax_list[-4].set_xlabel(r"$f_{sat}$", fontsize=22)
 ax_list[-3].set_xlabel(r"$t_{sat}$ [Gyr]", fontsize=22)
