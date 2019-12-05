@@ -187,7 +187,7 @@ To model the covariance between points in the GP training set, we use a squared 
 \begin{equation} \label{eqn:kernel}
 k(x_i, x_j) = \exp \left( - \frac{(x_i - x_j)^2}{2l^2} \right),
 \end{equation}
-where $x_i$ and $x_j$ are two arbitrary points in parameter space and $l$ is a hyperparameter that controls the scale length of the correlations. We assume correlations in each dimension have different scale lengths and fit for each $l$ by optimizing the GP's marginal likelihood of the training set data using the Nelder-Mead algorithm, randomly restarting this optimization 25 times to mitigate the influence of local extrema. We run \approxposterior for 10 iterations, initially training the GP on a set of 250 \vplanet simulations with initial conditions sampled from our prior distributions. For each iteration, \approxposterior selects 100 new training points, alternating between the \citet{Kandasamy2015} and \citet{Wang2017} selection criteria, both based on GP predictive uncertainty. \approxposterior runs \vplanet at each point for a total of 1,250 training samples. The trained GP is then used within \emcee to quickly obtain the approximate posterior distribution following the same procedure described in $\S$~\ref{sec:mcmc}.
+where $x_i$ and $x_j$ are two arbitrary points in parameter space and $l$ is a hyperparameter that controls the scale length of the correlations. We assume correlations in each dimension have different scale lengths and fit for each $l$ by optimizing the GP's marginal likelihood of the training set data using the \xxx{Powell's method} \citep{Powell1964}, randomly restarting this optimization 25 times to mitigate the influence of local extrema. We run \approxposterior for 10 iterations, initially training the GP on a set of 250 \vplanet simulations with initial conditions sampled from our prior distributions. For each iteration, \approxposterior selects 100 new training points, alternating between the \citet{Kandasamy2015} and \citet{Wang2017} selection criteria, both based on GP predictive uncertainty. \approxposterior runs \vplanet at each point for a total of 1,250 training samples. The trained GP is then used within \emcee to quickly obtain the approximate posterior distribution following the same procedure described in $\S$~\ref{sec:mcmc}.
 
 %% Results %%
 
@@ -290,34 +290,34 @@ This work was facilitated though the use of advanced computational, storage, and
 
 \appendix
 
-\section{Validating \approxposterior}
+\section{\approxposterior Algorithm and Convergence} \label{sec:app}
 
-\xxx{We validate our approximate inference procedure by applying \approxposterior to a synthetic 5-dimensional test case designed to reflect the computational difficulties encountered in our science application, i.e. learning and approximating non-Gaussian posterior distributions (see $\S$~\ref{sec:approx}). Our goal for this experiment is to assess \approxposterior's accuracy relative to canonical MCMC methods, e.g. \emcee, and quantify any biases that may exist in our approximate methods.}
+\xxx{Here we describe the algorithm behind \approxposterior, how it operates, and how we assess convergence. TODO}
 
-\subsection{Synthetic Likelihood Function and Priors}
+\subsection{\approxposterior Algorithm} \label{sec:app:algorithm}
 
-\xxx{In this experiment, we infer the posterior probability distribution of a $d$-dimensional state vector, \textbf{x}, using MCMC with both \emcee and \approxposterior got a synthetic test example. For our test likelihood function, we use a multidimensional-generalization of the analytic, non-linear Rosenbrock function \citep{Rosenbrock1960}. The Rosenbrock function is commonly used as a test case for both optimization \citep[e.g.][]{Rosenbrock1960} and GP-based approximate inference problems \citep[e.g.][]{Wang2017}. This function is useful for our purposes because, when used as a likelihood function, it encodes non-trivial correlations between parameters that produce non-Gaussian posterior distributions, presenting a challenge for \approxposterior that is qualitatively similar to that posed by our science application. Following the transformation from \citet{Wang2017}, we define the Rosenbrock function for $d$ dimensions as}
-\begin{equation} \label{eqn:rosenbrock}
-f(\textbf{x}) = -\sum_{i=1}^{d-1} \left[ (x_{i+1} - x_i^2)^2 + 0.01(1-x_i)^2 \right]
-\end{equation}
-\xxx{where \textbf{x} is the state vector and $x_i$ is the $i^{th}$ element of \textbf{x}.} 
+\xxx{TODO: sketch 3 steps of algorithm, citing relevant papers, and note the utility functions to connect GP's learned function to how it improves itself}
 
-\xxx{We adopt Eqn.~(\ref{eqn:rosenbrock}) with $d=5$ as our likelihood function for this experiment and apply a uniform prior over $[-5,5]$ for each $x_i$. Using \emcee, we first draw samples from the posterior distribution using 100 parallel walkers for 10,000 iterations. Then, we replicate this inference with \approxposterior using the exact same MCMC procedure as our \emcee case. The results of this experiment are discussed and compared below.}
-
-\subsection{MCMC with \emcee} \label{sec:app:trueMCMC}
+\subsection{Training the Gaussian Process} \label{sec:app:gp}
 
 \xxx{TODO}
 
-\begin{figure*}[h]
-\centering
-	\includegraphics[width=0.75\textwidth]{../Analysis/Validation/emceeRD5Corner.pdf}
-   \caption{\xxx{New Figure: Joint and marginal posterior probability distributions for the 5-dimensional Rosenbrock function likelihood made using \texttt{corner} \citep{ForemanMackey2016}. The black vertical dashed lines on the marginalized distributions indicate the median values and lower and upper uncertainties from the 16th and 84th percentiles, respectively. The blues curves superimposed on the marginal distributions display the adopted prior probability distribution for each parameter. The non-linear form of our likelihood function yields non-Gaussian posterior distributions with banana-shaped correlations between parameters.} }%
-    \label{fig:rosenemcee}%
-\end{figure*}
+\subsection{Point Selection} \label{sec:app:point}
 
-\subsection{MCMC with \approxposterior} \label{sec:app:apMCMC}
+\xxx{TODO: figure - training set and points selected by \approxposterior}
 
-\xxx{TODO}
+\subsection{Assessing Convergence} \label{sec:app:convergence}
+
+\xxx{TODO: figure - convergence plot}
+
+% extra
+% \xxx{We validate our approximate inference procedure by applying \approxposterior to a synthetic 5-dimensional test case designed to reflect the computational difficulties encountered in our science application, i.e. learning and approximating non-Gaussian posterior distributions (see $\S$~\ref{sec:approx}). Our goal for this experiment is to assess \approxposterior's accuracy relative to canonical MCMC methods, e.g. \emcee, and quantify any biases that may exist in our approximate methods.}
+% \xxx{We adopt Eqn.~(\ref{eqn:rosenbrock}) with $d=5$ as our likelihood function for this experiment and apply a uniform prior over $[-5,5]$ for each $x_i$. Using \emcee, we first draw samples from the posterior distribution using 100 parallel walkers for 10,000 iterations. Then, we replicate this inference with \approxposterior using the exact same MCMC procedure as our \emcee case. The results of this experiment are discussed and compared below.}
+% \xxx{In this experiment, we infer the posterior probability distribution of a $d$-dimensional state vector, \textbf{x}, using MCMC with both \emcee and \approxposterior got a synthetic test example. For our test likelihood function, we use a multidimensional-generalization of the analytic, non-linear Rosenbrock function \citep{Rosenbrock1960}. The Rosenbrock function is commonly used as a test case for both optimization \citep[e.g.][]{Rosenbrock1960} and GP-based approximate inference problems \citep[e.g.][]{Wang2017}. This function is useful for our purposes because, when used as a likelihood function, it encodes non-trivial correlations between parameters that produce non-Gaussian posterior distributions, presenting a challenge for \approxposterior that is qualitatively similar to that posed by our science application. Following the transformation from \citet{Wang2017}, we define the Rosenbrock function for $d$ dimensions as}
+%\begin{equation} \label{eqn:rosenbrock}
+%f(\textbf{x}) = -\sum_{i=1}^{d-1} \left[ (x_{i+1} - x_i^2)^2 + 0.01(1-x_i)^2 \right]
+%\end{equation}
+%\xxx{where \textbf{x} is the state vector and $x_i$ is the $i^{th}$ element of \textbf{x}.} 
 
 %% BIBLIOGRAPHY %%
 
