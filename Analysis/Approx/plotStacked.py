@@ -9,10 +9,10 @@ posterior distributions.
 
 script output:
 
-True P(tsat >= age | data) = 0.426
-True P(tsat <= 1Gyr | data) = 0.004
-approxposterior P(tsat >= age | data) = 0.373
-approxposterior P(tsat <= 1Gyr | data) = 0.000
+True P(tsat >= age | data) = 0.400
+True P(tsat <= 1Gyr | data) = 0.005
+approxposterior P(tsat >= age | data) = 0.396
+approxposterior P(tsat <= 1Gyr | data) = 0.001
 
 """
 
@@ -33,7 +33,7 @@ mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
 # Path to data
-filename = "../../Data/trappist1Fiducial.h5"
+filename = "../../Data/trappist1FiducialRatio.h5"
 approxFilename = "../../Data/convergedAP.h5"
 
 # Whether or not to plot blobs
@@ -76,25 +76,25 @@ print("approxposterior P(tsat <= 1Gyr | data) = %0.3lf" % np.mean(mask))
 
 # Plot both true and approxposterior posterior distribution
 bins = 20
-range = [[8.7, 9.06], [-3.3, -2.2], [0, 12], [0, 12], [-2, -0.2]]
+range = [[8.7, 9.06], [-3.4, -2.2], [0, 12], [0, 12], [-2, -0.2]]
 
 # approxposterior
 fig = corner.corner(approxChain, quantiles=[], labels=labels,
                     bins=bins, show_titles=False, title_kwargs={"fontsize": 16},
-                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 1.5},
+                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 2.5},
                     plot_contours=True, plot_datapoints=False, plot_density=False,
                     color="royalblue", range=range, no_fill_contours=True)
 
 # True
 fig = corner.corner(trueChain, quantiles=[], labels=labels, show_titles=False,
                     bins=bins, verbose=False, plot_density=True, fig=fig,
-                    hist_kwargs={"linewidth" : 1.5}, plot_contours=False,
+                    hist_kwargs={"linewidth" : 2.5}, plot_contours=True,
                     plot_datapoints=False, color="k", range=range,
                     no_fill_contours=True)
 
 fig = corner.corner(approxChain, quantiles=[], labels=labels, fig=fig,
                     bins=bins, show_titles=False, title_kwargs={"fontsize": 16},
-                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 1.5},
+                    title_fmt='.2f', verbose=False, hist_kwargs={"linewidth" : 2.5},
                     plot_contours=False, plot_datapoints=False, plot_density=False,
                     color="royalblue", range=range, no_fill_contours=True)
 

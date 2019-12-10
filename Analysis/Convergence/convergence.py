@@ -1,82 +1,109 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Plot convergence of stellar evolution quantities as a function of VPLanet's
-timestepping parameter, dEta.
+XXX
 
-@author David P. Fleming, 2019
-@email dflemin3 (at) uw (dot) edu
+@author: David P. Fleming, 2019
+@email: dflemin3 (at) uw (dot) edu
+
+script output:
+
+XXX
+
 """
 
 import numpy as np
 import os
 import sys
+import corner
+import emcee
 import matplotlib as mpl
+from scipy.linalg import norm
 import matplotlib.pyplot as plt
+from trappist.mcmcUtils import extractMCMCResults
 
 #Typical plot parameters that make for pretty plots
-mpl.rcParams['figure.figsize'] = (9,8)
-mpl.rcParams['font.size'] = 18.0
+mpl.rcParams['font.size'] = 15
 
 ## for Palatino and other serif fonts use:
 mpl.rc('font',**{'family':'serif'})
 mpl.rc('text', usetex=True)
 
-path = "../../Sims/Convergence/"
-dirs = ["Eta1", "Eta01", "Eta001", "Eta0001"]
-labels = [r"$\eta = 1$", r"$\eta = 10^{-1}$", r"$\eta = 10^{-2}$",
-          r"$\eta = 10^{-3}$"]
-colors = ["C%d" % ii for ii in range(len(dirs))]
+# Path to data
+filename = "../../Data/trappist1FiducialRatio.h5"
+nIters = 10
 
-# Plot stellar convergence of luminosity, LXUV, radis
-fig, axes = plt.subplots(ncols=3, figsize=(18, 6))
+# Extract true MCMC results
+trueChain = extractMCMCResults(filename, blobsExist=False, burn=500,
+                               verbose=False)
 
-# Load in "truth"
-true = np.genfromtxt(os.path.join(path, "Eta00001", "Trappist.star.forward"), delimiter=" ")
-trueLXUV = true[:,2]
-trueLUM = true[:,1]
-trueRAD = true[:,3]
+# Define labels
+labels = [r"$m_{\star}$", r"$f_{sat}$", r"$t_{sat}$", r"Age", r"$\beta_{XUV}$"]
 
-# Loop over dirs contain same simulation, but different integration scaling factors
-for ii, dir in enumerate(dirs):
+# Containers
+medDiffs = np.zeros((nIters, 5))
+uwidthDiffs = np.zeros_like(medDiffs)
 
-    # Load data
-    data = np.genfromtxt(os.path.join(path, dir, "Trappist.star.forward"), delimiter=" ")
+for ii in range(nIters):
+    # Load iith approxposterior output
+    approxFilename = "../../Data/apRun%d.h5" % ii
+    approxChain = extractMCMCResults(approxFilename, blobsExist=False, burn=500,
+                                     verbose=False)
+    # Loop over variables
+    for jj in range(len(labels)):
 
-    # Left: Luminosity
-    axes[0].plot(data[:,0], np.fabs(data[:,1] - trueLUM)/trueLUM, lw=2, color=colors[ii], label=labels[ii])
+        # Compute relative difference between marginal distribution medians
+        medDiffs[ii,jj] = 100 * (np.median(trueChain[:,jj]) - np.median(approxChain[:,jj])) / np.median(trueChain[:,jj])
 
-    # Middle: Radius
-    axes[1].plot(data[:,0], np.fabs(data[:,3] - trueRAD)/trueRAD, lw=2, color=colors[ii], label=labels[ii])
+        # Compute relative difference between width of IQR
+        true = np.percentile(trueChain[:,jj], 86) - np.percentile(trueChain[:,jj], 14)
+        approx = np.percentile(approxChain[:,jj], 86) - np.percentile(approxChain[:,jj], 14)
+        uwidthDiffs[ii,jj] = 100 * (true - approx) / true
 
-    # Right: LXUV
-    axes[2].plot(data[:,0], np.fabs(data[:,2] - trueLXUV)/trueLXUV, lw=2, color=colors[ii], label=labels[ii])
+# Plot
+fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
 
-# Format!
-axes[0].set_xlabel("Time [yr]")
-axes[0].set_xlim(data[1,0], data[-1,0])
-axes[0].set_xscale("log")
-axes[0].set_ylabel("Luminosity Relative Error")
-axes[0].set_yscale("log")
-axes[0].legend(loc="best", fontsize=10)
+iters = [ii+1 for ii in range(nIters)]
+colors = ["C0", "C1", "C2", "C4", "C5"]
+for ii in range(len(labels)):
 
-axes[1].set_xlabel("Time [yr]")
-axes[1].set_xlim(data[1,0], data[-1,0])
-axes[1].set_xscale("log")
-axes[1].set_ylabel("Radius Relative Error")
-axes[1].set_yscale("log")
+    # Left: percenter difference between median
+    axes[0].plot(iters, np.fabs(medDiffs[:,ii]), "o-", lw=2.5, color=colors[ii],
+                 label=labels[ii], zorder=11)
 
-axes[2].set_xlabel("Time [yr]")
-axes[2].set_xlim(data[1,0], data[-1,0])
-axes[2].set_xscale("log")
-axes[2].set_ylabel("LXUV Relative Error")
-axes[2].set_yscale("log")
+    # Format
+    axes[0].set_xlim(0.8, nIters + 0.2)
+    axes[0].set_xticks([2, 4, 6, 8, 10])
+    axes[0].set_xticklabels(["2", "4", "6", "8", "10"])
+    axes[0].set_xlabel("Iteration")
+    axes[0].set_ylabel(r"$|$Median Error$|$ [$\%$]")
+    axes[0].set_ylim(5.0e-3, 4.0e1)
+    axes[0].set_yscale("log")
+
+    # Right: percenter difference between uncertainty width
+    axes[1].plot(iters, np.fabs(uwidthDiffs[:,ii]), "o-", lw=2.5,
+                 color=colors[ii], label=labels[ii], zorder=ii)
+
+    # Format
+    axes[1].set_xlim(0.8, nIters + 0.2)
+    axes[1].set_xticks([2, 4, 6, 8, 10])
+    axes[1].set_xticklabels(["2", "4", "6", "8", "10"])
+    axes[1].set_xlabel("Iteration")
+    axes[1].set_ylabel(r"$|$$\Delta$ Error$|$ [$\%$]")
+    axes[1].set_ylim(5.0e-3, 4.0e1)
+    axes[1].set_yscale("log")
+    axes[1].legend(loc="lower left", framealpha=0, fontsize=16)
+
+# Plot lines at 10%, 1% error
+axes[0].axhline(1, lw=2, ls="--", color="k", zorder=0)
+axes[0].axhline(10, lw=2, ls="--", color="k", zorder=0)
+axes[1].axhline(1, lw=2, ls="--", color="k", zorder=0)
+axes[1].axhline(10, lw=2, ls="--", color="k", zorder=0)
 
 # Save!
-fig.tight_layout()
 if (sys.argv[1] == 'pdf'):
-    fig.savefig("trappist1Convergence.pdf", bbox_inches="tight",
-                dpi=200)
+    fig.savefig("convergence.pdf", bbox_inches="tight", dpi=200)
 if (sys.argv[1] == 'png'):
-    fig.savefig("trappist1Convergence.png", bbox_inches="tight",
-                dpi=200)
+    fig.savefig("convergence.png", bbox_inches="tight", dpi=200)
+
+# Done!

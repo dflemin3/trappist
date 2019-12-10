@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Make a corner plot of the MCMC-derived posterior distributions.
+Make a corner plot of the approxposterior-derived posterior distributions.
 
 @author: David P. Fleming, 2019
 
@@ -37,7 +37,6 @@ $\beta_{XUV}$ = -1.160567e+00 + 2.902617e-01 - 2.841192e-01
 P(tsat >= age | data) = 0.396
 P(tsat <= 1Gyr | data) = 0.001
 
-
 """
 
 import numpy as np
@@ -62,7 +61,8 @@ mpl.rc('text', usetex=True)
 plotAPPoints = False
 
 # Path to data
-filename = "../../Data/convergedAP.h5"
+#filename = "../../Data/convergedAP.h5"
+filename = "../../Data/apRun9.h5"
 
 # Extract data
 samples = extractMCMCResults(filename, blobsExist=False, burn=500,

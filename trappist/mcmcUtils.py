@@ -115,7 +115,7 @@ def extractMCMCResults(filename, verbose=True, applyBurnin=True, thinChains=True
         chain = reader.get_chain(discard=burnin, flat=False, thin=thin)
 
         # Find chains to keep
-        mask = reader.accepted / reader.iteration > 0.01
+        mask = reader.accepted / reader.iteration > 0.15
         chain = chain[:,mask,:]
 
         # Flatten chain
@@ -151,7 +151,7 @@ def LnLike(x, **kwargs):
     dOutputTime = dStopTime # Output only at the end of the simulation
 
     # Get the prior probability to ignore unphysical state vectors
-    # Do this to prevent errors stemming from VPLanet not finishing 
+    # Do this to prevent errors stemming from VPLanet not finishing
     lnprior = kwargs["LnPrior"](x, **kwargs)
     if np.isinf(lnprior):
         blobs = np.array([np.nan, np.nan, np.nan])
