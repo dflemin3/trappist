@@ -79,7 +79,7 @@ New York, NY 10010}
 
 \begin{abstract}
 
-We model the long-term XUV luminosity of TRAPPIST-1 to constrain the evolving high-energy radiation environment experienced by its planetary system. Using Markov Chain Monte Carlo (MCMC), we derive probabilistic constraints for TRAPPIST-1's stellar and XUV evolution that account for observational uncertainties, degeneracies between model parameters, and empirical data of low-mass stars. We constrain TRAPPIST-1's mass to $m_{\star} = 0.089 \pm{0.001}$ M$_{\odot}$ and find that its \xxx{early XUV luminosity likely saturated at $\log_{10}(L_{XUV}/L_{bol}) = -3.03^{+0.23}_{-0.12}$.} From our posterior distributions, \xxx{we infer that there is a ${\sim}40\%$ chance that TRAPPIST-1 is still in the saturated phase today}, suggesting that TRAPPIST-1 has maintained high activity and $L_{XUV}/L_{bol} \approx 10^{-3}$ for several Gyrs. TRAPPIST-1's planetary system therefore likely experienced a persistent and extreme XUV flux environment, potentially driving significant atmospheric erosion and volatile loss. The inner planets likely received XUV fluxes ${\sim}10^3 - 10^4\times$ that of the modern Earth during TRAPPIST-1's 1 Gyr-long pre-main sequence phase. Deriving these constraints via MCMC is computationally non-trivial, so scaling our methods to constrain the XUV evolution of a larger number of M dwarfs that harbor terrestrial exoplanets would incur significant computational expenses. We demonstrate that \approxposterior, a Python machine learning package for approximate Bayesian inference using Gaussian processes, can efficiently replicate our analysis. We find that it derives constraints that are in good agreement with our MCMC, although it underestimates the uncertainties for two parameters by $30\%$. \approxposterior requires $330\times$ less computational time than traditional MCMC methods in this case, demonstrating its utility in efficient Bayesian inference.
+We model the long-term XUV luminosity of TRAPPIST-1 to constrain the evolving high-energy radiation environment experienced by its planetary system. Using Markov Chain Monte Carlo (MCMC), we derive probabilistic constraints for TRAPPIST-1's stellar and XUV evolution that account for observational uncertainties, degeneracies between model parameters, and empirical data of low-mass stars. We constrain TRAPPIST-1's mass to $m_{\star} = 0.089 \pm{0.001}$ M$_{\odot}$ and find that its \xxx{early XUV luminosity likely saturated at $\log_{10}(L_{XUV}/L_{bol}) = -3.03^{+0.23}_{-0.12}$.} From our posterior distributions, \xxx{we infer that there is a ${\sim}40\%$ chance that TRAPPIST-1 is still in the saturated phase today}, suggesting that TRAPPIST-1 has maintained high activity and $L_{XUV}/L_{bol} \approx 10^{-3}$ for several Gyrs. TRAPPIST-1's planetary system therefore likely experienced a persistent and extreme XUV flux environment, potentially driving significant atmospheric erosion and volatile loss. The inner planets likely received XUV fluxes ${\sim}10^3 - 10^4\times$ that of the modern Earth during TRAPPIST-1's 1 Gyr-long pre-main sequence phase. Deriving these constraints via MCMC is computationally non-trivial, so scaling our methods to constrain the XUV evolution of a larger number of M dwarfs that harbor terrestrial exoplanets would incur significant computational expenses. We demonstrate that \approxposterior, a Python machine learning package for approximate Bayesian inference using Gaussian processes, \xxx{accurately and efficiently replicates our analysis. We find that \approxposterior derives constraints that are in excellent agreement with our MCMC with the maximum error estimated parameter medians and $1\sigma$ uncertainties relative to \emcee of $2.3\%$ and $6.5\%$, respectively. \approxposterior requires $XXX\times$ less computational time than traditional MCMC methods in this case and $XXX\times$ few simulations, demonstrating its utility in efficient Bayesian inference.}
 
 \end{abstract}
 
@@ -177,7 +177,7 @@ We run our MCMC with 100 parallel chains for 10,000 iterations, initializing eac
 
 The methods presented above can be applied to any late-type star to constrain its $L_{XUV}$ history, given suitable priors and observational constraints. Our MCMC analysis, however, required \xxx{4,070 core hours} on the University of Washington Hyak supercomputer to converge. The main computational cost is incurred by running a $10$~s \vplanet simulation each MCMC step to evaluate the likelihood, requiring ${\sim}1,000,000$ simulations in total for the full MCMC. Assuming similar convergence properties, repeating this analysis for even a modest sample of 30 stars would \xxx{require~${\sim} 122,000$ core-hours}, a significant computational expense. Moreover, performing a similar analysis with a more computationally-expensive model, perhaps one that interpolates stellar models over metallicity to additionally fit for [Fe/H], would only exacerbate this issue.
 
-\xxx{TODO: describe here why \vplanet is slowish - it is a general code and intepolates a bunch of stuff on the fly}
+\xxx{Note that our likelihood calculation in principle only requires interpolating the \citet{Baraffe2015} luminosity tracks and evaluating an explicit function of time to compute the XUV luminosity, both computationally-cheap tasks. Each simulation lasts about 10s, however, because \vplanet is a general purpose code designed to simultaneously integrate coupled ordinary differential equations and functions of time to simulate the evolution of an exoplanetary system and its host star \citep[see][ for more details]{Barnes2019}. This generalized structure requires numerous steps to facilitate physical couplings, such as an initial ``verify" step in which physical couplings are validated. Moreover, the \stellar module used in this work simultaneously tracks a star's evolving luminosity, radius, effective temperature, radius of gyration, XUV luminosity, and rotation rate. The additional overhead required by the general design of \vplanet causes the relatively slow runtime.}
 
 We apply \approxposterior\footnote{\approxposterior is publicly available at \href{https://github.com/dflemin3/approxposterior}{https://github.com/dflemin3/approxposterior}.}, an open source Python machine learning package \citep{FlemingVanderPlas2018}, to compute an accurate approximation to the true MCMC-derived posterior distribution for TRAPPIST-1's XUV evolution, while minimizing the computational cost. \approxposterior, an implementation of the ``Bayesian Active Learning for Posterior Estimation" (BAPE) algorithm of \citet{Kandasamy2015}, trains a Gaussian process (GP) surrogate for the likelihood evaluation, learning on the results of \vplanet simulations. The GP is then used within an MCMC sampling algorithm, e.g. \emcee, to quickly obtain the posterior distribution. In our case, predicting the likelihood using the GP (${\sim} 130 \mu$s) is $80,000 \times$ faster than running \vplanet (10s) each likelihood evaluation, yielding a massive reduction in computational cost.
 
@@ -202,7 +202,7 @@ TRAPPIST-1 likely maintained a large $L_{XUV}$ throughout its lifetime \xxx{as w
 \begin{figure*}[t]
 \centering
 	\includegraphics[width=0.75\textwidth]{../Analysis/Corner/trappist1Corner.pdf}
-   \caption{\xxx{Updated Figure} Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters given in Eqn.~(\ref{eqn:state}) made using \texttt{corner} \citep{ForemanMackey2016}. The black vertical dashed lines on the marginalized distributions indicate the median values and lower and upper uncertainties from the 16th and 84th percentiles, respectively. \xxx{The blues curves superimposed on the marginal distributions display the adopted prior probability distribution for each parameter.} From the posterior, \xxx{we infer that there is a $40\%$ chance that TRAPPIST-1 is still in the saturated phase today, potentially driving significant volatile loss from its planets}.}%
+   \caption{\xxx{Updated} Joint and marginal posterior probability distributions for the TRAPPIST-1 stellar parameters given in Eqn.~(\ref{eqn:state}) made using \texttt{corner} \citep{ForemanMackey2016}. The black vertical dashed lines on the marginalized distributions indicate the median values and lower and upper uncertainties from the 16th and 84th percentiles, respectively. \xxx{The blues curves superimposed on the marginal distributions display the adopted prior probability distribution for each parameter.} From the posterior, \xxx{we infer that there is a $40\%$ chance that TRAPPIST-1 is still in the saturated phase today, potentially driving significant volatile loss from its planets}.}%
     \label{fig:corner}%
 \end{figure*}
 
@@ -214,7 +214,7 @@ Here we consider plausible stellar evolutionary histories for TRAPPIST-1 by simu
 
 \begin{figure*}[t]
 	\includegraphics[width=\textwidth]{../Analysis/Evol/trappist1Evol.pdf}
-   \caption{\xxx{Updated Figure} Plausible evolutionary histories of TRAPPIST-1's $L_{bol}$ (left), $L_{XUV}$ (center), and radius (right) using 100 samples drawn from the posterior distribution and simulated with \vplanet. In each panel, the blue shaded regions display the 1, 2, and 3 $\sigma$ uncertainties. The insets display the marginalized distributions (black) evaluated at the age of the system, with the blue dashed lines indicating the observed value and +/- 1 $\sigma$ uncertainties. The radius, $L_{bol}$, and $L_{XUV}$ constraints are adopted from \citet{vanGrootel2018} and \citet{Wheatley2017}, \xxx{respectively, by convolving the \citet{vanGrootel2018} $L_{bol}$ measurement with the $L_{XUV}/L_{bol}$ constraints from \citet{Wheatley2017}.}}%
+   \caption{\xxx{Updated} Plausible evolutionary histories of TRAPPIST-1's $L_{bol}$ (left), $L_{XUV}$ (center), and radius (right) using 100 samples drawn from the posterior distribution and simulated with \vplanet. In each panel, the blue shaded regions display the 1, 2, and 3 $\sigma$ uncertainties. The insets display the marginalized distributions (black) evaluated at the age of the system, with the blue dashed lines indicating the observed value and +/- 1 $\sigma$ uncertainties. The radius, $L_{bol}$, and $L_{XUV}$ constraints are adopted from \citet{vanGrootel2018} and \citet{Wheatley2017}, \xxx{respectively, by convolving the \citet{vanGrootel2018} $L_{bol}$ measurement with the $L_{XUV}/L_{bol}$ constraints from \citet{Wheatley2017}.}}%
     \label{fig:evol}%
 \end{figure*}
 
@@ -224,7 +224,7 @@ Since TRAPPIST-1 could still be saturated today, its planetary system has likely
 
 \begin{figure}
 	\includegraphics[width=\columnwidth]{../Analysis/Fluxes/fluxes.pdf}
-   \caption{\xxx{Updated Figure} $F_{XUV}/F_{XUV,\oplus}$ for each TRAPPIST-1 planet derived from samples drawn from the posterior distribution and simulated using \vplanet when the system was 0.01, 0.1, and 1 Gyr old. The latter age corresponds to the approximate age at which TRAPPIST-1 entered the main sequence.}%
+   \caption{\xxx{Updated} $F_{XUV}/F_{XUV,\oplus}$ for each TRAPPIST-1 planet derived from samples drawn from the posterior distribution and simulated using \vplanet when the system was 0.01, 0.1, and 1 Gyr old. The latter age corresponds to the approximate age at which TRAPPIST-1 entered the main sequence.}%
     \label{fig:fluxes}%
 \end{figure}
 
@@ -232,13 +232,15 @@ Since TRAPPIST-1 could still be saturated today, its planetary system has likely
 
 \subsection{Comparison with \approxposterior} \label{sec:approx}
 
+\xxx{XXX discuss improvements}
+
 % Extra
 %If using a slower model than ours, perhaps one that models stellar evolution by interpolating tracks over mass, age, and metallicity to additionally constrain [Fe/H], or if testing alternate models of $L_{XUV}$ evolution for model comparisons, the computational expense will grow, exacerbating this issue.
 
 \begin{figure*}[t]
 \centering
 	\includegraphics[width=0.75\textwidth]{../Analysis/Approx/apCorner.pdf}
-   \caption{Same format as Fig.~\ref{fig:corner}, but derived by \approxposterior.}%
+   \caption{Same format as Fig.~\ref{fig:corner}, but derived by \approxposterior. \textbf{The joint and marginal posterior distributions estimated by \approxposterior are in excellent agreement with our \emcee-derived results shown in Fig.~\ref{fig:corner}.}}%
     \label{fig:approx}%
 \end{figure*}
 
@@ -249,7 +251,7 @@ In Table~\ref{tab:constraints}, we list the marginalized constraints derived by 
 The posterior distribution derived by \approxposterior, however, is not an exact match. \approxposterior underestimates the magnitude of both the age and $\beta_{XUV}$ uncertainties by ${\sim}30\%$ and predicts that there is a $39\%$ chance that TRAPPIST-1 is still saturated today, $9\%$ smaller than the fiducial MCMC-derived value. Our experiment demonstrates that \approxposterior can be used to derive accurate approximations to the posterior probability distributions of the parameters that control stellar XUV evolution in late M dwarfs, but significantly faster than traditional MCMC methods.
 
 \begin{deluxetable}{lcc}
-\caption{\xxx{Updated Table} Parameter Constraints} \label{tab:constraints}
+\caption{\xxx{Updated} Parameter Constraints} \label{tab:constraints}
 \tabletypesize{\small}
 \tablewidth{0pt}
 \tablehead{
@@ -257,13 +259,13 @@ The posterior distribution derived by \approxposterior, however, is not an exact
 }
 \startdata
 $m_\star$ [$M_{\odot}$] & $0.089 \pm{0.001}$ & $0.089 \pm{0.001}$ \\  
-$f_{sat}$ & $-3.03^{+0.23}_{-0.12}$ & $-3.03^{+0.20}_{-0.10}$,  \\
-$t_{sat}$ [Gyr] & $6.64^{+3.53}_{-3.13}$ & $6.62^{+3.56}_{-2.56}$ \\
-age [Gyr] & $7.46^{+2.01}_{-2.10}$ & $7.54^{+1.43}_{-1.51}$ \\
-$\beta_{XUV}$ & $-1.16^{+0.31}_{-0.30}$ & $-1.16^{+0.21}_{-0.21}$ \\
-P$(\mathrm{saturated})$ & $0.40$ & $0.39$ \\
+$f_{sat}$ & $-3.03^{+0.23}_{-0.12}$ & $-3.04^{+0.22}_{-0.12}$,  \\
+$t_{sat}$ [Gyr] & $6.64^{+3.53}_{-3.13}$ & $6.77^{+3.55}_{-3.10}$ \\
+age [Gyr] & $7.46^{+2.01}_{-2.10}$ & $7.63^{+1.94}_{-1.99}$ \\
+$\beta_{XUV}$ & $-1.16^{+0.31}_{-0.30}$ & $-1.16^{+0.29}_{-0.28}$ \\
+P$(\mathrm{saturated})$ & $0.40$ & $0.40$ \\
 \enddata \vspace*{0.1in}
-\tablecomments{Best fit values and uncertainties are derived using the medians, $16^{th}$, and $84^{th}$ percentiles from the marginalized posterior distributions, respectively.}
+\tablecomments{Best fit values and uncertainties are derived using the medians, $16^{th}$, and $84^{th}$ percentiles from the marginalized posterior distributions, respectively. \xxx{P$(\mathrm{saturated})$ indicates the posterior probability that TRAPPIST-1 is still in the saturated regime today.} \textbf{Our parameter constraints derived using \approxposterior are in excellent agreement with the values computed using \emcee. We find maximum errors in parameter medians and $1\sigma$ uncertainties of $2.3\%$ and $6.5\%$, respectively.}}
 \end{deluxetable}
 
 %% Discussion %%
