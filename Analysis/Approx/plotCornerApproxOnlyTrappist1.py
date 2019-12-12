@@ -61,8 +61,7 @@ mpl.rc('text', usetex=True)
 plotAPPoints = False
 
 # Path to data
-#filename = "../../Data/convergedAP.h5"
-filename = "../../Data/apRun9.h5"
+filename = "../../Data/convergedAP.h5"
 
 # Extract data
 samples = extractMCMCResults(filename, blobsExist=False, burn=500,

@@ -11,8 +11,8 @@ script output:
 
 True P(tsat >= age | data) = 0.400
 True P(tsat <= 1Gyr | data) = 0.005
-approxposterior P(tsat >= age | data) = 0.396
-approxposterior P(tsat <= 1Gyr | data) = 0.001
+approxposterior P(tsat >= age | data) = 0.394
+approxposterior P(tsat <= 1Gyr | data) = 0.002
 
 """
 
@@ -41,12 +41,12 @@ approxFilename = "../../Data/convergedAP.h5"
 # Extract true MCMC results
 print("Loading true MCMC chain...")
 trueChain = extractMCMCResults(filename, blobsExist=False, burn=500,
-                               verbose=False)
+                               verbose=False, thinChains=False)
 
 # Extract approxposterior MCMC results
 print("Loading approxposterior MCMC chain...")
 approxChain = extractMCMCResults(approxFilename, blobsExist=False, burn=500,
-                                 verbose=False)
+                                 verbose=False, thinChains=False)
 
 # Define labels
 labels = [r"$m_{\star}$ [M$_{\odot}$]", r"$f_{sat}$",

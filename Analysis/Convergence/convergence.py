@@ -31,7 +31,7 @@ mpl.rc('text', usetex=True)
 
 # Path to data
 filename = "../../Data/trappist1FiducialRatio.h5"
-nIters = 10
+nIters = 15
 
 # Extract true MCMC results
 trueChain = extractMCMCResults(filename, blobsExist=False, burn=500,
