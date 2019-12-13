@@ -56,8 +56,8 @@ for ii in range(nIters):
         medDiffs[ii,jj] = 100 * (np.median(trueChain[:,jj]) - np.median(approxChain[:,jj])) / np.median(trueChain[:,jj])
 
         # Compute relative difference between width of IQR
-        true = np.percentile(trueChain[:,jj], 86) - np.percentile(trueChain[:,jj], 14)
-        approx = np.percentile(approxChain[:,jj], 86) - np.percentile(approxChain[:,jj], 14)
+        true = np.percentile(trueChain[:,jj], 75) - np.percentile(trueChain[:,jj], 25)
+        approx = np.percentile(approxChain[:,jj], 75) - np.percentile(approxChain[:,jj], 25)
         uwidthDiffs[ii,jj] = 100 * (true - approx) / true
 
 # Plot
@@ -73,8 +73,8 @@ for ii in range(len(labels)):
 
     # Format
     axes[0].set_xlim(0.8, nIters + 0.2)
-    axes[0].set_xticks([2, 4, 6, 8, 10])
-    axes[0].set_xticklabels(["2", "4", "6", "8", "10"])
+    axes[0].set_xticks([2, 4, 6, 8, 10, 12, 14])
+    axes[0].set_xticklabels(["2", "4", "6", "8", "10", "12", "14"])
     axes[0].set_xlabel("Iteration")
     axes[0].set_ylabel(r"$|$Median Error$|$ [$\%$]")
     axes[0].set_ylim(5.0e-3, 4.0e1)
@@ -86,10 +86,10 @@ for ii in range(len(labels)):
 
     # Format
     axes[1].set_xlim(0.8, nIters + 0.2)
-    axes[1].set_xticks([2, 4, 6, 8, 10])
-    axes[1].set_xticklabels(["2", "4", "6", "8", "10"])
+    axes[1].set_xticks([2, 4, 6, 8, 10, 12, 14])
+    axes[1].set_xticklabels(["2", "4", "6", "8", "10", "12", "14"])
     axes[1].set_xlabel("Iteration")
-    axes[1].set_ylabel(r"$|$$\Delta$ Error$|$ [$\%$]")
+    axes[1].set_ylabel(r"$|$IQR Error$|$ [$\%$]")
     axes[1].set_ylim(5.0e-3, 4.0e1)
     axes[1].set_yscale("log")
     axes[1].legend(loc="lower left", framealpha=0, fontsize=16)

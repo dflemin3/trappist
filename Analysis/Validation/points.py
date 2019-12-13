@@ -75,7 +75,7 @@ ax_list[24].plot(x, norm.pdf(x, loc=t1.betaTrappist1, scale=t1.betaTrappist1Sig)
 
 # Plot where forward model was evaluated - uncomment to plot!
 # mass - fsat - tsat - age -beta
-theta = np.load("../../Data/convergedFModelCache.npz")["theta"]
+theta = np.load("../../Data/convergedAPFModelCache.npz")["theta"]
 theta[:,0] = theta[:,0] * 1.0e2
 
 # Size of initial training set
