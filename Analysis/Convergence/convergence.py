@@ -1,14 +1,30 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-XXX
+Plot how the relative error between the approxposterior and fiducial MCMC
+posterior medians and standard deviations evolve as a function of approxposterior
+iteration.
 
 @author: David P. Fleming, 2019
 @email: dflemin3 (at) uw (dot) edu
 
 script output:
 
-XXX
+Average percent error between medians, standard deviations for each parameter
+[ 0.03997395  0.2186239  -0.15428029 -2.70650118 -0.29857911]
+[-15.91414918   7.73208078   5.31705512  12.92854318  16.78230614]
+
+Average percent error between means, standard deviations
+-0.5801525471260128
+5.369167209932392
+
+Final percent error between medians, standard deviations for each parameter
+[ 0.02695217 -0.00481336 -1.71035567 -0.94876542 -0.63936197]
+[-0.23136617  3.62777257  0.83304075  9.57526654  8.95143481]
+
+Final average percent error between medians, standard deviations for each parameter
+-0.6552688483086629
+4.551229702452913
 
 """
 
@@ -55,10 +71,27 @@ for ii in range(nIters):
         # Compute relative difference between marginal distribution medians
         medDiffs[ii,jj] = 100 * (np.median(trueChain[:,jj]) - np.median(approxChain[:,jj])) / np.median(trueChain[:,jj])
 
-        # Compute relative difference between width of IQR
-        true = np.percentile(trueChain[:,jj], 75) - np.percentile(trueChain[:,jj], 25)
-        approx = np.percentile(approxChain[:,jj], 75) - np.percentile(approxChain[:,jj], 25)
+        # Relative difference between marginal std
+        true = np.std(trueChain[:,jj])
+        approx = np.std(approxChain[:,jj])
         uwidthDiffs[ii,jj] = 100 * (true - approx) / true
+
+# Output statistics
+print("Average percent error between medians, standard deviations for each parameter")
+print(np.mean(medDiffs, axis=0))
+print(np.mean(uwidthDiffs, axis=0))
+print()
+print("Average percent error between means, standard deviations")
+print(np.mean(medDiffs))
+print(np.mean(uwidthDiffs))
+print()
+print("Final percent error between medians, standard deviations for each parameter")
+print(medDiffs[-1,:])
+print(uwidthDiffs[-1, :])
+print()
+print("Final average percent error between medians, standard deviations for each parameter")
+print(np.mean(medDiffs[-1,:]))
+print(np.mean(uwidthDiffs[-1, :]))
 
 # Plot
 fig, axes = plt.subplots(ncols=2, figsize=(14, 6))
@@ -73,11 +106,11 @@ for ii in range(len(labels)):
 
     # Format
     axes[0].set_xlim(0.8, nIters + 0.2)
-    axes[0].set_xticks([2, 4, 6, 8, 10, 12, 14])
-    axes[0].set_xticklabels(["2", "4", "6", "8", "10", "12", "14"])
+    axes[0].set_xticks([1, 3, 5, 7, 9, 11, 13, 15])
+    axes[0].set_xticklabels(["1", "3", "5", "7", "9", "11", "13", "15"])
     axes[0].set_xlabel("Iteration")
     axes[0].set_ylabel(r"$|$Median Error$|$ [$\%$]")
-    axes[0].set_ylim(5.0e-3, 4.0e1)
+    axes[0].set_ylim(5.0e-3, 1.0e2)
     axes[0].set_yscale("log")
 
     # Right: percenter difference between uncertainty width
@@ -86,11 +119,11 @@ for ii in range(len(labels)):
 
     # Format
     axes[1].set_xlim(0.8, nIters + 0.2)
-    axes[1].set_xticks([2, 4, 6, 8, 10, 12, 14])
-    axes[1].set_xticklabels(["2", "4", "6", "8", "10", "12", "14"])
+    axes[1].set_xticks([1, 3, 5, 7, 9, 11, 13, 15])
+    axes[1].set_xticklabels(["1", "3", "5", "7", "9", "11", "13", "15"])
     axes[1].set_xlabel("Iteration")
-    axes[1].set_ylabel(r"$|$IQR Error$|$ [$\%$]")
-    axes[1].set_ylim(5.0e-3, 4.0e1)
+    axes[1].set_ylabel(r"$|$Standard Deviation Error$|$ [$\%$]")
+    axes[1].set_ylim(5.0e-3, 1.0e2)
     axes[1].set_yscale("log")
     axes[1].legend(loc="lower left", framealpha=0, fontsize=16)
 
