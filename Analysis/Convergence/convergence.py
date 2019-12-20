@@ -10,6 +10,10 @@ iteration.
 
 script output:
 
+emcee Monte Carlo error:
+[3.41105036e-06 1.23212229e-03 2.00180716e-02 1.29851870e-02
+ 2.12420922e-03]
+
 Average percent error between medians, standard deviations for each parameter
 [ 0.03997395  0.2186239  -0.15428029 -2.70650118 -0.29857911]
 [-15.91414918   7.73208078   5.31705512  12.92854318  16.78230614]
@@ -26,6 +30,14 @@ Final average percent error between medians, standard deviations for each parame
 -0.6552688483086629
 4.551229702452913
 
+Final approxposterior Monte Carlo error:
+[3.41105036e-06 1.23212229e-03 2.00180716e-02 1.29851870e-02
+ 2.12420922e-03]
+
+Final ratio of mean diffs / mcseEMCEE
+[ 7.90142818e+03 -3.90655703e+00 -8.54405810e+01 -7.30652102e+01
+ -3.00988228e+02]
+
 """
 
 import numpy as np
@@ -37,6 +49,7 @@ import matplotlib as mpl
 from scipy.linalg import norm
 import matplotlib.pyplot as plt
 from trappist.mcmcUtils import extractMCMCResults
+from approxposterior import mcmcUtils as mcu
 
 #Typical plot parameters that make for pretty plots
 mpl.rcParams['font.size'] = 15
@@ -52,6 +65,12 @@ nIters = 15
 # Extract true MCMC results
 trueChain = extractMCMCResults(filename, blobsExist=False, burn=500,
                                verbose=False)
+
+# Estimate Monte Carlo error
+mcseEMCEE = mcu.batchMeansMCSE(trueChain)
+print("emcee Monte Carlo error:")
+print(mcseEMCEE)
+print()
 
 # Define labels
 labels = [r"$m_{\star}$", r"$f_{sat}$", r"$t_{sat}$", r"Age", r"$\beta_{XUV}$"]
@@ -92,6 +111,13 @@ print()
 print("Final average percent error between medians, standard deviations for each parameter")
 print(np.mean(medDiffs[-1,:]))
 print(np.mean(uwidthDiffs[-1, :]))
+print()
+mcseAP = mcu.batchMeansMCSE(approxChain)
+print("Final AP Monte Carlo error:")
+print(mcseAP)
+print()
+print("Final ratio of mean diffs / mcseEMCEE")
+print(medDiffs[-1,:]/mcseEMCEE)
 
 # Plot
 fig, axes = plt.subplots(ncols=2, figsize=(14, 6))

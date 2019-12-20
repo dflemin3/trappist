@@ -78,11 +78,10 @@ plotBlobs = False
 # Extract results
 if plotBlobs:
     chain, blobs = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500,
-                                      removeRogueChains=True)
+                                      removeRogueChains=False)
 else:
     chain = extractMCMCResults(filename, blobsExist=plotBlobs, burn=500,
-                               removeRogueChains=True)
-
+                               removeRogueChains=False)
 
 if plotBlobs:
     samples = np.hstack([chain, blobs])
