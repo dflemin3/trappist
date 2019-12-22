@@ -100,7 +100,7 @@ fig = corner.corner(approxChain, quantiles=[], labels=labels, fig=fig,
 
 # Add legend
 fig.axes[1].text(0.13, 0.55, "emcee: 1,000,000 forward model evaluations", fontsize=26, color="k", zorder=99)
-fig.axes[1].text(0.13, 0.375, r"approxposterior, 800 forward model evaluations", fontsize=26, color="royalblue",
+fig.axes[1].text(0.13, 0.375, r"approxposterior: 800 forward model evaluations", fontsize=26, color="royalblue",
                  zorder=99)
 
 # Fine-tune the formatting
