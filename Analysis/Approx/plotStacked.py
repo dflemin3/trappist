@@ -9,10 +9,10 @@ posterior distributions.
 
 script output:
 
-True P(tsat >= age | data) = 0.400
-True P(tsat <= 1Gyr | data) = 0.005
-approxposterior P(tsat >= age | data) = 0.394
-approxposterior P(tsat <= 1Gyr | data) = 0.002
+True P(tsat >= age | data) = 0.403
+True P(tsat <= 1Gyr | data) = 0.006
+approxposterior P(tsat >= age | data) = 0.391
+approxposterior P(tsat <= 1Gyr | data) = 0.004
 
 """
 
@@ -100,7 +100,7 @@ fig = corner.corner(approxChain, quantiles=[], labels=labels, fig=fig,
 
 # Add legend
 fig.axes[1].text(0.13, 0.55, "emcee: 1,000,000 forward model evaluations", fontsize=26, color="k", zorder=99)
-fig.axes[1].text(0.13, 0.375, r"approxposterior: 800 forward model evaluations", fontsize=26, color="royalblue",
+fig.axes[1].text(0.13, 0.375, r"approxposterior: 750 forward model evaluations", fontsize=26, color="royalblue",
                  zorder=99)
 
 # Fine-tune the formatting
