@@ -161,8 +161,8 @@ axes[1].axhline(10, lw=2, ls="--", color="k", zorder=0)
 
 # Save!
 if (sys.argv[1] == 'pdf'):
-    fig.savefig("convergence.pdf", bbox_inches="tight", dpi=200)
+    fig.savefig("medConvergence.pdf", bbox_inches="tight", dpi=200)
 if (sys.argv[1] == 'png'):
-    fig.savefig("convergence.png", bbox_inches="tight", dpi=200)
+    fig.savefig("medConvergence.png", bbox_inches="tight", dpi=200)
 
 # Done!
