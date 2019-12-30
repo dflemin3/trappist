@@ -336,11 +336,14 @@ Finally, we note that our methodology constrains parameters that describe the lo
        Append $(\textbf{x$^+$}, f(\textbf{x$^+$}))$ to $T$ \\
        Re-train GP, optimize GP hyperparameters given augmented $T$ \\
    }
-   Use MCMC to obtain approximate posterior distribution with GP surrogate model \\
+   Use MCMC to obtain approximate posterior distribution with GP surrogate for $f(\textbf{x})$ \\
+   \If{$\mathrm{converged}$}{
+        \textbf{break} \\
+    }
  }
 \caption{\approxposterior Approximate Inference Pseudo Code}
 \end{algorithm}
-\xxx{where $f(\textbf{x}) = \mathcal{\ln L}(\textbf{x})$ + $\ln \mathrm{Prior}(\textbf{x})$, i.e. the lnprobability function used for MCMC sampling with \emcee. \textbf{x}$^+$ is the point in parameter space selected by maximizing $u$.} 
+\xxx{where $f(\textbf{x}) = \mathcal{\ln L}(\textbf{x})$ + $\ln \mathrm{Prior}(\textbf{x})$, i.e. the lnprobability function used for MCMC sampling with \emcee. \textbf{x}$^+$ is the point in parameter space selected by maximizing $u$. In $\S$~\ref{sec:app:convergence}, we discuss \approxposterior's convergence condition and examine the convergence properties of our application.} 
 
 \xxx{For our application, evaluating $f(\textbf{x})$ requires running a \vplanet simulation to compute $\mathcal{\ln L}(\textbf{x})$ (see $\S$~\ref{sec:mcmc:like}). By placing a GP prior on $f(\textbf{x})$ with a squared exponential kernel, we assume that the function is smooth and continuous, both reasonable assumptions for modeling the posterior density. For inference problems that are liable to violate these assumptions, other kernels, e.g. the Ornstein-Uhlenbeck kernel, may be more appropriate (we refer the reader to \citet{Rasmussen2006} for detailed descriptions of common GP kernels and their mathematical properties). \approxposterior uses \texttt{george} \citep{george} for all GP calculations and hence users can apply any kernels implemented in that software package.} 
 
