@@ -81,7 +81,7 @@ for ii in range(len(labels)):
     ax.set_xticklabels(["1", "2", "3", "4", "5", "6"])
     ax.set_xlabel("Iteration")
     ax.set_ylabel(r"$|\mu_i - \mu_{i-1}| / \sigma_{i-1}$")
-    ax.set_ylim(4.0e-4, 0.25)
+    ax.set_ylim(0.0, 0.23)
     #ax.set_yscale("log")
     ax.legend(loc="upper right", framealpha=0, ncol=2, fontsize=15)
 

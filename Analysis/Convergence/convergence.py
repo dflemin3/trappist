@@ -15,28 +15,27 @@ emcee Monte Carlo error:
  2.12420922e-03]
 
 Average percent error between medians, standard deviations for each parameter
-[ 0.03997395  0.2186239  -0.15428029 -2.70650118 -0.29857911]
-[-15.91414918   7.73208078   5.31705512  12.92854318  16.78230614]
+[ 0.0278958   0.12321058 -0.48396682 -2.50206929  0.4631157 ]
+[ 6.66959603 10.7688684   3.71396325 13.78800122 15.42533837]
 
 Average percent error between means, standard deviations
--0.5801525471260128
-5.369167209932392
+-0.4743628061793054
+10.073153453034298
 
 Final percent error between medians, standard deviations for each parameter
-[ 0.02695217 -0.00481336 -1.71035567 -0.94876542 -0.63936197]
-[-0.23136617  3.62777257  0.83304075  9.57526654  8.95143481]
+[-0.0030652   0.00535184 -1.77538659 -1.47336565  0.18588125]
+[5.62768255 3.25762233 0.46249447 9.93277425 8.08109564]
 
 Final average percent error between medians, standard deviations for each parameter
--0.6552688483086629
-4.551229702452913
+-0.612116871124775
+5.472333849608273
 
-Final approxposterior Monte Carlo error:
-[3.41105036e-06 1.23212229e-03 2.00180716e-02 1.29851870e-02
- 2.12420922e-03]
+Final AP Monte Carlo error:
+[3.79469263e-06 1.26285916e-03 2.02074534e-02 1.10407025e-02
+ 1.72846464e-03]
 
 Final ratio of mean diffs / mcseEMCEE
-[ 7.90142818e+03 -3.90655703e+00 -8.54405810e+01 -7.30652102e+01
- -3.00988228e+02]
+[-898.60870316    4.34359174  -88.68919135 -113.4651086    87.50609112]
 
 """
 
@@ -60,7 +59,7 @@ mpl.rc('text', usetex=True)
 
 # Path to data
 filename = "../../Data/trappist1FiducialRatio.h5"
-nIters = 15
+nIters = 7
 
 # Extract true MCMC results
 trueChain = extractMCMCResults(filename, blobsExist=False, burn=500,
@@ -132,8 +131,8 @@ for ii in range(len(labels)):
 
     # Format
     axes[0].set_xlim(0.8, nIters + 0.2)
-    axes[0].set_xticks([1, 3, 5, 7, 9, 11, 13, 15])
-    axes[0].set_xticklabels(["1", "3", "5", "7", "9", "11", "13", "15"])
+    axes[0].set_xticks([1, 2, 3, 4, 5, 6, 7])
+    axes[0].set_xticklabels(["1", "2", "3", "4", "5", "6", "7"])
     axes[0].set_xlabel("Iteration")
     axes[0].set_ylabel(r"$|$Median Error$|$ [$\%$]")
     axes[0].set_ylim(5.0e-3, 1.0e2)
@@ -145,8 +144,8 @@ for ii in range(len(labels)):
 
     # Format
     axes[1].set_xlim(0.8, nIters + 0.2)
-    axes[1].set_xticks([1, 3, 5, 7, 9, 11, 13, 15])
-    axes[1].set_xticklabels(["1", "3", "5", "7", "9", "11", "13", "15"])
+    axes[1].set_xticks([1, 2, 3, 4, 5, 6, 7])
+    axes[1].set_xticklabels(["1", "2", "3", "4", "5", "6", "7"])
     axes[1].set_xlabel("Iteration")
     axes[1].set_ylabel(r"$|$Standard Deviation Error$|$ [$\%$]")
     axes[1].set_ylim(5.0e-3, 1.0e2)
