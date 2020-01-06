@@ -10,9 +10,12 @@ iteration.
 
 script output:
 
-emcee Monte Carlo error:
+Parameter constraint emcee Monte Carlo error:
 [3.41105036e-06 1.23212229e-03 2.00180716e-02 1.29851870e-02
  2.12420922e-03]
+
+P(saturated) emcee Monte Carlo error:
+0.0032467559751496234
 
 Average percent error between medians, standard deviations for each parameter
 [ 0.0278958   0.12321058 -0.48396682 -2.50206929  0.4631157 ]
@@ -67,8 +70,15 @@ trueChain = extractMCMCResults(filename, blobsExist=False, burn=500,
 
 # Estimate Monte Carlo error
 mcseEMCEE = mcu.batchMeansMCSE(trueChain)
-print("emcee Monte Carlo error:")
+print("Parameter constraint emcee Monte Carlo error:")
 print(mcseEMCEE)
+print()
+
+# Estimate Monte Carlo error of P(saturated)
+probChain = np.asarray(trueChain[:,2] >= trueChain[:,3], dtype=int)
+mcseEMCEEProb = mcu.batchMeansMCSE(probChain)
+print("P(saturated) emcee Monte Carlo error:")
+print(mcseEMCEEProb)
 print()
 
 # Define labels
