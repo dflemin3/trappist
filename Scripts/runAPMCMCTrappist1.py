@@ -18,19 +18,19 @@ import george
 
 # Define algorithm parameters
 ndim = 5                         # Dimensionality of the problem
-m0 = 250                         # Initial size of training set
+m0 = 50                          # Initial size of training set
 m = 100                          # Number of new points to find each iteration
-nmax = 10                        # Maximum number of iterations
-seed = 90                        # RNG seed
-nGPRestarts = 25                 # Number of times to restart GP hyperparameter optimizations
-nMinObjRestarts = 10             # Number of times to restart objective fn minimization
-optGPEveryN = 25                 # Optimize GP hyperparameters even this many iterations
+nmax = 20                        # Maximum number of iterations
+seed = 91                        # RNG seed
+nGPRestarts = 10                 # Number of times to restart GP hyperparameter optimizations
+nMinObjRestarts = 5              # Number of times to restart objective fn minimization
+optGPEveryN = 10                 # Optimize GP hyperparameters even this many iterations
 bounds = ((0.07, 0.11),          # Prior bounds
           (-5.0, -1.0),
           (0.1, 12.0),
           (0.1, 12.0),
           (-2.0, 0.0))
-algorithm = "BAPE"              # Kandasamy et al. (2015) formalism
+algorithm = "bape"               # Kandasamy et al. (2017) formalism
 
 # Set RNG seed
 np.random.seed(seed)
@@ -56,9 +56,10 @@ with open(os.path.join(PATH, "vpl.in"), 'r') as f:
 # Evaluate forward model log likelihood + lnprior for each theta
 if not os.path.exists("apRunAPFModelCache.npz"):
     y = np.zeros(m0)
-    theta = utility.latinHypercubeSampling(m0, bounds, criterion="maximin")
+    theta = np.zeros((m0,5))
+
     for ii in range(m0):
-        theta[ii,:] = trappist1.samplePriorTRAPPIST1()
+        theta[ii] = trappist1.samplePriorTRAPPIST1()
         y[ii] = mcmcUtils.LnLike(theta[ii], **kwargs)[0] + trappist1.LnPriorTRAPPIST1(theta[ii], **kwargs)
     np.savez("apRunAPFModelCache.npz", theta=theta, y=y)
 
@@ -71,7 +72,7 @@ else:
 ### Initialize GP ###
 
 # Use ExpSquared kernel, the approxposterior default option
-gp = gpUtils.defaultGP(theta, y, order=None, white_noise=-6)
+gp = gpUtils.defaultGP(theta, y, white_noise=-15, fitAmp=False)
 
 # Initialize approxposterior
 ap = approx.ApproxPosterior(theta=theta,
@@ -86,6 +87,6 @@ ap = approx.ApproxPosterior(theta=theta,
 # Run!
 ap.run(m=m, nmax=nmax, estBurnin=True, mcmcKwargs=mcmcKwargs, thinChains=True,
        samplerKwargs=samplerKwargs, verbose=True, nGPRestarts=nGPRestarts,
-       nMinObjRestarts=nMinObjRestarts, gpCv=5, optGPEveryN=optGPEveryN,
-       seed=seed, cache=True, **kwargs)
+       nMinObjRestarts=nMinObjRestarts, optGPEveryN=optGPEveryN,
+       seed=seed, cache=True, kmax=5, eps=0.1, convergenceCheck=True, **kwargs)
 # Done!

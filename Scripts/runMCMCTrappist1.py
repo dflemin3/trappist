@@ -24,7 +24,6 @@ with pool.Pool(pool='MultiPool') as pool:
     # Options
     kwargs = trappist1.kwargsTRAPPIST1
     kwargs["nsteps"] = nsteps
-    kwargs["nsamples"] = nsamples
     kwargs["nwalk"] = nwalk
     kwargs["pool"] = pool
     kwargs["restart"] = restart

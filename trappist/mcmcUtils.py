@@ -152,7 +152,7 @@ def LnLike(x, **kwargs):
 
     # Get the prior probability to ignore unphysical state vectors
     # Do this to prevent errors stemming from VPLanet not finishing
-    lnprior = kwargs["LnPrior"](x, **kwargs)
+    lnprior = kwargs["LnPrior"](x, **kwargs) 
     if np.isinf(lnprior):
         blobs = np.array([np.nan, np.nan, np.nan])
         return -np.inf, blobs

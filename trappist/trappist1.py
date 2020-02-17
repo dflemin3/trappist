@@ -82,6 +82,12 @@ def LnPriorTRAPPIST1(x, **kwargs):
     # Get the current vector
     dMass, dSatXUVFrac, dSatXUVTime, dStopTime, dXUVBeta = x
 
+    if frock > 1:
+        return -np.inf
+
+    if frock + firon > 1:
+        return -np.inf
+
     # Uniform prior for stellar mass [Msun]
     if (dMass < 0.07) or (dMass > 0.11):
         return -np.inf
