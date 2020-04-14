@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: trappist.aux
+The style file: aasjournal.bst
+Database file #1: trappist.bib
+Warning--string name "http://arxiv.org/abs/1403.6015" is undefined
+--line 1502 of file trappist.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Warning--empty journal in george
+Warning--empty publisher in Rasmussen2006
+Warning--empty publisher in Reid2005
+You've used 58 entries,
+            3222 wiz_defined-function locations,
+            1124 strings with 20108 characters,
+and the built_in function-call counts, 28111 in all, are:
+= -- 2210
+> -- 2373
+< -- 18
++ -- 797
+- -- 872
+* -- 2502
+:= -- 5216
+add.period$ -- 64
+call.type$ -- 58
+change.case$ -- 355
+chr.to.int$ -- 57
+cite$ -- 61
+duplicate$ -- 1039
+empty$ -- 1625
+format.name$ -- 943
+if$ -- 5582
+int.to.chr$ -- 2
+int.to.str$ -- 0
+missing$ -- 58
+newline$ -- 185
+num.names$ -- 232
+pop$ -- 499
+preamble$ -- 1
+purify$ -- 355
+quote$ -- 0
+skip$ -- 777
+stack$ -- 0
+substring$ -- 901
+swap$ -- 2
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 516
+warning$ -- 3
+while$ -- 214
+width$ -- 0
+write$ -- 594
+(There were 4 warnings)

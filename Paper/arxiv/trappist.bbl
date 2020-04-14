@@ -1,0 +1,277 @@
+\begin{thebibliography}{}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\href{#1}{#1}}
+
+\bibitem[{{Ambikasaran} {et~al.}(2014){Ambikasaran}, {Foreman-Mackey},
+  {Greengard}, {Hogg}, \& {O'Neil}}]{george}
+{Ambikasaran}, S., {Foreman-Mackey}, D., {Greengard}, L., {Hogg}, D.~W., \&
+  {O'Neil}, M. 2014
+
+\bibitem[{{Baraffe} {et~al.}(2015){Baraffe}, {Homeier}, {Allard}, \&
+  {Chabrier}}]{Baraffe2015}
+{Baraffe}, I., {Homeier}, D., {Allard}, F., \& {Chabrier}, G. 2015, \aap, 577,
+  A42
+
+\bibitem[{{Barclay} {et~al.}(2018){Barclay}, {Pepper}, \&
+  {Quintana}}]{Barclay2018}
+{Barclay}, T., {Pepper}, J., \& {Quintana}, E.~V. 2018, \apjs, 239, 2
+
+\bibitem[{{Barnes} {et~al.}(2014){Barnes}, {Jenkins}, {Jones}, {Jeffers},
+  {Rojo}, {Arriagada}, {Jord{\'a}n}, {Minniti}, {Tuomi}, {Pinfield}, \&
+  {Anglada-Escud{\'e}}}]{Barnes2014}
+{Barnes}, J.~R., {Jenkins}, J.~S., {Jones}, H.~R.~A., {et~al.} 2014, \mnras,
+  439, 3094
+
+\bibitem[{{Barnes} {et~al.}(2019){Barnes}, {Luger}, {Deitrick}, {Driscoll},
+  {Quinn}, {Fleming}, {Smotherman}, {McDonald}, {Wilhelm}, {Garcia}, {Barth},
+  {Guyer}, {Meadows}, {Bitz}, {Gupta}, {Domagal-Goldman}, \&
+  {Armstrong}}]{Barnes2019}
+{Barnes}, R., {Luger}, R., {Deitrick}, R., {et~al.} 2019, arXiv e-prints,
+  arXiv:1905.06367
+
+\bibitem[{{Bird} {et~al.}(2019){Bird}, {Rogers}, {Peiris}, {Verde},
+  {Font-Ribera}, \& {Pontzen}}]{Bird2019}
+{Bird}, S., {Rogers}, K.~K., {Peiris}, H.~V., {et~al.} 2019, \jcap, 2, 050
+
+\bibitem[{{Bolmont} {et~al.}(2017){Bolmont}, {Gallet}, {Mathis}, {Charbonnel},
+  {Amard}, \& {Alibert}}]{Bolmont2017}
+{Bolmont}, E., {Gallet}, F., {Mathis}, S., {et~al.} 2017, \aap, 604, A113
+
+\bibitem[{{Bourrier} {et~al.}(2017{\natexlab{a}}){Bourrier}, {Ehrenreich},
+  {Wheatley}, {Bolmont}, {Gillon}, {de Wit}, {Burgasser}, {Jehin}, {Queloz}, \&
+  {Triaud}}]{Bourrier2017b}
+{Bourrier}, V., {Ehrenreich}, D., {Wheatley}, P.~J., {et~al.}
+  2017{\natexlab{a}}, \aap, 599, L3
+
+\bibitem[{{Bourrier} {et~al.}(2017{\natexlab{b}}){Bourrier}, {de Wit},
+  {Bolmont}, {Stamenkovi{\'c}}, {Wheatley}, {Burgasser}, {Delrez}, {Demory},
+  {Ehrenreich}, {Gillon}, {Jehin}, {Leconte}, {Lederer}, {Lewis}, {Triaud}, \&
+  {Van Grootel}}]{Bourrier2017a}
+{Bourrier}, V., {de Wit}, J., {Bolmont}, E., {et~al.} 2017{\natexlab{b}}, \aj,
+  154, 121
+
+\bibitem[{{Burgasser} \& {Mamajek}(2017)}]{Burgasser2017}
+{Burgasser}, A.~J., \& {Mamajek}, E.~E. 2017, \apj, 845, 110
+
+\bibitem[{{Chadney} {et~al.}(2015){Chadney}, {Galand}, {Unruh}, {Koskinen}, \&
+  {Sanz-Forcada}}]{Chadney2015}
+{Chadney}, J.~M., {Galand}, M., {Unruh}, Y.~C., {Koskinen}, T.~T., \&
+  {Sanz-Forcada}, J. 2015, \icarus, 250, 357
+
+\bibitem[{Delfosse {et~al.}(1998)Delfosse, Forveille, Perrier, \&
+  Mayor}]{Delfosse1998}
+Delfosse, X., Forveille, T., Perrier, C., \& Mayor, M. 1998, Astronomy and
+  Astrophysics, 331, 581
+
+\bibitem[{{Delrez} {et~al.}(2018){Delrez}, {Gillon}, {Triaud}, {Demory}, {de
+  Wit}, {Ingalls}, {Agol}, {Bolmont}, {Burdanov}, {Burgasser}, {Carey},
+  {Jehin}, {Leconte}, {Lederer}, {Queloz}, {Selsis}, \& {Van
+  Grootel}}]{Delrez2018}
+{Delrez}, L., {Gillon}, M., {Triaud}, A.~H.~M.~J., {et~al.} 2018, \mnras, 475,
+  3577
+
+\bibitem[{{Dressing} \& {Charbonneau}(2015)}]{Dressing2015}
+{Dressing}, C.~D., \& {Charbonneau}, D. 2015, \apj, 807, 45
+
+\bibitem[{Flegal {et~al.}(2008)Flegal, Haran, \& Jones}]{Flegal2008}
+Flegal, J.~M., Haran, M., \& Jones, G.~L. 2008, Statist. Sci., 23, 250.
+\newblock \url{https://doi.org/10.1214/08-STS257}
+
+\bibitem[{Flegal \& Jones(2010)}]{Flegal2010}
+Flegal, J.~M., \& Jones, G.~L. 2010, Ann. Statist., 38, 1034.
+\newblock \url{https://doi.org/10.1214/09-AOS735}
+
+\bibitem[{{Fleming} \& {VanderPlas}(2018)}]{FlemingVanderPlas2018}
+{Fleming}, D.~P., \& {VanderPlas}, J. 2018, The Journal of Open Source
+  Software, 3, 781
+
+\bibitem[{{Foreman-Mackey}(2016)}]{ForemanMackey2016}
+{Foreman-Mackey}, D. 2016, The Journal of Open Source Software, 1,
+  doi:10.21105/joss.00024
+
+\bibitem[{{Foreman-Mackey} {et~al.}(2013){Foreman-Mackey}, {Hogg}, {Lang}, \&
+  {Goodman}}]{ForemanMackey2013}
+{Foreman-Mackey}, D., {Hogg}, D.~W., {Lang}, D., \& {Goodman}, J. 2013, \pasp,
+  125, 306
+
+\bibitem[{{Gillon} {et~al.}(2016){Gillon}, {Jehin}, {Lederer}, {Delrez}, {de
+  Wit}, {Burdanov}, {Van Grootel}, {Burgasser}, {Triaud}, {Opitom}, {Demory},
+  {Sahu}, {Bardalez Gagliuffi}, {Magain}, \& {Queloz}}]{Gillon2016}
+{Gillon}, M., {Jehin}, E., {Lederer}, S.~M., {et~al.} 2016, \nat, 533, 221
+
+\bibitem[{{Gillon} {et~al.}(2017){Gillon}, {Triaud}, {Demory}, {Jehin}, {Agol},
+  {Deck}, {Lederer}, {de Wit}, {Burdanov}, {Ingalls}, {Bolmont}, {Leconte},
+  {Raymond}, {Selsis}, {Turbet}, {Barkaoui}, {Burgasser}, {Burleigh}, {Carey},
+  {Chaushev}, {Copperwheat}, {Delrez}, {Fernandes}, {Holdsworth}, {Kotze}, {Van
+  Grootel}, {Almleaky}, {Benkhaldoun}, {Magain}, \& {Queloz}}]{Gillon2017}
+{Gillon}, M., {Triaud}, A.~H.~M.~J., {Demory}, B.-O., {et~al.} 2017, \nat, 542,
+  456
+
+\bibitem[{{Gonzales} {et~al.}(2019){Gonzales}, {Faherty}, {Gagn{\'e}}, {Teske},
+  {McWilliam}, \& {Cruz}}]{Gonzales2019}
+{Gonzales}, E.~C., {Faherty}, J.~K., {Gagn{\'e}}, J., {et~al.} 2019, \apj, 886,
+  131
+
+\bibitem[{{Grimm} {et~al.}(2018){Grimm}, {Demory}, {Gillon}, {Dorn}, {Agol},
+  {Burdanov}, {Delrez}, {Sestovic}, {Triaud}, {Turbet}, {Bolmont}, {Caldas},
+  {de Wit}, {Jehin}, {Leconte}, {Raymond}, {Van Grootel}, {Burgasser}, {Carey},
+  {Fabrycky}, {Heng}, {Hernandez}, {Ingalls}, {Lederer}, {Selsis}, \&
+  {Queloz}}]{Grimm2018}
+{Grimm}, S.~L., {Demory}, B.-O., {Gillon}, M., {et~al.} 2018, \aap, 613, A68
+
+\bibitem[{{Jackson} {et~al.}(2012){Jackson}, {Davis}, \&
+  {Wheatley}}]{Jackson2012}
+{Jackson}, A.~P., {Davis}, T.~A., \& {Wheatley}, P.~J. 2012, \mnras, 422, 2024
+
+\bibitem[{Kandasamy {et~al.}(2017)Kandasamy, Schneider, \&
+  Póczos}]{Kandasamy2017}
+Kandasamy, K., Schneider, J., \& Póczos, B. 2017, Artificial Intelligence,
+  243, 45 .
+\newblock
+  \url{http://www.sciencedirect.com/science/article/pii/S0004370216301394}
+
+\bibitem[{{Lammer} {et~al.}(2003){Lammer}, {Selsis}, {Ribas}, {Guinan},
+  {Bauer}, \& {Weiss}}]{Lammer2003}
+{Lammer}, H., {Selsis}, F., {Ribas}, I., {et~al.} 2003, \apjl, 598, L121
+
+\bibitem[{{Lincowski} {et~al.}(2018){Lincowski}, {Meadows}, {Crisp},
+  {Robinson}, {Luger}, {Lustig-Yaeger}, \& {Arney}}]{Lincowski2018}
+{Lincowski}, A.~P., {Meadows}, V.~S., {Crisp}, D., {et~al.} 2018, \apj, 867, 76
+
+\bibitem[{{Luger} \& {Barnes}(2015)}]{Luger2015}
+{Luger}, R., \& {Barnes}, R. 2015, Astrobiology, 15, 119
+
+\bibitem[{{Luger} {et~al.}(2017){Luger}, {Sestovic}, {Kruse}, {Grimm},
+  {Demory}, {Agol}, {Bolmont}, {Fabrycky}, {Fernandes}, {Van Grootel},
+  {Burgasser}, {Gillon}, {Ingalls}, {Jehin}, {Raymond}, {Selsis}, {Triaud},
+  {Barclay}, {Barentsen}, {Howell}, {Delrez}, {de Wit}, {Foreman-Mackey},
+  {Holdsworth}, {Leconte}, {Lederer}, {Turbet}, {Almleaky}, {Benkhaldoun},
+  {Magain}, {Morris}, {Heng}, \& {Queloz}}]{Luger2017}
+{Luger}, R., {Sestovic}, M., {Kruse}, E., {et~al.} 2017, Nature Astronomy, 1,
+  0129
+
+\bibitem[{{Lustig-Yaeger} {et~al.}(2019){Lustig-Yaeger}, {Meadows}, \&
+  {Lincowski}}]{Lustig2019}
+{Lustig-Yaeger}, J., {Meadows}, V.~S., \& {Lincowski}, A.~P. 2019, arXiv
+  e-prints, arXiv:1905.07070
+
+\bibitem[{{McClintock} \& {Rozo}(2019)}]{McClintock2019}
+{McClintock}, T., \& {Rozo}, E. 2019, arXiv e-prints, arXiv:1905.09299
+
+\bibitem[{{Morley} {et~al.}(2017){Morley}, {Kreidberg}, {Rustamkulov},
+  {Robinson}, \& {Fortney}}]{Morley2017}
+{Morley}, C.~V., {Kreidberg}, L., {Rustamkulov}, Z., {Robinson}, T., \&
+  {Fortney}, J.~J. 2017, \apj, 850, 121
+
+\bibitem[{{Morris} {et~al.}(2018){Morris}, {Agol}, {Davenport}, \&
+  {Hawley}}]{Morris2018}
+{Morris}, B.~M., {Agol}, E., {Davenport}, J.~R.~A., \& {Hawley}, S.~L. 2018,
+  \apj, 857, 39
+
+\bibitem[{{Murray-Clay} {et~al.}(2009){Murray-Clay}, {Chiang}, \&
+  {Murray}}]{MurrayClay2009}
+{Murray-Clay}, R.~A., {Chiang}, E.~I., \& {Murray}, N. 2009, \apj, 693, 23
+
+\bibitem[{Nelder \& Mead(1965)}]{Nelder1965}
+Nelder, J.~A., \& Mead, R. 1965, The Computer Journal, 7, 308.
+\newblock \url{https://doi.org/10.1093/comjnl/7.4.308}
+
+\bibitem[{{Parker}(1955)}]{Parker1955}
+{Parker}, E.~N. 1955, \apj, 122, 293
+
+\bibitem[{{Peacock} {et~al.}(2019){Peacock}, {Barman}, {Shkolnik},
+  {Hauschildt}, \& {Baron}}]{Peacock2019}
+{Peacock}, S., {Barman}, T., {Shkolnik}, E.~L., {Hauschildt}, P.~H., \&
+  {Baron}, E. 2019, \apj, 871, 235
+
+\bibitem[{{Pizzolato} {et~al.}(2003){Pizzolato}, {Maggio}, {Micela},
+  {Sciortino}, \& {Ventura}}]{Pizzolato2003}
+{Pizzolato}, N., {Maggio}, A., {Micela}, G., {Sciortino}, S., \& {Ventura}, P.
+  2003, \aap, 397, 147
+
+\bibitem[{Powell(1964)}]{Powell1964}
+Powell, M. J.~D. 1964, The Computer Journal, 7, 155.
+\newblock \url{https://doi.org/10.1093/comjnl/7.2.155}
+
+\bibitem[{{Rasmussen} \& {Williams}(2006)}]{Rasmussen2006}
+{Rasmussen}, C.~E., \& {Williams}, C.~K.~I. 2006, {Gaussian Processes for
+  Machine Learning}
+
+\bibitem[{{Reid} \& {Hawley}(2005)}]{Reid2005}
+{Reid}, I.~N., \& {Hawley}, S.~L. 2005, {New light on dark stars : red dwarfs,
+  low-mass stars, brown dwarfs}, doi:10.1007/3-540-27610-6
+
+\bibitem[{{Ribas} {et~al.}(2005){Ribas}, {Guinan}, {G{\"u}del}, \&
+  {Audard}}]{Ribas2005}
+{Ribas}, I., {Guinan}, E.~F., {G{\"u}del}, M., \& {Audard}, M. 2005, \apj, 622,
+  680
+
+\bibitem[{{Roettenbacher} \& {Kane}(2017)}]{Roettenbacher2017}
+{Roettenbacher}, R.~M., \& {Kane}, S.~R. 2017, \apj, 851, 77
+
+\bibitem[{{Schneider} \& {Shkolnik}(2018)}]{Schneider2018}
+{Schneider}, A.~C., \& {Shkolnik}, E.~L. 2018, \aj, 155, 122
+
+\bibitem[{{Segura} {et~al.}(2005){Segura}, {Kasting}, {Meadows}, {Cohen},
+  {Scalo}, {Crisp}, {Butler}, \& {Tinetti}}]{Segura2005}
+{Segura}, A., {Kasting}, J.~F., {Meadows}, V., {et~al.} 2005, Astrobiology, 5,
+  706
+
+\bibitem[{{Shkolnik} \& {Barman}(2014)}]{Shkolnik2014}
+{Shkolnik}, E.~L., \& {Barman}, T.~S. 2014, \aj, 148, 64
+
+\bibitem[{{Skumanich}(1972)}]{Skumanich1972}
+{Skumanich}, A. 1972, \apj, 171, 565
+
+\bibitem[{{Spada} {et~al.}(2013){Spada}, {Demarque}, {Kim}, \&
+  {Sills}}]{Spada2013}
+{Spada}, F., {Demarque}, P., {Kim}, Y.-C., \& {Sills}, A. 2013, \apj, 776, 87
+
+\bibitem[{{Vaiana} {et~al.}(1981){Vaiana}, {Cassinelli}, {Fabbiano},
+  {Giacconi}, {Golub}, {Gorenstein}, {Haisch}, {Harnden}, {Johnson}, {Linsky},
+  {Maxson}, {Mewe}, {Rosner}, {Seward}, {Topka}, \& {Zwaan}}]{Vaiana1981}
+{Vaiana}, G.~S., {Cassinelli}, J.~P., {Fabbiano}, G., {et~al.} 1981, \apj, 245,
+  163
+
+\bibitem[{{Van Grootel} {et~al.}(2018){Van Grootel}, {Fernandes}, {Gillon},
+  {Jehin}, {Manfroid}, {Scuflaire}, {Burgasser}, {Barkaoui}, {Benkhaldoun},
+  {Burdanov}, {Delrez}, {Demory}, {de Wit}, {Queloz}, \&
+  {Triaud}}]{vanGrootel2018}
+{Van Grootel}, V., {Fernandes}, C.~S., {Gillon}, M., {et~al.} 2018, \apj, 853,
+  30
+
+\bibitem[{Wang \& Li(2018)}]{Wang2018}
+Wang, H., \& Li, J. 2018, Neural Computation, 30, 3072.
+\newblock \url{https://doi.org/10.1162/neco_a_01127}
+
+\bibitem[{{Watson} {et~al.}(1981){Watson}, {Donahue}, \& {Walker}}]{Watson1981}
+{Watson}, A.~J., {Donahue}, T.~M., \& {Walker}, J.~C.~G. 1981, \icarus, 48, 150
+
+\bibitem[{{West} {et~al.}(2008){West}, {Hawley}, {Bochanski}, {Covey}, {Reid},
+  {Dhital}, {Hilton}, \& {Masuda}}]{West2008}
+{West}, A.~A., {Hawley}, S.~L., {Bochanski}, J.~J., {et~al.} 2008, \aj, 135,
+  785
+
+\bibitem[{{West} {et~al.}(2015){West}, {Weisenburger}, {Irwin},
+  {Berta-Thompson}, {Charbonneau}, {Dittmann}, \& {Pineda}}]{West2015}
+{West}, A.~A., {Weisenburger}, K.~L., {Irwin}, J., {et~al.} 2015, \apj, 812, 3
+
+\bibitem[{{Wheatley} {et~al.}(2017){Wheatley}, {Louden}, {Bourrier},
+  {Ehrenreich}, \& {Gillon}}]{Wheatley2017}
+{Wheatley}, P.~J., {Louden}, T., {Bourrier}, V., {Ehrenreich}, D., \& {Gillon},
+  M. 2017, \mnras, 465, L74
+
+\bibitem[{{Wright} \& {Drake}(2016)}]{Wright2016}
+{Wright}, N.~J., \& {Drake}, J.~J. 2016, \nat, 535, 526
+
+\bibitem[{{Wright} {et~al.}(2011){Wright}, {Drake}, {Mamajek}, \&
+  {Henry}}]{Wright2011}
+{Wright}, N.~J., {Drake}, J.~J., {Mamajek}, E.~E., \& {Henry}, G.~W. 2011,
+  \apj, 743, 48
+
+\bibitem[{{Wright} {et~al.}(2018){Wright}, {Newton}, {Williams}, {Drake}, \&
+  {Yadav}}]{Wright2018}
+{Wright}, N.~J., {Newton}, E.~R., {Williams}, P.~K.~G., {Drake}, J.~J., \&
+  {Yadav}, R.~K. 2018, \mnras, 479, 2351
+
+\end{thebibliography}
