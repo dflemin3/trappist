@@ -29,15 +29,11 @@ find that approxposterior derives constraints with mean errors on the best
 fit values and 1 sigma uncertainties of 0.61% and 5.5%, respectively,
 relative to emcee.
 
-.. figure:: Analysis/Corner/trappist1Corner.png
-   :width: 600px
-   :align: center
+Read the Paper
+==============
 
-   Joint and marginal posterior probability distributions for the TRAPPIST-1
-   stellar and XUV parameters made using corner
-   Foreman-Mackey+2016. The black vertical dashed lines on the
-   marginalized distributions indicate the median values and lower and upper
-   uncertainties from the 16th and 84th percentiles, respectively. From the
-   posterior, we infer that there is a 40% chance that TRAPPIST-1 is still
-   in the saturated phase today, potentially driving significant water loss
-   and atmospheric escape from its planets.
+The `published version
+<https://iopscience.iop.org/article/10.3847/1538-4357/ab77ad/meta>`_ in The Astrophysical Journal.
+
+The open-access `ArXiv version
+<https://arxiv.org/abs/1906.05250>`_.
